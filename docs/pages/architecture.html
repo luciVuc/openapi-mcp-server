@@ -1,0 +1,542 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Architecture Guide - OpenAPI MCP Server</title>
+    <meta
+      name="description"
+      content="Detailed architecture guide for OpenAPI MCP Server including component design, data flow, interface patterns, and extensibility."
+    />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/components.css" />
+    <link rel="stylesheet" href="../css/responsive.css" />
+
+    <!-- Syntax highlighting -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <!-- Navigation -->
+    <nav class="navbar">
+      <div class="nav-container">
+        <div class="nav-brand">
+          <a class="nav-brand" href="../index.html">
+            <img
+              src="../assets/logo.svg"
+              alt="OpenAPI MCP Server"
+              class="nav-logo"
+            />
+            <span class="nav-title">OpenAPI MCP Server</span>
+          </a>
+        </div>
+        <div class="nav-menu">
+          <a href="../index.html" class="nav-link">Home</a>
+          <a href="../index.html#features" class="nav-link">Features</a>
+          <a href="../index.html#quickstart" class="nav-link">Quick Start</a>
+          <a href="../index.html#documentation" class="nav-link">Documentation</a>
+          <a href="../index.html#examples" class="nav-link">Examples</a>
+          <a
+            href="https://github.com/lucivuc/openapi-mcp-server"
+            class="nav-link"
+            target="_blank"
+          >
+            <svg class="github-icon" viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.30.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+            </svg>
+            GitHub
+          </a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div class="container">
+        <div class="doc-header">
+          <h1 class="doc-title">Architecture Guide</h1>
+          <p class="doc-subtitle">
+            Detailed architecture guide including component design, data flow, interface patterns, and extensibility.
+          </p>
+        </div>
+
+        <div class="doc-content">
+          <!-- Architecture Overview -->
+          <section id="overview" class="doc-section">
+            <h2>Architecture Overview</h2>
+            <p>
+              OpenAPI MCP Server follows a layered, interface-based architecture designed for modularity, type safety, and extensibility. The system is built around clear separation of concerns with well-defined interfaces between components.
+            </p>
+            
+            <div class="architecture-principles">
+              <h3>Core Design Principles</h3>
+              <div class="principle-grid">
+                <div class="principle-card">
+                  <h4>🏗️ Interface-Based Design</h4>
+                  <p>All major components implement well-defined TypeScript interfaces, enabling easy testing, mocking, and extension.</p>
+                </div>
+                <div class="principle-card">
+                  <h4>🔧 Modular Architecture</h4>
+                  <p>Each component has a single responsibility and can be developed, tested, and maintained independently.</p>
+                </div>
+                <div class="principle-card">
+                  <h4>🛡️ Type Safety</h4>
+                  <p>Comprehensive TypeScript interfaces ensure compile-time type checking and excellent IDE support.</p>
+                </div>
+                <div class="principle-card">
+                  <h4>🔌 Extensibility</h4>
+                  <p>Plugin architecture allows for custom authentication providers, transport handlers, and tool filters.</p>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- System Layers -->
+          <section id="layers" class="doc-section">
+            <h2>System Layers</h2>
+            
+            <div class="layer-diagram">
+              <div class="layer">
+                <h3>🎯 Application Layer</h3>
+                <div class="layer-components">
+                  <div class="component">OpenAPIServer</div>
+                  <div class="component">CLI Interface</div>
+                </div>
+                <p>Orchestrates the entire system, handles MCP protocol, and manages server lifecycle.</p>
+              </div>
+              
+              <div class="layer">
+                <h3>🏗️ Core Services Layer</h3>
+                <div class="layer-components">
+                  <div class="component">ToolsManager</div>
+                  <div class="component">OpenAPISpecLoader</div>
+                  <div class="component">ApiClient</div>
+                </div>
+                <p>Core business logic for tool management, OpenAPI processing, and API communication.</p>
+              </div>
+              
+              <div class="layer">
+                <h3>🔧 Infrastructure Layer</h3>
+                <div class="layer-components">
+                  <div class="component">Transport Handlers</div>
+                  <div class="component">Auth Providers</div>
+                  <div class="component">Configuration System</div>
+                </div>
+                <p>Infrastructure concerns like networking, authentication, and configuration management.</p>
+              </div>
+              
+              <div class="layer">
+                <h3>⚙️ Utilities Layer</h3>
+                <div class="layer-components">
+                  <div class="component">Tool ID Generator</div>
+                  <div class="component">Name Generator</div>
+                  <div class="component">Logger</div>
+                </div>
+                <p>Shared utilities and helper functions used across all layers.</p>
+              </div>
+            </div>
+          </section>
+
+          <!-- Component Details -->
+          <section id="components" class="doc-section">
+            <h2>Core Components</h2>
+
+            <div class="component-detail">
+              <h3>🎯 OpenAPIServer</h3>
+              <p>The main orchestrator that coordinates all system components.</p>
+              <div class="code-block">
+                <pre><code class="language-typescript">class OpenAPIServer {
+  private server: Server;              // MCP SDK server
+  private specLoader: OpenAPISpecLoader;  // OpenAPI specification handling
+  private toolsManager: ToolsManager;     // Tool creation and filtering
+  private apiClient: ApiClient;           // HTTP API communication
+  private transportHandler: ITransportHandler; // Transport layer
+
+  async start(): Promise<void>;        // Initialize and start server
+  async stop(): Promise<void>;         // Graceful shutdown
+  getStats(): ServerStats;             // Runtime statistics
+}</code></pre>
+              </div>
+            </div>
+
+            <div class="component-detail">
+              <h3>🔧 OpenAPISpecLoader</h3>
+              <p>Handles loading and parsing OpenAPI specifications from multiple sources.</p>
+              <div class="code-block">
+                <pre><code class="language-typescript">class OpenAPISpecLoader {
+  async loadSpec(source: string, method: SpecInputMethod): Promise<void>;
+  getSpec(): OpenAPISpec;              // Parsed specification
+  getOperations(): IOperation[];       // All API operations
+  getTags(): string[];                 // OpenAPI tags
+}</code></pre>
+              </div>
+              <div class="feature-list">
+                <h4>Input Methods:</h4>
+                <ul>
+                  <li><strong>URL</strong>: Load from remote HTTP/HTTPS URLs</li>
+                  <li><strong>File</strong>: Load from local filesystem</li>
+                  <li><strong>Stdin</strong>: Read from standard input stream</li>
+                  <li><strong>Inline</strong>: Parse from string content</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="component-detail">
+              <h3>🛠️ ToolsManager</h3>
+              <p>Creates, filters, and manages MCP tools from OpenAPI operations.</p>
+              <div class="code-block">
+                <pre><code class="language-typescript">class ToolsManager {
+  async loadTools(filter: IToolsFilter): Promise<void>;
+  getTools(): ITool[];                 // All loaded tools
+  getToolByName(name: string): ITool | undefined;
+  listOperations(filter?: any): IOperationSummary[];
+  getStats(): ToolStats;               // Tool statistics
+}</code></pre>
+              </div>
+              <div class="feature-list">
+                <h4>Tool Modes:</h4>
+                <ul>
+                  <li><strong>All</strong>: Load all endpoint tools + meta-tools</li>
+                  <li><strong>Dynamic</strong>: Load only meta-tools for API exploration</li>
+                  <li><strong>Explicit</strong>: Load only specified tools</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="component-detail">
+              <h3>🔗 ApiClient</h3>
+              <p>Executes authenticated HTTP requests to target APIs.</p>
+              <div class="code-block">
+                <pre><code class="language-typescript">class ApiClient {
+  constructor(
+    baseUrl: string,
+    authProvider?: IAuthProvider,
+    headers?: Record<string, string>
+  );
+  
+  async executeApiCall(params: IApiCallParams): Promise<IApiCallResult>;
+  async testConnection(): Promise<boolean>;
+}</code></pre>
+              </div>
+              <div class="feature-list">
+                <h4>Features:</h4>
+                <ul>
+                  <li><strong>Authentication Integration</strong>: Static headers or dynamic providers</li>
+                  <li><strong>Retry Logic</strong>: Automatic retry on authentication errors</li>
+                  <li><strong>Parameter Mapping</strong>: Maps MCP parameters to HTTP requests</li>
+                  <li><strong>Error Handling</strong>: Comprehensive error processing</li>
+                </ul>
+              </div>
+            </div>
+          </section>
+
+          <!-- Data Flow -->
+          <section id="data-flow" class="doc-section">
+            <h2>Data Flow</h2>
+            
+            <div class="flow-section">
+              <h3>🚀 Startup Flow</h3>
+              <div class="flow-diagram">
+                <div class="flow-step">
+                  <div class="step-number">1</div>
+                  <div class="step-content">
+                    <h4>Configuration Validation</h4>
+                    <p>Validate and normalize server configuration</p>
+                  </div>
+                </div>
+                <div class="flow-arrow">→</div>
+                <div class="flow-step">
+                  <div class="step-number">2</div>
+                  <div class="step-content">
+                    <h4>Component Initialization</h4>
+                    <p>Create and configure core components</p>
+                  </div>
+                </div>
+                <div class="flow-arrow">→</div>
+                <div class="flow-step">
+                  <div class="step-number">3</div>
+                  <div class="step-content">
+                    <h4>OpenAPI Loading</h4>
+                    <p>Load and parse OpenAPI specification</p>
+                  </div>
+                </div>
+                <div class="flow-arrow">→</div>
+                <div class="flow-step">
+                  <div class="step-number">4</div>
+                  <div class="step-content">
+                    <h4>Tool Generation</h4>
+                    <p>Create MCP tools from OpenAPI operations</p>
+                  </div>
+                </div>
+                <div class="flow-arrow">→</div>
+                <div class="flow-step">
+                  <div class="step-number">5</div>
+                  <div class="step-content">
+                    <h4>Transport Setup</h4>
+                    <p>Initialize and start transport layer</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="flow-section">
+              <h3>🔧 Tool Execution Flow</h3>
+              <div class="flow-diagram">
+                <div class="flow-step">
+                  <div class="step-number">1</div>
+                  <div class="step-content">
+                    <h4>MCP Request</h4>
+                    <p>Client sends tools/call request</p>
+                  </div>
+                </div>
+                <div class="flow-arrow">→</div>
+                <div class="flow-step">
+                  <div class="step-number">2</div>
+                  <div class="step-content">
+                    <h4>Tool Resolution</h4>
+                    <p>Find tool by name and validate parameters</p>
+                  </div>
+                </div>
+                <div class="flow-arrow">→</div>
+                <div class="flow-step">
+                  <div class="step-number">3</div>
+                  <div class="step-content">
+                    <h4>Authentication</h4>
+                    <p>Get fresh auth headers from provider</p>
+                  </div>
+                </div>
+                <div class="flow-arrow">→</div>
+                <div class="flow-step">
+                  <div class="step-number">4</div>
+                  <div class="step-content">
+                    <h4>API Call</h4>
+                    <p>Execute HTTP request to target API</p>
+                  </div>
+                </div>
+                <div class="flow-arrow">→</div>
+                <div class="flow-step">
+                  <div class="step-number">5</div>
+                  <div class="step-content">
+                    <h4>Response Processing</h4>
+                    <p>Format response for MCP client</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Interface System -->
+          <section id="interfaces" class="doc-section">
+            <h2>Interface System</h2>
+            <p>
+              The OpenAPI MCP Server uses comprehensive TypeScript interfaces to ensure type safety and enable extensibility.
+            </p>
+
+            <div class="interface-category">
+              <h3>🔐 Authentication Interfaces</h3>
+              <div class="code-block">
+                <pre><code class="language-typescript">interface IAuthProvider {
+  getAuthHeaders(): Promise<Record<string, string>>;
+  handleAuthError(error: AxiosError): Promise<boolean>;
+}</code></pre>
+              </div>
+              <p>Enables custom authentication strategies with token refresh and error recovery.</p>
+            </div>
+
+            <div class="interface-category">
+              <h3>🌐 Transport Interfaces</h3>
+              <div class="code-block">
+                <pre><code class="language-typescript">interface ITransportHandler {
+  start(): Promise<void>;
+  stop(): Promise<void>;
+  getType(): string;
+  getStatus(): { type: string; active: boolean };
+}</code></pre>
+              </div>
+              <p>Allows for different transport implementations (stdio, HTTP, WebSocket, etc.).</p>
+            </div>
+
+            <div class="interface-category">
+              <h3>🛠️ Tool Interfaces</h3>
+              <div class="code-block">
+                <pre><code class="language-typescript">interface ITool extends Tool {
+  tags?: string[];           // OpenAPI tags
+  method?: string;           // HTTP method
+  resourceName?: string;     // Resource identifier
+  originalPath?: string;     // OpenAPI path
+  toolId?: string;          // Unique tool identifier
+}</code></pre>
+              </div>
+              <p>Extends MCP Tool interface with OpenAPI-specific metadata for filtering and management.</p>
+            </div>
+          </section>
+
+          <!-- Extensibility -->
+          <section id="extensibility" class="doc-section">
+            <h2>Extensibility Points</h2>
+
+            <div class="extension-point">
+              <h3>🔐 Custom Authentication</h3>
+              <p>Implement the <code>IAuthProvider</code> interface to support any authentication scheme:</p>
+              <div class="code-block">
+                <pre><code class="language-typescript">class OAuth2Provider implements IAuthProvider {
+  async getAuthHeaders() {
+    if (this.isTokenExpired()) {
+      await this.refreshToken();
+    }
+    return { Authorization: `Bearer ${this.accessToken}` };
+  }
+
+  async handleAuthError(error) {
+    if (error.response?.status === 401) {
+      await this.refreshToken();
+      return true; // Retry request
+    }
+    return false;
+  }
+}</code></pre>
+              </div>
+            </div>
+
+            <div class="extension-point">
+              <h3>🌐 Custom Transports</h3>
+              <p>Extend <code>BaseTransportHandler</code> to support new transport methods:</p>
+              <div class="code-block">
+                <pre><code class="language-typescript">class WebSocketTransportHandler extends BaseTransportHandler {
+  async start() {
+    this.wsServer = new WebSocketServer({ port: this.port });
+    // WebSocket-specific initialization
+  }
+
+  getType(): string {
+    return 'websocket';
+  }
+}</code></pre>
+              </div>
+            </div>
+
+            <div class="extension-point">
+              <h3>🔧 Custom Tool Filters</h3>
+              <p>Extend tool filtering logic for specialized use cases:</p>
+              <div class="code-block">
+                <pre><code class="language-typescript">interface IToolsFilter {
+  mode: ToolsMode;
+  includeTools?: string[];
+  includeTags?: string[];
+  includeResources?: string[];
+  includeOperations?: string[];
+  customFilter?: (tool: ITool) => boolean;  // Extension point
+}</code></pre>
+              </div>
+            </div>
+          </section>
+
+          <!-- Performance Considerations -->
+          <section id="performance" class="doc-section">
+            <h2>Performance Considerations</h2>
+
+            <div class="perf-section">
+              <h3>💾 Memory Management</h3>
+              <ul>
+                <li><strong>Lazy Loading</strong>: Tools are generated on-demand during startup</li>
+                <li><strong>Caching</strong>: OpenAPI specs and tool metadata are cached in memory</li>
+                <li><strong>Filtering</strong>: Early filtering reduces memory footprint for large APIs</li>
+              </ul>
+            </div>
+
+            <div class="perf-section">
+              <h3>⚡ Request Processing</h3>
+              <ul>
+                <li><strong>Connection Pooling</strong>: HTTP client reuses connections</li>
+                <li><strong>Authentication Caching</strong>: Auth headers are cached between requests</li>
+                <li><strong>Async Processing</strong>: All operations are non-blocking</li>
+              </ul>
+            </div>
+
+            <div class="perf-section">
+              <h3>📊 Scalability</h3>
+              <ul>
+                <li><strong>Stateless Design</strong>: Server can be horizontally scaled</li>
+                <li><strong>HTTP Transport</strong>: Supports load balancing and clustering</li>
+                <li><strong>Resource Limits</strong>: Configurable limits prevent resource exhaustion</li>
+              </ul>
+            </div>
+          </section>
+
+          <!-- Security Architecture -->
+          <section id="security" class="doc-section">
+            <h2>Security Architecture</h2>
+
+            <div class="security-section">
+              <h3>🔒 Authentication Security</h3>
+              <ul>
+                <li><strong>No Credential Storage</strong>: Credentials are provided at runtime</li>
+                <li><strong>Dynamic Refresh</strong>: Tokens can be refreshed automatically</li>
+                <li><strong>Error Isolation</strong>: Auth errors don't expose sensitive information</li>
+              </ul>
+            </div>
+
+            <div class="security-section">
+              <h3>🛡️ Runtime Security</h3>
+              <ul>
+                <li><strong>Input Validation</strong>: All parameters are validated against OpenAPI schemas</li>
+                <li><strong>Request Sanitization</strong>: HTTP requests are constructed safely</li>
+                <li><strong>Error Handling</strong>: Sensitive information is not leaked in error messages</li>
+              </ul>
+            </div>
+
+            <div class="security-section">
+              <h3>🌐 Transport Security</h3>
+              <ul>
+                <li><strong>HTTPS Support</strong>: All HTTP communications can use TLS</li>
+                <li><strong>CORS Configuration</strong>: Configurable cross-origin policies</li>
+                <li><strong>Rate Limiting</strong>: Built-in protection against abuse</li>
+              </ul>
+            </div>
+          </section>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-section">
+            <h4>OpenAPI MCP Server</h4>
+            <p>Connect any OpenAPI to Claude Desktop with dynamic tool generation.</p>
+          </div>
+          <div class="footer-section">
+            <h4>Documentation</h4>
+            <ul>
+              <li><a href="./installation.html">Installation</a></li>
+              <li><a href="./configuration.html">Configuration</a></li>
+              <li><a href="./authentication.html">Authentication</a></li>
+              <li><a href="./examples.html">Examples</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>&copy; 2024 OpenAPI MCP Server. Released under the MIT License.</p>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+  </body>
+</html>

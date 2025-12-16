@@ -1,0 +1,658 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Authentication Guide - OpenAPI MCP Server</title>
+    <meta
+      name="description"
+      content="Complete authentication guide for OpenAPI MCP Server including static headers, dynamic providers, AuthProvider interface, token refresh patterns, and examples."
+    />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/components.css" />
+    <link rel="stylesheet" href="../css/responsive.css" />
+
+    <!-- Syntax highlighting -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <!-- Navigation -->
+    <nav class="navbar">
+      <div class="nav-container">
+        <div class="nav-brand">
+          <a class="nav-brand" href="../index.html">
+            <img
+              src="../assets/logo.svg"
+              alt="OpenAPI MCP Server"
+              class="nav-logo"
+            />
+            <span class="nav-title">OpenAPI MCP Server</span>
+          </a>
+        </div>
+        <div class="nav-menu">
+          <a href="../index.html" class="nav-link">Home</a>
+          <a href="../index.html#features" class="nav-link">Features</a>
+          <a href="../index.html#quickstart" class="nav-link">Quick Start</a>
+          <a href="../index.html#documentation" class="nav-link">Documentation</a>
+          <a href="../index.html#examples" class="nav-link">Examples</a>
+          <a
+            href="https://github.com/lucivuc/openapi-mcp-server"
+            class="nav-link"
+            target="_blank"
+          >
+            <svg class="github-icon" viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+            </svg>
+            GitHub
+          </a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div class="container">
+        <div class="doc-header">
+          <h1 class="doc-title">Authentication Guide</h1>
+          <p class="doc-subtitle">
+            Complete authentication guide including static headers, dynamic providers, AuthProvider interface, token refresh patterns, and examples.
+          </p>
+        </div>
+
+        <div class="doc-content">
+          <!-- Authentication Overview -->
+          <section id="overview" class="doc-section">
+            <h2>Authentication Overview</h2>
+            <p>
+              OpenAPI MCP Server supports two main authentication methods to accommodate different API requirements:
+            </p>
+            
+            <div class="auth-methods-grid">
+              <div class="auth-method-card">
+                <h3>🔗 Static Headers</h3>
+                <p>Perfect for APIs with long-lived tokens, API keys, or simple authentication</p>
+                <ul>
+                  <li>Simple configuration</li>
+                  <li>No token refresh logic needed</li>
+                  <li>Ideal for CLI usage</li>
+                  <li>Good for development and testing</li>
+                </ul>
+              </div>
+              
+              <div class="auth-method-card">
+                <h3>🔄 Dynamic Authentication (AuthProvider)</h3>
+                <p>Advanced authentication with token refresh, expiration handling, and custom logic</p>
+                <ul>
+                  <li>Automatic token refresh</li>
+                  <li>Expiration detection</li>
+                  <li>Retry on authentication errors</li>
+                  <li>Custom authentication flows</li>
+                </ul>
+              </div>
+            </div>
+          </section>
+
+          <!-- Static Headers -->
+          <section id="static-headers" class="doc-section">
+            <h2>Static Headers Authentication</h2>
+            <p>
+              Static headers are the simplest authentication method, perfect for APIs with long-lived tokens or API keys.
+            </p>
+
+            <div class="auth-section">
+              <h3>CLI Usage</h3>
+              <div class="code-block">
+                <pre><code class="language-bash"># Single header
+npx @lucid-spark/openapi-mcp-server \
+  --api-base-url https://api.example.com \
+  --openapi-spec https://api.example.com/openapi.json \
+  --headers "Authorization:Bearer your-long-lived-token"
+
+# Multiple headers
+npx @lucid-spark/openapi-mcp-server \
+  --api-base-url https://api.github.com \
+  --openapi-spec https://api.github.com/openapi.json \
+  --headers "Authorization:Bearer ghp_xxxxxxxxxxxx,Accept:application/vnd.github.v3+json,User-Agent:MyApp/1.0"</code></pre>
+              </div>
+            </div>
+
+            <div class="auth-section">
+              <h3>Environment Variables</h3>
+              <div class="code-block">
+                <pre><code class="language-bash"># Set environment variables
+export API_BASE_URL="https://api.example.com"
+export OPENAPI_SPEC_PATH="https://api.example.com/openapi.json"
+export API_HEADERS="Authorization:Bearer your-token,X-API-Key:your-api-key"
+
+# Run server
+npx @lucid-spark/openapi-mcp-server</code></pre>
+              </div>
+            </div>
+
+            <div class="auth-section">
+              <h3>Library Usage</h3>
+              <div class="code-block">
+                <pre><code class="language-typescript">import { OpenAPIServer } from "@lucid-spark/openapi-mcp-server";
+
+const server = new OpenAPIServer({
+  apiBaseUrl: "https://api.example.com",
+  openApiSpec: "https://api.example.com/openapi.json",
+  headers: {
+    "Authorization": "Bearer your-long-lived-token",
+    "X-API-Key": "your-api-key",
+    "Accept": "application/json",
+    "User-Agent": "MyApp/1.0"
+  },
+  transportType: "stdio"
+});
+
+await server.start();</code></pre>
+              </div>
+            </div>
+
+            <div class="auth-section">
+              <h3>Common Static Header Patterns</h3>
+              
+              <div class="pattern-grid">
+                <div class="pattern-card">
+                  <h4>Bearer Token (OAuth/JWT)</h4>
+                  <div class="code-block small">
+                    <pre><code class="language-bash">--headers "Authorization:Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."</code></pre>
+                  </div>
+                </div>
+                
+                <div class="pattern-card">
+                  <h4>API Key in Header</h4>
+                  <div class="code-block small">
+                    <pre><code class="language-bash">--headers "X-API-Key:your-api-key,Authorization:ApiKey your-api-key"</code></pre>
+                  </div>
+                </div>
+                
+                <div class="pattern-card">
+                  <h4>Basic Authentication</h4>
+                  <div class="code-block small">
+                    <pre><code class="language-bash"># Base64 encode username:password first
+--headers "Authorization:Basic dXNlcm5hbWU6cGFzc3dvcmQ="</code></pre>
+                  </div>
+                </div>
+                
+                <div class="pattern-card">
+                  <h4>Custom Headers</h4>
+                  <div class="code-block small">
+                    <pre><code class="language-bash">--headers "X-Client-ID:your-client-id,X-Secret:your-secret"</code></pre>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- AuthProvider Interface -->
+          <section id="authprovider" class="doc-section">
+            <h2>Dynamic Authentication (AuthProvider)</h2>
+            <p>
+              The AuthProvider interface enables sophisticated authentication scenarios with token refresh, expiration handling, and custom error recovery.
+            </p>
+
+            <div class="auth-section">
+              <h3>AuthProvider Interface</h3>
+              <div class="code-block">
+                <pre><code class="language-typescript">interface IAuthProvider {
+  /**
+   * Get authentication headers for the current request
+   * Called before each API request to get fresh headers
+   */
+  getAuthHeaders(): Promise<Record<string, string>>;
+
+  /**
+   * Handle authentication errors from API responses
+   * Called when the API returns 401 or 403 errors
+   * Return true to retry the request, false otherwise
+   */
+  handleAuthError(error: AxiosError): Promise<boolean>;
+}</code></pre>
+              </div>
+            </div>
+
+            <div class="auth-section">
+              <h3>Key Features</h3>
+              <div class="feature-list">
+                <div class="feature-item">
+                  <h4>🔄 Dynamic Headers</h4>
+                  <p>Fresh authentication headers for each request</p>
+                </div>
+                <div class="feature-item">
+                  <h4>⏰ Token Expiration Handling</h4>
+                  <p>Automatic detection and handling of expired tokens</p>
+                </div>
+                <div class="feature-item">
+                  <h4>🔁 Authentication Error Recovery</h4>
+                  <p>Retry logic for recoverable authentication failures</p>
+                </div>
+                <div class="feature-item">
+                  <h4>💬 Custom Error Messages</h4>
+                  <p>Provide clear, actionable guidance to users</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="auth-section">
+              <h3>Basic AuthProvider Implementation</h3>
+              <div class="code-block">
+                <pre><code class="language-typescript">import { IAuthProvider } from "@lucid-spark/openapi-mcp-server";
+import { AxiosError } from "axios";
+
+class SimpleAuthProvider implements IAuthProvider {
+  constructor(private token: string) {}
+
+  async getAuthHeaders(): Promise<Record<string, string>> {
+    return {
+      Authorization: `Bearer ${this.token}`,
+      "User-Agent": "OpenAPI-MCP-Server/1.0.0"
+    };
+  }
+
+  async handleAuthError(error: AxiosError): Promise<boolean> {
+    if (error.response?.status === 401) {
+      throw new Error("Authentication failed. Please check your token.");
+    }
+    return false; // Don't retry other errors
+  }
+}</code></pre>
+              </div>
+            </div>
+          </section>
+
+          <!-- Token Refresh Patterns -->
+          <section id="token-refresh" class="doc-section">
+            <h2>Token Refresh Patterns</h2>
+            <p>
+              Implement automatic token refresh for APIs with short-lived tokens:
+            </p>
+
+            <div class="auth-section">
+              <h3>OAuth2 Token Refresh</h3>
+              <div class="code-block">
+                <pre><code class="language-typescript">class OAuth2AuthProvider implements IAuthProvider {
+  private accessToken: string;
+  private refreshToken: string;
+  private tokenExpiry: Date;
+
+  constructor(accessToken: string, refreshToken: string, expiresIn: number) {
+    this.accessToken = accessToken;
+    this.refreshToken = refreshToken;
+    this.tokenExpiry = new Date(Date.now() + expiresIn * 1000);
+  }
+
+  async getAuthHeaders(): Promise<Record<string, string>> {
+    // Check if token is expired or will expire soon (60 second buffer)
+    if (this.isTokenExpiring()) {
+      await this.refreshAccessToken();
+    }
+
+    return {
+      Authorization: `Bearer ${this.accessToken}`
+    };
+  }
+
+  async handleAuthError(error: AxiosError): Promise<boolean> {
+    if (error.response?.status === 401) {
+      // Token might be invalid, try to refresh
+      try {
+        await this.refreshAccessToken();
+        return true; // Retry with new token
+      } catch (refreshError) {
+        throw new Error("Token refresh failed. Please re-authenticate.");
+      }
+    }
+    return false;
+  }
+
+  private isTokenExpiring(): boolean {
+    const bufferTime = 60 * 1000; // 60 seconds
+    return this.tokenExpiry.getTime() <= (Date.now() + bufferTime);
+  }
+
+  private async refreshAccessToken(): Promise<void> {
+    const response = await fetch("https://oauth.example.com/token", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: new URLSearchParams({
+        grant_type: "refresh_token",
+        refresh_token: this.refreshToken,
+        client_id: process.env.CLIENT_ID!,
+        client_secret: process.env.CLIENT_SECRET!
+      })
+    });
+
+    if (!response.ok) {
+      throw new Error(`Token refresh failed: ${response.statusText}`);
+    }
+
+    const data = await response.json();
+    this.accessToken = data.access_token;
+    this.refreshToken = data.refresh_token || this.refreshToken;
+    this.tokenExpiry = new Date(Date.now() + data.expires_in * 1000);
+  }
+}</code></pre>
+              </div>
+            </div>
+
+            <div class="auth-section">
+              <h3>Manual Token Management</h3>
+              <p>For APIs where users must manually obtain new tokens:</p>
+              <div class="code-block">
+                <pre><code class="language-typescript">class ManualTokenAuthProvider implements IAuthProvider {
+  private token: string | null = null;
+  private tokenExpiry: Date | null = null;
+
+  async getAuthHeaders(): Promise<Record<string, string>> {
+    if (!this.token || this.isTokenExpired()) {
+      throw new Error(
+        "Token expired. Please get a new token:\n" +
+        "1. Go to https://api.example.com/settings/tokens\n" +
+        "2. Generate a new token\n" +
+        "3. Update using updateToken() method"
+      );
+    }
+
+    return {
+      Authorization: `Bearer ${this.token}`
+    };
+  }
+
+  async handleAuthError(error: AxiosError): Promise<boolean> {
+    if (error.response?.status === 401) {
+      throw new Error("Token invalid. Please generate a new token.");
+    }
+    return false;
+  }
+
+  updateToken(token: string, expiresInHours: number = 24): void {
+    this.token = token;
+    this.tokenExpiry = new Date(Date.now() + expiresInHours * 60 * 60 * 1000);
+  }
+
+  private isTokenExpired(): boolean {
+    return !this.tokenExpiry || this.tokenExpiry <= new Date();
+  }
+}</code></pre>
+              </div>
+            </div>
+          </section>
+
+          <!-- Real-World Examples -->
+          <section id="examples" class="doc-section">
+            <h2>Real-World Authentication Examples</h2>
+
+            <div class="example-section">
+              <h3>GitHub API</h3>
+              <div class="code-block">
+                <pre><code class="language-bash"># Using Personal Access Token
+npx @lucid-spark/openapi-mcp-server \
+  --api-base-url https://api.github.com \
+  --openapi-spec https://api.github.com/openapi.json \
+  --headers "Authorization:Bearer ghp_xxxxxxxxxxxx,Accept:application/vnd.github.v3+json,User-Agent:MyApp/1.0"</code></pre>
+              </div>
+            </div>
+
+            <div class="example-section">
+              <h3>Stripe API</h3>
+              <div class="code-block">
+                <pre><code class="language-bash"># Using Secret Key
+npx @lucid-spark/openapi-mcp-server \
+  --api-base-url https://api.stripe.com \
+  --openapi-spec https://raw.githubusercontent.com/stripe/openapi/master/openapi/spec3.json \
+  --headers "Authorization:Bearer sk_test_xxxxxxxxxxxx,Stripe-Version:2023-10-16"</code></pre>
+              </div>
+            </div>
+
+            <div class="example-section">
+              <h3>OpenAI API</h3>
+              <div class="code-block">
+                <pre><code class="language-bash"># Using API Key
+npx @lucid-spark/openapi-mcp-server \
+  --api-base-url https://api.openai.com \
+  --openapi-spec https://api.openai.com/openapi.json \
+  --headers "Authorization:Bearer sk-xxxxxxxxxxxx,OpenAI-Organization:org-xxxxxxxxxxxx"</code></pre>
+              </div>
+            </div>
+
+            <div class="example-section">
+              <h3>AWS API Gateway with IAM</h3>
+              <div class="code-block">
+                <pre><code class="language-typescript">// Custom AuthProvider for AWS Signature V4
+class AWSAuthProvider implements IAuthProvider {
+  constructor(
+    private accessKeyId: string,
+    private secretAccessKey: string,
+    private region: string = 'us-east-1'
+  ) {}
+
+  async getAuthHeaders(): Promise<Record<string, string>> {
+    // Implement AWS Signature V4 signing
+    const signature = await this.signRequest();
+    
+    return {
+      Authorization: signature,
+      'X-Amz-Date': new Date().toISOString().replace(/[:-]/g, ''),
+      'X-Amz-Security-Token': process.env.AWS_SESSION_TOKEN || ''
+    };
+  }
+
+  async handleAuthError(error: AxiosError): Promise<boolean> {
+    if (error.response?.status === 403) {
+      throw new Error("AWS authentication failed. Check your credentials.");
+    }
+    return false;
+  }
+
+  private async signRequest(): Promise<string> {
+    // AWS Signature V4 implementation
+    // This is a simplified example - use aws-sdk for production
+    return `AWS4-HMAC-SHA256 Credential=${this.accessKeyId}/...`;
+  }
+}</code></pre>
+              </div>
+            </div>
+          </section>
+
+          <!-- Claude Desktop Configuration -->
+          <section id="claude-auth" class="doc-section">
+            <h2>Claude Desktop Authentication</h2>
+            <p>
+              Configure authentication for Claude Desktop using environment variables:
+            </p>
+
+            <div class="auth-section">
+              <h3>Basic Token Authentication</h3>
+              <div class="code-block">
+                <pre><code class="language-json">{
+  "mcpServers": {
+    "github-api": {
+      "command": "npx",
+      "args": ["-y", "@lucid-spark/openapi-mcp-server"],
+      "env": {
+        "API_BASE_URL": "https://api.github.com",
+        "OPENAPI_SPEC_PATH": "https://api.github.com/openapi.json",
+        "GITHUB_TOKEN": "ghp_xxxxxxxxxxxx",
+        "API_HEADERS": "Authorization:Bearer ${GITHUB_TOKEN},Accept:application/vnd.github.v3+json"
+      }
+    }
+  }
+}</code></pre>
+              </div>
+            </div>
+
+            <div class="auth-section">
+              <h3>Multiple Headers</h3>
+              <div class="code-block">
+                <pre><code class="language-json">{
+  "mcpServers": {
+    "stripe-api": {
+      "command": "npx",
+      "args": ["-y", "@lucid-spark/openapi-mcp-server"],
+      "env": {
+        "API_BASE_URL": "https://api.stripe.com",
+        "OPENAPI_SPEC_PATH": "https://raw.githubusercontent.com/stripe/openapi/master/openapi/spec3.json",
+        "STRIPE_SECRET_KEY": "sk_test_xxxxxxxxxxxx",
+        "API_HEADERS": "Authorization:Bearer ${STRIPE_SECRET_KEY},Stripe-Version:2023-10-16,User-Agent:Claude-MCP-Client"
+      }
+    }
+  }
+}</code></pre>
+              </div>
+            </div>
+          </section>
+
+          <!-- Security Best Practices -->
+          <section id="security" class="doc-section">
+            <h2>Security Best Practices</h2>
+
+            <div class="security-grid">
+              <div class="security-card">
+                <h3>🔐 Token Management</h3>
+                <ul>
+                  <li>Never hardcode tokens in source code</li>
+                  <li>Use environment variables for sensitive data</li>
+                  <li>Rotate tokens regularly</li>
+                  <li>Use the minimum required permissions</li>
+                </ul>
+              </div>
+
+              <div class="security-card">
+                <h3>🔒 Storage</h3>
+                <ul>
+                  <li>Store tokens in secure credential managers</li>
+                  <li>Avoid logging authentication headers</li>
+                  <li>Use encrypted storage for refresh tokens</li>
+                  <li>Clear tokens from memory when possible</li>
+                </ul>
+              </div>
+
+              <div class="security-card">
+                <h3>🚨 Error Handling</h3>
+                <ul>
+                  <li>Don't expose tokens in error messages</li>
+                  <li>Implement proper token validation</li>
+                  <li>Handle network failures gracefully</li>
+                  <li>Log authentication events for monitoring</li>
+                </ul>
+              </div>
+
+              <div class="security-card">
+                <h3>⏰ Token Lifecycle</h3>
+                <ul>
+                  <li>Implement automatic token refresh</li>
+                  <li>Use appropriate token expiration times</li>
+                  <li>Handle concurrent refresh requests</li>
+                  <li>Invalidate tokens on logout</li>
+                </ul>
+              </div>
+            </div>
+          </section>
+
+          <!-- Troubleshooting -->
+          <section id="troubleshooting" class="doc-section">
+            <h2>Authentication Troubleshooting</h2>
+
+            <div class="trouble-list">
+              <div class="trouble-item">
+                <h3>❌ 401 Unauthorized Errors</h3>
+                <p><strong>Symptoms:</strong> API returns 401 status code</p>
+                <p><strong>Solutions:</strong></p>
+                <ul>
+                  <li>Verify token is valid and not expired</li>
+                  <li>Check header format (Bearer vs Basic vs API Key)</li>
+                  <li>Ensure token has required permissions</li>
+                  <li>Test token directly with curl or Postman</li>
+                </ul>
+                <div class="code-block">
+                  <pre><code class="language-bash"># Test token directly
+curl -H "Authorization: Bearer your-token" https://api.example.com/test</code></pre>
+                </div>
+              </div>
+
+              <div class="trouble-item">
+                <h3>❌ 403 Forbidden Errors</h3>
+                <p><strong>Symptoms:</strong> API returns 403 status code</p>
+                <p><strong>Solutions:</strong></p>
+                <ul>
+                  <li>Check token permissions/scopes</li>
+                  <li>Verify API endpoint access</li>
+                  <li>Review rate limiting policies</li>
+                  <li>Check IP allowlists</li>
+                </ul>
+              </div>
+
+              <div class="trouble-item">
+                <h3>❌ Token Refresh Failures</h3>
+                <p><strong>Symptoms:</strong> AuthProvider refresh attempts fail</p>
+                <p><strong>Solutions:</strong></p>
+                <ul>
+                  <li>Verify refresh token is valid</li>
+                  <li>Check OAuth client credentials</li>
+                  <li>Ensure refresh endpoint URL is correct</li>
+                  <li>Review token expiration timing</li>
+                </ul>
+              </div>
+
+              <div class="trouble-item">
+                <h3>❌ Header Format Issues</h3>
+                <p><strong>Symptoms:</strong> Headers not recognized by API</p>
+                <p><strong>Solutions:</strong></p>
+                <ul>
+                  <li>Check exact header name requirements</li>
+                  <li>Verify value format (Bearer, Basic, etc.)</li>
+                  <li>Ensure proper encoding (Base64 for Basic auth)</li>
+                  <li>Review API documentation for examples</li>
+                </ul>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-section">
+            <h4>OpenAPI MCP Server</h4>
+            <p>Connect any OpenAPI to Claude Desktop with dynamic tool generation.</p>
+          </div>
+          <div class="footer-section">
+            <h4>Documentation</h4>
+            <ul>
+              <li><a href="./installation.html">Installation</a></li>
+              <li><a href="./configuration.html">Configuration</a></li>
+              <li><a href="./authentication.html">Authentication</a></li>
+              <li><a href="./examples.html">Examples</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>&copy; 2024 OpenAPI MCP Server. Released under the MIT License.</p>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+  </body>
+</html>

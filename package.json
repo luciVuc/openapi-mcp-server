@@ -1,0 +1,97 @@
+{
+  "name": "@lucid-spark/openapi-mcp-server",
+  "version": "1.0.0",
+  "description": "A Model Context Protocol (MCP) server that exposes OpenAPI endpoints as MCP tools",
+  "main": "dist/index.js",
+  "bin": {
+    "openapi-mcp-server": "dist/cli.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "prepublishOnly": "npm run build",
+    "cli": "ts-node src/cli.ts",
+    "depcheck": "npx depcheck",
+    "test": "jest --coverage",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "test:verbose": "jest --verbose",
+    "dev:petstore:v2:json": "ts-node src/cli.ts --api-base-url https://petstore.swagger.io/v2 --openapi-spec /Users/I843666/Documents/DEV/mcpServer/3/openapi-mcp-server/examples/petstore_openapi.json --headers \"accept:application/json,api_key:special-key\" --transport stdio --port 3002",
+    "dev:petstore:v2:yaml": "ts-node src/cli.ts --api-base-url https://petstore.swagger.io/v2 --openapi-spec https://raw.githubusercontent.com/readmeio/oas-examples/main/2.0/yaml/petstore.yaml --headers \"accept:application/json,api_key:special-key\" --transport stdio --port 3002",
+    "dev:petstore:v3:json": "ts-node src/cli.ts --api-base-url https://petstore.swagger.io/v2 --openapi-spec https://raw.githubusercontent.com/readmeio/oas-examples/main/3.0/json/petstore.json --headers \"accept:application/json,api_key:special-key\" --transport stdio --port 3002",
+    "dev:petstore:v3:yaml": "ts-node src/cli.ts --api-base-url https://petstore.swagger.io/v2 --openapi-spec /Users/I843666/Documents/DEV/mcpServer/3/openapi-mcp-server/examples/petstore_openapi.yml  --headers \"accept:application/json,api_key:special-key\" --transport stdio --port 3002",
+    "dev:petstore:v3.1:json": "ts-node src/cli.ts --api-base-url https://petstore.swagger.io/v2 --openapi-spec https://raw.githubusercontent.com/readmeio/oas-examples/main/3.1/json/petstore.json --headers \"accept:application/json,api_key:special-key\" --transport stdio --port 3002",
+    "dev:petstore:v3.1:yaml": "ts-node src/cli.ts --api-base-url https://petstore.swagger.io/v2 --openapi-spec https://raw.githubusercontent.com/readmeio/oas-examples/main/3.1/yaml/petstore.yaml --headers \"accept:application/json,api_key:special-key\" --transport stdio --port 3002",
+    "inspect:petstore:v2:json": "npx -y @modelcontextprotocol/inspector npm run dev:petstore:v2:json",
+    "inspect:petstore:v2:yaml": "npx -y @modelcontextprotocol/inspector npm run dev:petstore:v2:yaml",
+    "inspect:petstore:v3:json": "npx -y @modelcontextprotocol/inspector npm run dev:petstore:v3:json",
+    "inspect:petstore:v3:yaml": "npx -y @modelcontextprotocol/inspector npm run dev:petstore:v3:yaml",
+    "inspect:petstore:v3.1:json": "npx -y @modelcontextprotocol/inspector npm run dev:petstore:v3.1:json",
+    "inspect:petstore:v3.1:yaml": "npx -y @modelcontextprotocol/inspector npm run dev:petstore:v3.1:yaml",
+    "format": "prettier --write",
+    "format:staged": "pretty-quick --staged --no-restage --verbose",
+    "start": "node dist/index.js",
+    "docker:build": "docker build -t openapi-mcp-server .",
+    "docker:build:dev": "docker build -f Dockerfile.dev -t openapi-mcp-server:dev .",
+    "docker:run": "docker run --rm -p 3000:3000 openapi-mcp-server",
+    "docker:run:stdio": "docker run --rm -i openapi-mcp-server",
+    "docker:compose:up": "docker-compose up -d",
+    "docker:compose:down": "docker-compose down",
+    "docker:compose:logs": "docker-compose logs -f",
+    "docker:compose:dev": "docker-compose -f docker-compose.yml -f docker-compose.dev.yml up",
+    "docker:compose:examples": "docker-compose --profile examples up -d",
+    "docker:test": "docker run --rm openapi-mcp-server npm test",
+    "docker:test:full": "./scripts/test-docker.sh",
+    "docker:push": "docker push openapi-mcp-server",
+    "docker:build:script": "./scripts/docker-build.sh",
+    "docker:deploy:script": "./scripts/docker-deploy.sh"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "mcp-server",
+    "swagger",
+    "openapi",
+    "api",
+    "claude",
+    "ai",
+    "agent"
+  ],
+  "author": "OpenAPI MCP Server Contributors",
+  "license": "MIT",
+  "homepage": "https://github.com/lucivuc/openapi-mcp-server#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lucivuc/openapi-mcp-server.git"
+  },
+  "bugs": {
+    "url": "https://github.com/lucivuc/openapi-mcp-server/issues"
+  },
+  "files": [
+    "dist/**/*",
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md"
+  ],
+  "types": "dist/index.d.ts",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0",
+    "axios": "^1.6.0",
+    "commander": "^11.1.0",
+    "dotenv": "^17.2.3",
+    "yaml": "^2.3.4",
+    "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.14",
+    "@types/node": "^20.10.0",
+    "jest": "^29.7.0",
+    "prettier": "^3.6.2",
+    "pretty-quick": "^4.2.2",
+    "ts-jest": "^29.4.5",
+    "ts-node": "^10.9.0",
+    "typescript": "^5.3.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

@@ -1,0 +1,901 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Configuration Guide - OpenAPI MCP Server</title>
+    <meta
+      name="description"
+      content="Complete configuration guide for OpenAPI MCP Server including all options, environment variables, CLI arguments, and validation patterns."
+    />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/components.css" />
+    <link rel="stylesheet" href="../css/responsive.css" />
+
+    <!-- Syntax highlighting -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <!-- Navigation -->
+    <nav class="navbar">
+      <div class="nav-container">
+        <div class="nav-brand">
+          <a class="nav-brand" href="../index.html">
+            <img
+              src="../assets/logo.svg"
+              alt="OpenAPI MCP Server"
+              class="nav-logo"
+            />
+            <span class="nav-title">OpenAPI MCP Server</span>
+          </a>
+        </div>
+        <div class="nav-menu">
+          <a href="../index.html" class="nav-link">Home</a>
+          <a href="../index.html#features" class="nav-link">Features</a>
+          <a href="../index.html#quickstart" class="nav-link">Quick Start</a>
+          <a href="../index.html#documentation" class="nav-link">Documentation</a>
+          <a href="../index.html#examples" class="nav-link">Examples</a>
+          <a
+            href="https://github.com/lucivuc/openapi-mcp-server"
+            class="nav-link"
+            target="_blank"
+          >
+            <svg class="github-icon" viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+            </svg>
+            GitHub
+          </a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div class="container">
+        <div class="doc-header">
+          <h1 class="doc-title">Configuration Guide</h1>
+          <p class="doc-subtitle">
+            Complete configuration guide including all options, environment variables, CLI arguments, and validation patterns.
+          </p>
+        </div>
+
+        <div class="doc-content">
+          <!-- Configuration Overview -->
+          <section id="overview" class="doc-section">
+            <h2>Configuration Overview</h2>
+            <p>
+              OpenAPI MCP Server supports flexible configuration through multiple methods. Configuration options can be provided via:
+            </p>
+            <ul>
+              <li><strong>Environment Variables</strong> - Best for deployment and secrets management</li>
+              <li><strong>Command Line Arguments</strong> - Ideal for CLI usage and testing</li>
+              <li><strong>Configuration Objects</strong> - For library usage in TypeScript/JavaScript</li>
+            </ul>
+            
+            <div class="info-box">
+              <h3>Configuration Priority</h3>
+              <p>Configuration is applied in the following order (highest to lowest priority):</p>
+              <ol>
+                <li>Command line arguments</li>
+                <li>Environment variables</li>
+                <li>Default values</li>
+              </ol>
+            </div>
+          </section>
+
+          <!-- Complete Configuration Interface -->
+          <section id="interface" class="doc-section">
+            <h2>Complete Configuration Interface</h2>
+            <p>
+              The complete TypeScript interface for OpenAPI MCP Server configuration:
+            </p>
+            <div class="code-block">
+              <pre><code class="language-typescript">interface IOpenAPIServerConfig {
+  // Required Configuration
+  apiBaseUrl: string;              // Base URL for API endpoints
+
+  // OpenAPI Specification
+  openApiSpec?: string;            // Path, URL, or inline content
+  specInputMethod?: SpecInputMethod; // 'url' | 'file' | 'stdin' | 'inline'
+
+  // Server Identity
+  name?: string;                   // Server name (default: 'openapi-mcp-server')
+  version?: string;                // Server version (default: '1.0.0')
+  namespace?: string;              // Namespace for the MCP server tools
+
+  // Authentication (choose one)
+  headers?: Record<string, string>; // Static headers
+  authProvider?: IAuthProvider;    // Dynamic authentication
+
+  // Transport Configuration
+  transportType?: TransportType;   // 'stdio' | 'http' (default: 'stdio')
+  httpPort?: number;               // HTTP port (default: 3000)
+  httpHost?: string;               // HTTP host (default: '127.0.0.1')
+  endpointPath?: string;           // HTTP endpoint (default: '/mcp')
+
+  // Tool Management
+  toolsMode?: ToolsMode;           // 'all' | 'dynamic' | 'explicit'
+  includeTools?: string[];         // Specific tools to include
+  includeTags?: string[];          // OpenAPI tags to include
+  includeResources?: string[];     // Resource paths to include
+  includeOperations?: string[];    // HTTP methods to include
+
+  // Options
+  disableAbbreviation?: boolean;   // Disable tool name abbreviation
+  debug?: boolean;                 // Enable debug logging
+}</code></pre>
+            </div>
+          </section>
+
+          <!-- Environment Variables -->
+          <section id="environment-variables" class="doc-section">
+            <h2>Environment Variables</h2>
+            <p>
+              All configuration options can be set via environment variables. This is the recommended approach for production deployments:
+            </p>
+
+            <div class="config-section">
+              <h3>Required Variables</h3>
+              <div class="config-table">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Variable</th>
+                      <th>Description</th>
+                      <th>Example</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><code>API_BASE_URL</code></td>
+                      <td>Base URL for the API endpoints</td>
+                      <td><code>https://api.example.com</code></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="config-section">
+              <h3>OpenAPI Specification</h3>
+              <div class="config-table">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Variable</th>
+                      <th>Description</th>
+                      <th>Example</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><code>OPENAPI_SPEC_PATH</code></td>
+                      <td>Path or URL to OpenAPI specification</td>
+                      <td><code>./api-spec.yaml</code><br><code>https://api.example.com/openapi.json</code></td>
+                    </tr>
+                    <tr>
+                      <td><code>OPENAPI_SPEC_FROM_STDIN</code></td>
+                      <td>Read spec from standard input</td>
+                      <td><code>true</code></td>
+                    </tr>
+                    <tr>
+                      <td><code>OPENAPI_SPEC_INLINE</code></td>
+                      <td>Provide spec content directly</td>
+                      <td><code>{"openapi":"3.0.0",...}</code></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="config-section">
+              <h3>Authentication</h3>
+              <div class="config-table">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Variable</th>
+                      <th>Description</th>
+                      <th>Example</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><code>API_HEADERS</code></td>
+                      <td>Comma-separated key:value pairs for API headers</td>
+                      <td><code>Authorization:Bearer token123,X-API-Key:key456</code></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="config-section">
+              <h3>Server Configuration</h3>
+              <div class="config-table">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Variable</th>
+                      <th>Description</th>
+                      <th>Default</th>
+                      <th>Example</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><code>SERVER_NAME</code></td>
+                      <td>Name for the MCP server</td>
+                      <td><code>openapi-mcp-server</code></td>
+                      <td><code>my-api-server</code></td>
+                    </tr>
+                    <tr>
+                      <td><code>SERVER_VERSION</code></td>
+                      <td>Version of the server</td>
+                      <td><code>1.0.0</code></td>
+                      <td><code>2.1.0</code></td>
+                    </tr>
+                    <tr>
+                      <td><code>NAMESPACE</code></td>
+                      <td>Namespace for the MCP server tools</td>
+                      <td><em>None</em></td>
+                      <td><code>my-api</code></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="config-section">
+              <h3>Transport Configuration</h3>
+              <div class="config-table">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Variable</th>
+                      <th>Description</th>
+                      <th>Default</th>
+                      <th>Options</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><code>TRANSPORT_TYPE</code></td>
+                      <td>Transport type to use</td>
+                      <td><code>stdio</code></td>
+                      <td><code>stdio</code>, <code>http</code></td>
+                    </tr>
+                    <tr>
+                      <td><code>HTTP_PORT</code></td>
+                      <td>Port for HTTP transport</td>
+                      <td><code>3000</code></td>
+                      <td>Any valid port number</td>
+                    </tr>
+                    <tr>
+                      <td><code>HTTP_HOST</code></td>
+                      <td>Host for HTTP transport</td>
+                      <td><code>127.0.0.1</code></td>
+                      <td><code>0.0.0.0</code>, <code>localhost</code></td>
+                    </tr>
+                    <tr>
+                      <td><code>ENDPOINT_PATH</code></td>
+                      <td>Endpoint path for HTTP transport</td>
+                      <td><code>/mcp</code></td>
+                      <td><code>/api/mcp</code></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="config-section">
+              <h3>Tool Management</h3>
+              <div class="config-table">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Variable</th>
+                      <th>Description</th>
+                      <th>Default</th>
+                      <th>Options</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><code>TOOLS_MODE</code></td>
+                      <td>Tools loading mode</td>
+                      <td><code>all</code></td>
+                      <td><code>all</code>, <code>dynamic</code>, <code>explicit</code></td>
+                    </tr>
+                    <tr>
+                      <td><code>DISABLE_ABBREVIATION</code></td>
+                      <td>Disable tool name abbreviation</td>
+                      <td><code>false</code></td>
+                      <td><code>true</code>, <code>false</code></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="config-example">
+              <h3>Environment Variables Example</h3>
+              <div class="code-block">
+                <pre><code class="language-bash"># Required
+export API_BASE_URL="https://api.github.com"
+
+# OpenAPI Specification
+export OPENAPI_SPEC_PATH="https://api.github.com/openapi.json"
+
+# Authentication
+export API_HEADERS="Authorization:Bearer ghp_xxxxxxxxxxxx,Accept:application/vnd.github.v3+json"
+
+# Server Configuration
+export SERVER_NAME="github-mcp-server"
+export SERVER_VERSION="1.0.0"
+export NAMESPACE="github"
+
+# Transport
+export TRANSPORT_TYPE="http"
+export HTTP_PORT="8080"
+export HTTP_HOST="0.0.0.0"
+
+# Tool Management
+export TOOLS_MODE="all"
+export DISABLE_ABBREVIATION="false"
+
+# Run the server
+npx @lucid-spark/openapi-mcp-server</code></pre>
+              </div>
+            </div>
+          </section>
+
+          <!-- Command Line Arguments -->
+          <section id="cli-arguments" class="doc-section">
+            <h2>Command Line Arguments</h2>
+            <p>
+              All configuration options are available as command line arguments. This is ideal for CLI usage and testing:
+            </p>
+
+            <div class="cli-section">
+              <h3>Basic Usage</h3>
+              <div class="code-block">
+                <pre><code class="language-bash">npx @lucid-spark/openapi-mcp-server [options]</code></pre>
+              </div>
+            </div>
+
+            <div class="cli-section">
+              <h3>Required Arguments</h3>
+              <div class="config-table">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Argument</th>
+                      <th>Description</th>
+                      <th>Example</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><code>--api-base-url &lt;url&gt;</code></td>
+                      <td>Base URL for the API endpoints</td>
+                      <td><code>--api-base-url https://api.example.com</code></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="cli-section">
+              <h3>OpenAPI Specification Arguments</h3>
+              <div class="config-table">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Argument</th>
+                      <th>Description</th>
+                      <th>Example</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><code>--openapi-spec &lt;path-or-url&gt;</code></td>
+                      <td>Path or URL to OpenAPI specification</td>
+                      <td><code>--openapi-spec ./api-spec.yaml</code></td>
+                    </tr>
+                    <tr>
+                      <td><code>--spec-from-stdin</code></td>
+                      <td>Read OpenAPI spec from standard input</td>
+                      <td><code>--spec-from-stdin</code></td>
+                    </tr>
+                    <tr>
+                      <td><code>--spec-inline &lt;content&gt;</code></td>
+                      <td>Provide OpenAPI spec content directly</td>
+                      <td><code>--spec-inline '{"openapi":"3.0.0",...}'</code></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="cli-section">
+              <h3>Authentication Arguments</h3>
+              <div class="config-table">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Argument</th>
+                      <th>Description</th>
+                      <th>Example</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><code>--headers &lt;headers&gt;</code></td>
+                      <td>Comma-separated key:value pairs for API headers</td>
+                      <td><code>--headers "Authorization:Bearer token,X-API-Key:key"</code></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="cli-section">
+              <h3>Server Arguments</h3>
+              <div class="config-table">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Argument</th>
+                      <th>Description</th>
+                      <th>Default</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><code>--server-name &lt;name&gt;</code></td>
+                      <td>Name for the MCP server</td>
+                      <td><code>openapi-mcp-server</code></td>
+                    </tr>
+                    <tr>
+                      <td><code>--server-version &lt;version&gt;</code></td>
+                      <td>Version of the server</td>
+                      <td><code>1.0.0</code></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="cli-section">
+              <h3>Transport Arguments</h3>
+              <div class="config-table">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Argument</th>
+                      <th>Description</th>
+                      <th>Default</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><code>--transport &lt;type&gt;</code></td>
+                      <td>Transport type: stdio or http</td>
+                      <td><code>stdio</code></td>
+                    </tr>
+                    <tr>
+                      <td><code>--port &lt;port&gt;</code></td>
+                      <td>Port for HTTP transport</td>
+                      <td><code>3000</code></td>
+                    </tr>
+                    <tr>
+                      <td><code>--host &lt;host&gt;</code></td>
+                      <td>Host for HTTP transport</td>
+                      <td><code>127.0.0.1</code></td>
+                    </tr>
+                    <tr>
+                      <td><code>--endpoint-path &lt;path&gt;</code></td>
+                      <td>Endpoint path for HTTP transport</td>
+                      <td><code>/mcp</code></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="cli-section">
+              <h3>Tool Management Arguments</h3>
+              <div class="config-table">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Argument</th>
+                      <th>Description</th>
+                      <th>Default</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><code>--tools &lt;mode&gt;</code></td>
+                      <td>Tools loading mode: all, dynamic, or explicit</td>
+                      <td><code>all</code></td>
+                    </tr>
+                    <tr>
+                      <td><code>--tool &lt;tool&gt;</code></td>
+                      <td>Include specific tool ID or name (repeatable)</td>
+                      <td>-</td>
+                    </tr>
+                    <tr>
+                      <td><code>--tag &lt;tag&gt;</code></td>
+                      <td>Include tools with specific OpenAPI tag (repeatable)</td>
+                      <td>-</td>
+                    </tr>
+                    <tr>
+                      <td><code>--resource &lt;resource&gt;</code></td>
+                      <td>Include tools under specific resource path (repeatable)</td>
+                      <td>-</td>
+                    </tr>
+                    <tr>
+                      <td><code>--operation &lt;method&gt;</code></td>
+                      <td>Include tools for specific HTTP methods (repeatable)</td>
+                      <td>-</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="cli-section">
+              <h3>Other Arguments</h3>
+              <div class="config-table">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Argument</th>
+                      <th>Description</th>
+                      <th>Default</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><code>--disable-abbreviation</code></td>
+                      <td>Disable tool name abbreviation</td>
+                      <td><code>false</code></td>
+                    </tr>
+                    <tr>
+                      <td><code>--debug</code></td>
+                      <td>Enable debug logging</td>
+                      <td><code>false</code></td>
+                    </tr>
+                    <tr>
+                      <td><code>--help</code></td>
+                      <td>Display help information</td>
+                      <td>-</td>
+                    </tr>
+                    <tr>
+                      <td><code>--version</code></td>
+                      <td>Display version information</td>
+                      <td>-</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="cli-example">
+              <h3>Complete CLI Example</h3>
+              <div class="code-block">
+                <pre><code class="language-bash">npx @lucid-spark/openapi-mcp-server \
+  --api-base-url https://api.github.com \
+  --openapi-spec https://api.github.com/openapi.json \
+  --headers "Authorization:Bearer ghp_xxxxxxxxxxxx,Accept:application/vnd.github.v3+json" \
+  --server-name "github-mcp-server" \
+  --server-version "1.0.0" \
+  --transport http \
+  --port 8080 \
+  --host 0.0.0.0 \
+  --endpoint-path /api/mcp \
+  --tools all \
+  --tag public \
+  --operation GET \
+  --operation POST \
+  --debug</code></pre>
+              </div>
+            </div>
+          </section>
+
+          <!-- Library Configuration -->
+          <section id="library-config" class="doc-section">
+            <h2>Library Configuration</h2>
+            <p>
+              When using OpenAPI MCP Server as a library, configuration is provided through TypeScript/JavaScript objects:
+            </p>
+
+            <div class="config-section">
+              <h3>Basic Configuration</h3>
+              <div class="code-block">
+                <pre><code class="language-typescript">import { OpenAPIServer } from "@lucid-spark/openapi-mcp-server";
+
+const config = {
+  apiBaseUrl: "https://api.example.com",
+  openApiSpec: "https://api.example.com/openapi.json",
+  headers: {
+    Authorization: "Bearer your-token",
+    "X-API-Key": "your-api-key"
+  },
+  transportType: "stdio" as const
+};
+
+const server = new OpenAPIServer(config);
+await server.start();</code></pre>
+              </div>
+            </div>
+
+            <div class="config-section">
+              <h3>Advanced Configuration with AuthProvider</h3>
+              <div class="code-block">
+                <pre><code class="language-typescript">import { OpenAPIServer, IAuthProvider } from "@lucid-spark/openapi-mcp-server";
+
+class CustomAuthProvider implements IAuthProvider {
+  async getAuthHeaders(): Promise<Record<string, string>> {
+    // Dynamic authentication logic
+    return {
+      Authorization: `Bearer ${await this.getValidToken()}`,
+      "X-Custom-Header": "custom-value"
+    };
+  }
+
+  async handleAuthError(error: any): Promise<boolean> {
+    // Handle auth errors and retry logic
+    if (error.response?.status === 401) {
+      await this.refreshToken();
+      return true; // Retry request
+    }
+    return false;
+  }
+}
+
+const config = {
+  apiBaseUrl: "https://api.example.com",
+  openApiSpec: "./api-spec.yaml",
+  specInputMethod: "file" as const,
+  authProvider: new CustomAuthProvider(),
+  transportType: "http" as const,
+  httpPort: 8080,
+  toolsMode: "all" as const,
+  includeTags: ["users", "posts"],
+  debug: true
+};
+
+const server = new OpenAPIServer(config);</code></pre>
+              </div>
+            </div>
+
+            <div class="config-section">
+              <h3>Configuration Validation</h3>
+              <div class="code-block">
+                <pre><code class="language-typescript">import { validateConfig } from "@lucid-spark/openapi-mcp-server";
+
+// Validate configuration before creating server
+try {
+  const validatedConfig = validateConfig(config);
+  const server = new OpenAPIServer(validatedConfig);
+} catch (error) {
+  console.error("Configuration validation failed:", error.message);
+}</code></pre>
+              </div>
+            </div>
+          </section>
+
+          <!-- Claude Desktop Configuration -->
+          <section id="claude-config" class="doc-section">
+            <h2>Claude Desktop Configuration</h2>
+            <p>
+              Configure OpenAPI MCP Server for use with Claude Desktop:
+            </p>
+
+            <div class="config-section">
+              <h3>Configuration File Location</h3>
+              <ul>
+                <li><strong>macOS:</strong> <code>~/Library/Application Support/Claude/claude_desktop_config.json</code></li>
+                <li><strong>Windows:</strong> <code>%APPDATA%\Claude\claude_desktop_config.json</code></li>
+              </ul>
+            </div>
+
+            <div class="config-section">
+              <h3>Basic Configuration</h3>
+              <div class="code-block">
+                <pre><code class="language-json">{
+  "mcpServers": {
+    "openapi": {
+      "command": "npx",
+      "args": ["-y", "@lucid-spark/openapi-mcp-server"],
+      "env": {
+        "API_BASE_URL": "https://api.example.com",
+        "OPENAPI_SPEC_PATH": "https://api.example.com/openapi.json",
+        "API_HEADERS": "Authorization:Bearer token123"
+      }
+    }
+  }
+}</code></pre>
+              </div>
+            </div>
+
+            <div class="config-section">
+              <h3>Configuration with Filtering</h3>
+              <div class="code-block">
+                <pre><code class="language-json">{
+  "mcpServers": {
+    "github-api": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@lucid-spark/openapi-mcp-server",
+        "--api-base-url",
+        "https://api.github.com",
+        "--openapi-spec",
+        "https://api.github.com/openapi.json",
+        "--tag",
+        "public",
+        "--operation",
+        "GET",
+        "--operation",
+        "POST"
+      ],
+      "env": {
+        "GITHUB_TOKEN": "ghp_xxxxxxxxxxxx",
+        "API_HEADERS": "Authorization:Bearer ${GITHUB_TOKEN},Accept:application/vnd.github.v3+json"
+      }
+    }
+  }
+}</code></pre>
+              </div>
+            </div>
+          </section>
+
+          <!-- Configuration Examples -->
+          <section id="examples" class="doc-section">
+            <h2>Configuration Examples</h2>
+
+            <div class="example-grid">
+              <div class="example-card">
+                <h3>Public API (No Auth)</h3>
+                <div class="code-block">
+                  <pre><code class="language-bash">export API_BASE_URL="https://jsonplaceholder.typicode.com"
+export OPENAPI_SPEC_PATH="https://jsonplaceholder.typicode.com/openapi.json"
+
+npx @lucid-spark/openapi-mcp-server</code></pre>
+                </div>
+              </div>
+
+              <div class="example-card">
+                <h3>API with Token Auth</h3>
+                <div class="code-block">
+                  <pre><code class="language-bash">export API_BASE_URL="https://api.github.com"
+export OPENAPI_SPEC_PATH="https://api.github.com/openapi.json"
+export API_HEADERS="Authorization:Bearer ghp_token,Accept:application/vnd.github.v3+json"
+
+npx @lucid-spark/openapi-mcp-server</code></pre>
+                </div>
+              </div>
+
+              <div class="example-card">
+                <h3>HTTP Transport</h3>
+                <div class="code-block">
+                  <pre><code class="language-bash">npx @lucid-spark/openapi-mcp-server \
+  --api-base-url https://api.example.com \
+  --openapi-spec ./api-spec.yaml \
+  --transport http \
+  --port 3000 \
+  --host 0.0.0.0</code></pre>
+                </div>
+              </div>
+
+              <div class="example-card">
+                <h3>Filtered Tools</h3>
+                <div class="code-block">
+                  <pre><code class="language-bash">npx @lucid-spark/openapi-mcp-server \
+  --api-base-url https://api.example.com \
+  --openapi-spec ./api-spec.yaml \
+  --tools explicit \
+  --tool GET::users \
+  --tool POST::users</code></pre>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Best Practices -->
+          <section id="best-practices" class="doc-section">
+            <h2>Configuration Best Practices</h2>
+
+            <div class="best-practices-grid">
+              <div class="practice-card">
+                <h3>🔐 Security</h3>
+                <ul>
+                  <li>Store sensitive data in environment variables</li>
+                  <li>Never commit API keys to version control</li>
+                  <li>Use IAM roles when possible</li>
+                  <li>Rotate tokens regularly</li>
+                </ul>
+              </div>
+
+              <div class="practice-card">
+                <h3>📦 Deployment</h3>
+                <ul>
+                  <li>Use environment variables for configuration</li>
+                  <li>Validate configuration at startup</li>
+                  <li>Use specific server names for identification</li>
+                  <li>Enable debug mode for troubleshooting</li>
+                </ul>
+              </div>
+
+              <div class="practice-card">
+                <h3>⚡ Performance</h3>
+                <ul>
+                  <li>Filter tools to reduce memory usage</li>
+                  <li>Use local files for large specs when possible</li>
+                  <li>Disable abbreviation only when necessary</li>
+                  <li>Monitor tool generation time</li>
+                </ul>
+              </div>
+
+              <div class="practice-card">
+                <h3>🛠️ Development</h3>
+                <ul>
+                  <li>Use CLI arguments for quick testing</li>
+                  <li>Enable debug mode during development</li>
+                  <li>Test with different tool modes</li>
+                  <li>Validate OpenAPI specs before deployment</li>
+                </ul>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-section">
+            <h4>OpenAPI MCP Server</h4>
+            <p>Connect any OpenAPI to Claude Desktop with dynamic tool generation.</p>
+          </div>
+          <div class="footer-section">
+            <h4>Documentation</h4>
+            <ul>
+              <li><a href="./installation.html">Installation</a></li>
+              <li><a href="./configuration.html">Configuration</a></li>
+              <li><a href="./authentication.html">Authentication</a></li>
+              <li><a href="./examples.html">Examples</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>&copy; 2024 OpenAPI MCP Server. Released under the MIT License.</p>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+  </body>
+</html>

@@ -1,0 +1,181 @@
+{
+  "name": "openapi-mcp-server",
+  "displayName": "OpenAPI MCP Server",
+  "description": "A generic Model Context Protocol (MCP) server that dynamically exposes OpenAPI-defined REST APIs as MCP tools. Enables Large Language Models like Claude to discover and interact with any OpenAPI-compliant API.",
+  "version": "1.0.0",
+  "license": "MIT",
+  "author": {
+    "name": "OpenAPI MCP Server Contributors",
+    "url": "https://github.com/lucivuc/openapi-mcp-server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lucivuc/openapi-mcp-server.git"
+  },
+  "homepage": "https://github.com/lucivuc/openapi-mcp-server#readme",
+  "bugs": {
+    "url": "https://github.com/lucivuc/openapi-mcp-server/issues"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "mcp-server",
+    "openapi",
+    "swagger",
+    "rest-api",
+    "claude",
+    "ai",
+    "agent",
+    "tools"
+  ],
+  "categories": ["API Integration", "Development Tools", "Web Services"],
+  "mcpVersion": "2025-03-26",
+  "runtime": {
+    "node": ">=18.0.0"
+  },
+  "installation": {
+    "npm": "@lucid-spark/openapi-mcp-server",
+    "docker": {
+      "image": "lucidspark/openapi-mcp-server",
+      "tags": ["latest", "1.0.0"]
+    }
+  },
+  "configuration": {
+    "required": ["apiBaseUrl"],
+    "properties": {
+      "apiBaseUrl": {
+        "type": "string",
+        "description": "Base URL for the API endpoints",
+        "examples": [
+          "https://api.example.com",
+          "https://petstore.swagger.io/v2"
+        ]
+      },
+      "openApiSpec": {
+        "type": "string",
+        "description": "Path, URL, or inline OpenAPI specification",
+        "examples": ["https://api.example.com/openapi.json", "./api-spec.yaml"]
+      },
+      "headers": {
+        "type": "object",
+        "description": "Static headers for API authentication",
+        "examples": [
+          {
+            "Authorization": "Bearer your-token",
+            "X-API-Key": "your-api-key"
+          }
+        ]
+      },
+      "transportType": {
+        "type": "string",
+        "enum": ["stdio", "http"],
+        "default": "stdio",
+        "description": "Transport method for MCP communication"
+      },
+      "toolsMode": {
+        "type": "string",
+        "enum": ["all", "dynamic", "explicit"],
+        "default": "all",
+        "description": "Controls which tools are loaded from the OpenAPI specification"
+      }
+    }
+  },
+  "usage": {
+    "stdio": {
+      "command": "npx",
+      "args": [
+        "@lucid-spark/openapi-mcp-server",
+        "--api-base-url",
+        "${API_BASE_URL}",
+        "--openapi-spec",
+        "${OPENAPI_SPEC}"
+      ],
+      "env": {
+        "API_BASE_URL": "https://api.example.com",
+        "OPENAPI_SPEC": "https://api.example.com/openapi.json",
+        "API_HEADERS": "Authorization:Bearer token,X-API-Key:key"
+      }
+    },
+    "docker": {
+      "stdio": {
+        "image": "lucidspark/openapi-mcp-server:latest",
+        "environment": {
+          "API_BASE_URL": "https://api.example.com",
+          "OPENAPI_SPEC_PATH": "https://api.example.com/openapi.json",
+          "TRANSPORT_TYPE": "stdio"
+        }
+      },
+      "http": {
+        "image": "lucidspark/openapi-mcp-server:latest",
+        "ports": ["3000:3000"],
+        "environment": {
+          "API_BASE_URL": "https://api.example.com",
+          "OPENAPI_SPEC_PATH": "https://api.example.com/openapi.json",
+          "TRANSPORT_TYPE": "http",
+          "HTTP_PORT": "3000",
+          "HTTP_HOST": "0.0.0.0"
+        }
+      }
+    }
+  },
+  "examples": [
+    {
+      "name": "Petstore API",
+      "description": "Example integration with the Swagger Petstore API",
+      "configuration": {
+        "apiBaseUrl": "https://petstore.swagger.io/v2",
+        "openApiSpec": "https://raw.githubusercontent.com/readmeio/oas-examples/main/3.0/json/petstore.json",
+        "headers": {
+          "accept": "application/json",
+          "api_key": "special-key"
+        }
+      }
+    },
+    {
+      "name": "JSONPlaceholder API",
+      "description": "Example integration with JSONPlaceholder fake REST API",
+      "configuration": {
+        "apiBaseUrl": "https://jsonplaceholder.typicode.com",
+        "openApiSpec": "./examples/jsonplaceholder-spec.json"
+      }
+    },
+    {
+      "name": "GitHub API",
+      "description": "Example integration with GitHub REST API",
+      "configuration": {
+        "apiBaseUrl": "https://api.github.com",
+        "openApiSpec": "https://api.github.com/openapi.json",
+        "headers": {
+          "Authorization": "Bearer ghp_xxxxxxxxxxxx",
+          "Accept": "application/vnd.github.v3+json"
+        }
+      }
+    }
+  ],
+  "features": [
+    "Dynamic tool generation from OpenAPI specifications",
+    "Flexible authentication (static headers and dynamic providers)",
+    "Multiple transport methods (stdio and HTTP)",
+    "Advanced tool filtering by tags, resources, operations",
+    "Built-in meta-tools for API exploration",
+    "Smart tool naming with abbreviation",
+    "Support for OpenAPI 2.0, 3.0, and 3.1 specifications",
+    "Multiple input methods (URL, file, stdin, inline)",
+    "Comprehensive error handling and debugging"
+  ],
+  "capabilities": {
+    "tools": true,
+    "resources": false,
+    "prompts": false,
+    "sampling": false
+  },
+  "tags": [
+    "api",
+    "openapi",
+    "swagger",
+    "rest",
+    "integration",
+    "tools",
+    "dynamic"
+  ]
+}

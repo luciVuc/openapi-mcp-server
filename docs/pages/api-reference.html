@@ -1,0 +1,923 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>API Reference - OpenAPI MCP Server</title>
+    <meta
+      name="description"
+      content="Complete API reference for OpenAPI MCP Server including TypeScript interfaces, method signatures, and library usage patterns."
+    />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/components.css" />
+    <link rel="stylesheet" href="../css/responsive.css" />
+
+    <!-- Syntax highlighting -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <!-- Navigation -->
+    <nav class="navbar">
+      <div class="nav-container">
+        <div class="nav-brand">
+          <a class="nav-brand" href="../index.html">
+            <img
+              src="../assets/logo.svg"
+              alt="OpenAPI MCP Server"
+              class="nav-logo"
+            />
+            <span class="nav-title">OpenAPI MCP Server</span>
+          </a>
+        </div>
+        <div class="nav-menu">
+          <a href="../index.html" class="nav-link">Home</a>
+          <a href="../index.html#features" class="nav-link">Features</a>
+          <a href="../index.html#quickstart" class="nav-link">Quick Start</a>
+          <a href="../index.html#documentation" class="nav-link">Documentation</a>
+          <a href="../index.html#examples" class="nav-link">Examples</a>
+          <a
+            href="https://github.com/lucivuc/openapi-mcp-server"
+            class="nav-link"
+            target="_blank"
+          >
+            <svg class="github-icon" viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+            </svg>
+            GitHub
+          </a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div class="container">
+        <div class="doc-header">
+          <h1 class="doc-title">API Reference</h1>
+          <p class="doc-subtitle">
+            Complete API reference including TypeScript interfaces, method signatures, and library usage patterns.
+          </p>
+        </div>
+
+        <div class="doc-content">
+          <!-- Package Exports -->
+          <section id="exports" class="doc-section">
+            <h2>Package Exports</h2>
+            <p>
+              The OpenAPI MCP Server exports a comprehensive set of classes, interfaces, and utilities for building custom MCP servers:
+            </p>
+            
+            <div class="exports-grid">
+              <div class="export-category">
+                <h3>🏗️ Core Classes</h3>
+                <div class="code-block">
+                  <pre><code class="language-typescript">import {
+  OpenAPIServer,      // Main server implementation
+  validateConfig,     // Configuration validation
+  DEFAULT_CONFIG      // Default configuration values
+} from "@lucid-spark/openapi-mcp-server";</code></pre>
+                </div>
+              </div>
+
+              <div class="export-category">
+                <h3>🔐 Authentication</h3>
+                <div class="code-block">
+                  <pre><code class="language-typescript">import {
+  StaticAuthProvider, // Static header authentication
+  isAuthError        // Authentication error detection
+} from "@lucid-spark/openapi-mcp-server";</code></pre>
+                </div>
+              </div>
+
+              <div class="export-category">
+                <h3>🛠️ Tool Management</h3>
+                <div class="code-block">
+                  <pre><code class="language-typescript">import {
+  createToolFromOperation, // Create tools from OpenAPI operations
+  createMetaTools,        // Create meta-tools for API exploration
+  ToolsManager           // Tool filtering and management
+} from "@lucid-spark/openapi-mcp-server";</code></pre>
+                </div>
+              </div>
+
+              <div class="export-category">
+                <h3>🔧 Utilities</h3>
+                <div class="code-block">
+                  <pre><code class="language-typescript">import {
+  generateToolId,     // Generate tool IDs
+  parseToolId,       // Parse tool IDs
+  generateToolName,  // Generate tool names
+  ApiClient,         // HTTP client for API requests
+  logger            // Logging utilities
+} from "@lucid-spark/openapi-mcp-server";</code></pre>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- OpenAPIServer Class -->
+          <section id="openapi-server" class="doc-section">
+            <h2>OpenAPIServer Class</h2>
+            <p>
+              The main server class that orchestrates OpenAPI specification loading, tool generation, and MCP protocol communication.
+            </p>
+
+            <div class="api-section">
+              <h3>Constructor</h3>
+              <div class="code-block">
+                <pre><code class="language-typescript">class OpenAPIServer {
+  constructor(config: IOpenAPIServerConfig)
+}</code></pre>
+              </div>
+              <p>Creates a new OpenAPI MCP Server instance with the provided configuration.</p>
+              <div class="param-table">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Parameter</th>
+                      <th>Type</th>
+                      <th>Description</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><code>config</code></td>
+                      <td><code>IOpenAPIServerConfig</code></td>
+                      <td>Server configuration object</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="api-section">
+              <h3>Methods</h3>
+              
+              <div class="method-item">
+                <h4>start()</h4>
+                <div class="code-block">
+                  <pre><code class="language-typescript">async start(): Promise<void></code></pre>
+                </div>
+                <p>Starts the MCP server, initializes transport, loads OpenAPI specification, and generates tools.</p>
+                <div class="method-details">
+                  <p><strong>Returns:</strong> Promise that resolves when server is ready</p>
+                  <p><strong>Throws:</strong> Error if configuration is invalid or server fails to start</p>
+                </div>
+              </div>
+
+              <div class="method-item">
+                <h4>stop()</h4>
+                <div class="code-block">
+                  <pre><code class="language-typescript">async stop(): Promise<void></code></pre>
+                </div>
+                <p>Gracefully stops the MCP server and cleans up resources.</p>
+              </div>
+
+              <div class="method-item">
+                <h4>getStats()</h4>
+                <div class="code-block">
+                  <pre><code class="language-typescript">getStats(): ServerStats</code></pre>
+                </div>
+                <p>Returns server statistics including tool counts and OpenAPI information.</p>
+                <div class="code-block">
+                  <pre><code class="language-typescript">interface ServerStats {
+  tools: {
+    total: number;
+    endpointTools: number;
+    metaTools: number;
+  };
+  openapi: {
+    version: string;
+    paths: number;
+    operations: number;
+  };
+  filtering?: {
+    applied: boolean;
+    includedTags?: string[];
+    includedOperations?: string[];
+  };
+}</code></pre>
+                </div>
+              </div>
+
+              <div class="method-item">
+                <h4>testConnection()</h4>
+                <div class="code-block">
+                  <pre><code class="language-typescript">async testConnection(): Promise<boolean></code></pre>
+                </div>
+                <p>Tests connectivity to the configured API endpoint.</p>
+                <div class="method-details">
+                  <p><strong>Returns:</strong> Promise resolving to true if connection successful</p>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Configuration Interface -->
+          <section id="configuration-interface" class="doc-section">
+            <h2>Configuration Interface</h2>
+            <p>
+              The complete TypeScript interface for server configuration:
+            </p>
+
+            <div class="code-block">
+              <pre><code class="language-typescript">interface IOpenAPIServerConfig {
+  // Required Configuration
+  apiBaseUrl: string;              // Base URL for API endpoints
+
+  // OpenAPI Specification
+  openApiSpec?: string;            // Path, URL, or inline content
+  specInputMethod?: SpecInputMethod; // 'url' | 'file' | 'stdin' | 'inline'
+
+  // Server Identity
+  name?: string;                   // Server name (default: 'openapi-mcp-server')
+  version?: string;                // Server version (default: '1.0.0')
+  namespace?: string;              // Namespace for the MCP server tools
+
+  // Authentication (choose one)
+  headers?: Record<string, string>; // Static headers
+  authProvider?: IAuthProvider;    // Dynamic authentication
+
+  // Transport Configuration
+  transportType?: TransportType;   // 'stdio' | 'http' (default: 'stdio')
+  httpPort?: number;               // HTTP port (default: 3000)
+  httpHost?: string;               // HTTP host (default: '127.0.0.1')
+  endpointPath?: string;           // HTTP endpoint (default: '/mcp')
+
+  // Tool Management
+  toolsMode?: ToolsMode;           // 'all' | 'dynamic' | 'explicit'
+  includeTools?: string[];         // Specific tools to include
+  includeTags?: string[];          // OpenAPI tags to include
+  includeResources?: string[];     // Resource paths to include
+  includeOperations?: string[];    // HTTP methods to include
+
+  // Options
+  disableAbbreviation?: boolean;   // Disable tool name abbreviation
+  debug?: boolean;                 // Enable debug logging
+}</code></pre>
+            </div>
+
+            <div class="config-types">
+              <h3>Related Types</h3>
+              <div class="code-block">
+                <pre><code class="language-typescript">type SpecInputMethod = 'url' | 'file' | 'stdin' | 'inline';
+type TransportType = 'stdio' | 'http';
+type ToolsMode = 'all' | 'dynamic' | 'explicit';
+type HttpMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE' | 'HEAD' | 'OPTIONS';</code></pre>
+              </div>
+            </div>
+          </section>
+
+          <!-- Authentication Interfaces -->
+          <section id="auth-interfaces" class="doc-section">
+            <h2>Authentication Interfaces</h2>
+
+            <div class="api-section">
+              <h3>IAuthProvider Interface</h3>
+              <div class="code-block">
+                <pre><code class="language-typescript">interface IAuthProvider {
+  /**
+   * Get authentication headers for the current request
+   * Called before each API request to get fresh headers
+   */
+  getAuthHeaders(): Promise<Record<string, string>>;
+
+  /**
+   * Handle authentication errors from API responses
+   * Called when the API returns 401 or 403 errors
+   * Return true to retry the request, false otherwise
+   */
+  handleAuthError(error: AxiosError): Promise<boolean>;
+}</code></pre>
+              </div>
+            </div>
+
+            <div class="api-section">
+              <h3>StaticAuthProvider Class</h3>
+              <div class="code-block">
+                <pre><code class="language-typescript">class StaticAuthProvider implements IAuthProvider {
+  constructor(headers: Record<string, string>);
+  
+  async getAuthHeaders(): Promise<Record<string, string>>;
+  async handleAuthError(error: AxiosError): Promise<boolean>;
+}</code></pre>
+              </div>
+              <p>A built-in implementation for static header authentication.</p>
+            </div>
+
+            <div class="api-section">
+              <h3>Authentication Utilities</h3>
+              <div class="code-block">
+                <pre><code class="language-typescript">/**
+ * Check if an error is authentication-related
+ */
+function isAuthError(error: any): boolean;
+
+// Usage example
+try {
+  await apiRequest();
+} catch (error) {
+  if (isAuthError(error)) {
+    // Handle authentication failure
+    await refreshToken();
+  }
+}</code></pre>
+              </div>
+            </div>
+          </section>
+
+          <!-- Tool Management APIs -->
+          <section id="tool-apis" class="doc-section">
+            <h2>Tool Management APIs</h2>
+
+            <div class="api-section">
+              <h3>Tool Creation Functions</h3>
+              
+              <div class="method-item">
+                <h4>createToolFromOperation</h4>
+                <div class="code-block">
+                  <pre><code class="language-typescript">function createToolFromOperation(
+  path: string,
+  method: string,
+  operation: IOperation,
+  disableAbbreviation?: boolean
+): ITool;</code></pre>
+                </div>
+                <p>Creates an MCP tool from an OpenAPI operation.</p>
+                <div class="param-table">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Parameter</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td><code>path</code></td>
+                        <td><code>string</code></td>
+                        <td>OpenAPI path (e.g., "/users/{id}")</td>
+                      </tr>
+                      <tr>
+                        <td><code>method</code></td>
+                        <td><code>string</code></td>
+                        <td>HTTP method (GET, POST, etc.)</td>
+                      </tr>
+                      <tr>
+                        <td><code>operation</code></td>
+                        <td><code>IOperation</code></td>
+                        <td>OpenAPI operation object</td>
+                      </tr>
+                      <tr>
+                        <td><code>disableAbbreviation</code></td>
+                        <td><code>boolean</code></td>
+                        <td>Skip name abbreviation (optional)</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <div class="method-item">
+                <h4>createMetaTools</h4>
+                <div class="code-block">
+                  <pre><code class="language-typescript">function createMetaTools(): ITool[];</code></pre>
+                </div>
+                <p>Creates the three built-in meta-tools for API exploration.</p>
+                <div class="method-details">
+                  <p><strong>Returns:</strong> Array containing:</p>
+                  <ul>
+                    <li><code>list-api-endpoints</code> - List available endpoints</li>
+                    <li><code>get-api-endpoint-schema</code> - Get endpoint schema</li>
+                    <li><code>invoke-api-endpoint</code> - Invoke endpoint dynamically</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div class="api-section">
+              <h3>ToolsManager Class</h3>
+              <div class="code-block">
+                <pre><code class="language-typescript">class ToolsManager {
+  constructor(config: IToolsFilter, openApiSpec: any);
+  
+  generateTools(disableAbbreviation?: boolean): ITool[];
+  filterTools(tools: ITool[]): ITool[];
+  getToolById(toolId: string): ITool | undefined;
+  getStats(): ToolsStats;
+}</code></pre>
+              </div>
+              <p>Manages tool generation and filtering from OpenAPI specifications.</p>
+            </div>
+
+            <div class="api-section">
+              <h3>Tool Utility Functions</h3>
+              
+              <div class="utility-grid">
+                <div class="utility-item">
+                  <h4>Tool ID Functions</h4>
+                  <div class="code-block small">
+                    <pre><code class="language-typescript">generateToolId(method: string, path: string): string;
+parseToolId(toolId: string): { method: string; path: string };
+isValidToolId(toolId: string): boolean;</code></pre>
+                  </div>
+                </div>
+
+                <div class="utility-item">
+                  <h4>Tool Name Functions</h4>
+                  <div class="code-block small">
+                    <pre><code class="language-typescript">generateToolName(input: string, disableAbbreviation?: boolean): string;
+isValidToolName(name: string): boolean;</code></pre>
+                  </div>
+                </div>
+
+                <div class="utility-item">
+                  <h4>Validation Functions</h4>
+                  <div class="code-block small">
+                    <pre><code class="language-typescript">isValidHttpMethod(method: string): method is HttpMethod;
+extractResourceName(path: string): string | undefined;</code></pre>
+                  </div>
+                </div>
+
+                <div class="utility-item">
+                  <h4>Constants</h4>
+                  <div class="code-block small">
+                    <pre><code class="language-typescript">const HTTP_METHODS: HttpMethod[];
+// ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS']</code></pre>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Type Definitions -->
+          <section id="type-definitions" class="doc-section">
+            <h2>Type Definitions</h2>
+
+            <div class="type-section">
+              <h3>Core Types</h3>
+              
+              <div class="type-item">
+                <h4>ITool Interface</h4>
+                <div class="code-block">
+                  <pre><code class="language-typescript">interface ITool {
+  name: string;                    // Tool name (≤64 chars, [a-z0-9-]+)
+  description: string;             // Human-readable description
+  inputSchema: any;               // JSON schema for input parameters
+  tags?: string[];                // OpenAPI tags
+  method: string;                 // HTTP method
+  resourceName?: string;          // Extracted resource name
+  toolId: string;                 // Unique tool identifier
+}</code></pre>
+                </div>
+              </div>
+
+              <div class="type-item">
+                <h4>IOperation Interface</h4>
+                <div class="code-block">
+                  <pre><code class="language-typescript">interface IOperation {
+  operationId?: string;           // OpenAPI operation ID
+  summary?: string;               // Operation summary
+  description?: string;           // Operation description
+  tags?: string[];               // OpenAPI tags
+  parameters?: IParameter[];      // Operation parameters
+  requestBody?: any;             // Request body schema
+  responses?: any;               // Response schemas
+  security?: any[];              // Security requirements
+}</code></pre>
+                </div>
+              </div>
+
+              <div class="type-item">
+                <h4>IParameter Interface</h4>
+                <div class="code-block">
+                  <pre><code class="language-typescript">interface IParameter {
+  name: string;                   // Parameter name
+  in: 'path' | 'query' | 'header' | 'cookie'; // Parameter location
+  required?: boolean;             // Whether parameter is required
+  schema?: any;                  // Parameter schema
+  description?: string;           // Parameter description
+}</code></pre>
+                </div>
+              </div>
+            </div>
+
+            <div class="type-section">
+              <h3>Transport Types</h3>
+              <div class="code-block">
+                <pre><code class="language-typescript">interface ITransportConfig {
+  transportType: TransportType;
+  httpPort?: number;
+  httpHost?: string;
+  endpointPath?: string;
+}
+
+abstract class BaseTransportHandler {
+  constructor(server: Server);
+  abstract start(): Promise<void>;
+  abstract stop(): Promise<void>;
+}</code></pre>
+              </div>
+            </div>
+
+            <div class="type-section">
+              <h3>Filter Types</h3>
+              <div class="code-block">
+                <pre><code class="language-typescript">interface IToolsFilter {
+  toolsMode: ToolsMode;
+  includeTools?: string[];
+  includeTags?: string[];
+  includeResources?: string[];
+  includeOperations?: string[];
+}</code></pre>
+              </div>
+            </div>
+          </section>
+
+          <!-- API Client -->
+          <section id="api-client" class="doc-section">
+            <h2>ApiClient Class</h2>
+            <p>
+              HTTP client for making authenticated requests to OpenAPI endpoints.
+            </p>
+
+            <div class="api-section">
+              <h3>Constructor</h3>
+              <div class="code-block">
+                <pre><code class="language-typescript">class ApiClient {
+  constructor(
+    baseUrl: string,
+    authProvider?: IAuthProvider,
+    headers?: Record<string, string>
+  );
+}</code></pre>
+              </div>
+            </div>
+
+            <div class="api-section">
+              <h3>Methods</h3>
+              
+              <div class="method-item">
+                <h4>request()</h4>
+                <div class="code-block">
+                  <pre><code class="language-typescript">async request(
+  method: HttpMethod,
+  path: string,
+  params?: Record<string, any>,
+  headers?: Record<string, string>
+): Promise<any>;</code></pre>
+                </div>
+                <p>Makes an authenticated HTTP request to the specified endpoint.</p>
+              </div>
+
+              <div class="method-item">
+                <h4>testConnection()</h4>
+                <div class="code-block">
+                  <pre><code class="language-typescript">async testConnection(): Promise<boolean>;</code></pre>
+                </div>
+                <p>Tests connectivity to the base URL.</p>
+              </div>
+            </div>
+          </section>
+
+          <!-- Configuration Validation -->
+          <section id="config-validation" class="doc-section">
+            <h2>Configuration Validation</h2>
+
+            <div class="api-section">
+              <h3>validateConfig Function</h3>
+              <div class="code-block">
+                <pre><code class="language-typescript">function validateConfig(config: IOpenAPIServerConfig): IOpenAPIServerConfig;</code></pre>
+              </div>
+              <p>Validates and normalizes server configuration, applying defaults where needed.</p>
+              <div class="method-details">
+                <p><strong>Returns:</strong> Validated configuration object</p>
+                <p><strong>Throws:</strong> Error if configuration is invalid</p>
+              </div>
+
+              <div class="usage-example">
+                <h4>Usage Example</h4>
+                <div class="code-block">
+                  <pre><code class="language-typescript">import { validateConfig } from "@lucid-spark/openapi-mcp-server";
+
+try {
+  const config = validateConfig({
+    apiBaseUrl: "https://api.example.com",
+    openApiSpec: "./api-spec.yaml",
+    transportType: "stdio"
+  });
+  
+  console.log("Configuration is valid:", config);
+} catch (error) {
+  console.error("Configuration error:", error.message);
+}</code></pre>
+                </div>
+              </div>
+            </div>
+
+            <div class="api-section">
+              <h3>DEFAULT_CONFIG Constant</h3>
+              <div class="code-block">
+                <pre><code class="language-typescript">const DEFAULT_CONFIG: Partial<IOpenAPIServerConfig> = {
+  name: "openapi-mcp-server",
+  version: "1.0.0",
+  specInputMethod: "url",
+  transportType: "stdio",
+  httpPort: 3000,
+  httpHost: "127.0.0.1",
+  endpointPath: "/mcp",
+  toolsMode: "all",
+  disableAbbreviation: false,
+  debug: false
+};</code></pre>
+              </div>
+            </div>
+          </section>
+
+          <!-- Error Handling -->
+          <section id="error-handling" class="doc-section">
+            <h2>Error Handling</h2>
+
+            <div class="error-section">
+              <h3>Common Error Types</h3>
+              <div class="error-list">
+                <div class="error-item">
+                  <h4>Configuration Errors</h4>
+                  <p>Thrown when configuration validation fails</p>
+                  <div class="code-block small">
+                    <pre><code class="language-typescript">// Missing required apiBaseUrl
+throw new Error("apiBaseUrl is required");
+
+// Invalid transport type
+throw new Error("transportType must be 'stdio' or 'http'");</code></pre>
+                  </div>
+                </div>
+
+                <div class="error-item">
+                  <h4>OpenAPI Loading Errors</h4>
+                  <p>Thrown when OpenAPI specification cannot be loaded</p>
+                  <div class="code-block small">
+                    <pre><code class="language-typescript">// File not found
+throw new Error("OpenAPI spec file not found: ./api-spec.yaml");
+
+// Invalid JSON/YAML
+throw new Error("Invalid OpenAPI specification format");</code></pre>
+                  </div>
+                </div>
+
+                <div class="error-item">
+                  <h4>Authentication Errors</h4>
+                  <p>Thrown when API authentication fails</p>
+                  <div class="code-block small">
+                    <pre><code class="language-typescript">// Token expired
+throw new Error("Authentication token expired");
+
+// Invalid credentials
+throw new Error("API authentication failed: Invalid credentials");</code></pre>
+                  </div>
+                </div>
+
+                <div class="error-item">
+                  <h4>Network Errors</h4>
+                  <p>Thrown when network requests fail</p>
+                  <div class="code-block small">
+                    <pre><code class="language-typescript">// Connection refused
+throw new Error("Connection refused: Check API endpoint");
+
+// Timeout
+throw new Error("Request timeout: API did not respond");</code></pre>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="error-section">
+              <h3>Error Handling Best Practices</h3>
+              <div class="code-block">
+                <pre><code class="language-typescript">import { OpenAPIServer, isAuthError } from "@lucid-spark/openapi-mcp-server";
+
+async function startServer() {
+  try {
+    const server = new OpenAPIServer(config);
+    await server.start();
+    console.log("Server started successfully");
+    
+  } catch (error) {
+    if (error.message.includes("apiBaseUrl")) {
+      console.error("Configuration error:", error.message);
+    } else if (error.message.includes("OpenAPI")) {
+      console.error("Specification error:", error.message);
+    } else if (isAuthError(error)) {
+      console.error("Authentication error:", error.message);
+    } else {
+      console.error("Unexpected error:", error.message);
+    }
+    
+    process.exit(1);
+  }
+}</code></pre>
+              </div>
+            </div>
+          </section>
+
+          <!-- Examples -->
+          <section id="api-examples" class="doc-section">
+            <h2>Complete API Examples</h2>
+
+            <div class="example-section">
+              <h3>Basic Server Setup</h3>
+              <div class="code-block">
+                <pre><code class="language-typescript">import { OpenAPIServer, validateConfig } from "@lucid-spark/openapi-mcp-server";
+
+async function createBasicServer() {
+  const config = validateConfig({
+    apiBaseUrl: "https://api.example.com",
+    openApiSpec: "https://api.example.com/openapi.json",
+    headers: {
+      "Authorization": "Bearer your-token",
+      "Accept": "application/json"
+    }
+  });
+
+  const server = new OpenAPIServer(config);
+  
+  // Start server
+  await server.start();
+  
+  // Get statistics
+  const stats = server.getStats();
+  console.log(`Server running with ${stats.tools.total} tools`);
+  
+  // Test API connection
+  const connected = await server.testConnection();
+  console.log(`API connection: ${connected ? 'OK' : 'Failed'}`);
+}</code></pre>
+              </div>
+            </div>
+
+            <div class="example-section">
+              <h3>Custom Authentication Provider</h3>
+              <div class="code-block">
+                <pre><code class="language-typescript">import { OpenAPIServer, IAuthProvider } from "@lucid-spark/openapi-mcp-server";
+import { AxiosError } from "axios";
+
+class OAuth2AuthProvider implements IAuthProvider {
+  private accessToken: string;
+  private refreshToken: string;
+  private tokenExpiry: Date;
+
+  constructor(accessToken: string, refreshToken: string, expiresIn: number) {
+    this.accessToken = accessToken;
+    this.refreshToken = refreshToken;
+    this.tokenExpiry = new Date(Date.now() + expiresIn * 1000);
+  }
+
+  async getAuthHeaders(): Promise<Record<string, string>> {
+    if (this.isTokenExpiring()) {
+      await this.refreshAccessToken();
+    }
+
+    return {
+      Authorization: `Bearer ${this.accessToken}`
+    };
+  }
+
+  async handleAuthError(error: AxiosError): Promise<boolean> {
+    if (error.response?.status === 401) {
+      try {
+        await this.refreshAccessToken();
+        return true; // Retry request
+      } catch (refreshError) {
+        throw new Error("Token refresh failed");
+      }
+    }
+    return false;
+  }
+
+  private isTokenExpiring(): boolean {
+    const bufferTime = 60 * 1000; // 60 seconds
+    return this.tokenExpiry.getTime() <= (Date.now() + bufferTime);
+  }
+
+  private async refreshAccessToken(): Promise<void> {
+    // Implementation depends on your OAuth provider
+    const response = await fetch("https://oauth.example.com/token", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: new URLSearchParams({
+        grant_type: "refresh_token",
+        refresh_token: this.refreshToken
+      })
+    });
+
+    const data = await response.json();
+    this.accessToken = data.access_token;
+    this.refreshToken = data.refresh_token || this.refreshToken;
+    this.tokenExpiry = new Date(Date.now() + data.expires_in * 1000);
+  }
+}
+
+// Usage
+const authProvider = new OAuth2AuthProvider(
+  "access_token",
+  "refresh_token", 
+  3600
+);
+
+const server = new OpenAPIServer({
+  apiBaseUrl: "https://api.example.com",
+  openApiSpec: "./api-spec.yaml",
+  authProvider: authProvider
+});</code></pre>
+              </div>
+            </div>
+
+            <div class="example-section">
+              <h3>Tool Management</h3>
+              <div class="code-block">
+                <pre><code class="language-typescript">import { 
+  generateToolId, 
+  parseToolId, 
+  generateToolName,
+  createToolFromOperation 
+} from "@lucid-spark/openapi-mcp-server";
+
+// Generate tool ID
+const toolId = generateToolId("GET", "/users/{id}");
+console.log(toolId); // "GET::users__---id"
+
+// Parse tool ID
+const { method, path } = parseToolId(toolId);
+console.log(method, path); // "GET", "/users/{id}"
+
+// Generate tool name
+const toolName = generateToolName("getUserDetailsByIdentifier");
+console.log(toolName); // "get-usr-dtls-by-idntfr"
+
+// Create tool from OpenAPI operation
+const operation = {
+  operationId: "getUser",
+  summary: "Get user by ID",
+  parameters: [
+    {
+      name: "id",
+      in: "path",
+      required: true,
+      schema: { type: "string" }
+    }
+  ]
+};
+
+const tool = createToolFromOperation("/users/{id}", "GET", operation);
+console.log(tool.name); // "get-user"</code></pre>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-section">
+            <h4>OpenAPI MCP Server</h4>
+            <p>Connect any OpenAPI to Claude Desktop with dynamic tool generation.</p>
+          </div>
+          <div class="footer-section">
+            <h4>Documentation</h4>
+            <ul>
+              <li><a href="./installation.html">Installation</a></li>
+              <li><a href="./configuration.html">Configuration</a></li>
+              <li><a href="./authentication.html">Authentication</a></li>
+              <li><a href="./examples.html">Examples</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>&copy; 2024 OpenAPI MCP Server. Released under the MIT License.</p>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+  </body>
+</html>

@@ -1,0 +1,41 @@
+# Development Dockerfile for OpenAPI MCP Server
+# This creates a development image with hot reloading and debugging capabilities
+
+FROM node:18-alpine
+
+# Install development dependencies
+RUN apk add --no-cache git python3 make g++
+
+# Create app user
+RUN addgroup -g 1001 -S nodejs && \
+  adduser -S appuser -u 1001
+
+# Set working directory
+WORKDIR /app
+
+# Copy package files
+COPY package*.json ./
+
+# Install all dependencies (including dev dependencies)
+RUN npm ci
+
+# Copy source code
+COPY . .
+
+# Change ownership
+RUN chown -R appuser:nodejs /app
+
+# Switch to non-root user
+USER appuser
+
+# Expose ports
+EXPOSE 3000 9229
+
+# Set environment
+ENV NODE_ENV=development
+ENV TRANSPORT_TYPE=http
+ENV HTTP_PORT=3000
+ENV HTTP_HOST=0.0.0.0
+
+# Development command with hot reloading
+CMD ["npm", "run", "dev"]

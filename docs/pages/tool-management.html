@@ -1,0 +1,761 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tool Management - OpenAPI MCP Server</title>
+    <meta
+      name="description"
+      content="Complete guide to tool management in OpenAPI MCP Server including tool generation, filtering, naming conventions, meta-tools, and tool ID system."
+    />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/components.css" />
+    <link rel="stylesheet" href="../css/responsive.css" />
+
+    <!-- Syntax highlighting -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <!-- Navigation -->
+    <nav class="navbar">
+      <div class="nav-container">
+        <div class="nav-brand">
+          <a class="nav-brand" href="../index.html">
+            <img
+              src="../assets/logo.svg"
+              alt="OpenAPI MCP Server"
+              class="nav-logo"
+            />
+            <span class="nav-title">OpenAPI MCP Server</span>
+          </a>
+        </div>
+        <div class="nav-menu">
+          <a href="../index.html" class="nav-link">Home</a>
+          <a href="../index.html#features" class="nav-link">Features</a>
+          <a href="../index.html#quickstart" class="nav-link">Quick Start</a>
+          <a href="../index.html#documentation" class="nav-link">Documentation</a>
+          <a href="../index.html#examples" class="nav-link">Examples</a>
+          <a
+            href="https://github.com/lucivuc/openapi-mcp-server"
+            class="nav-link"
+            target="_blank"
+          >
+            <svg class="github-icon" viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+            </svg>
+            GitHub
+          </a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div class="container">
+        <div class="doc-header">
+          <h1 class="doc-title">Tool Management</h1>
+          <p class="doc-subtitle">
+            Complete guide to tool generation, filtering, naming conventions, meta-tools, and the tool ID system.
+          </p>
+        </div>
+
+        <div class="doc-content">
+          <!-- Tool System Overview -->
+          <section id="overview" class="doc-section">
+            <h2>Tool System Overview</h2>
+            <p>
+              OpenAPI MCP Server automatically converts OpenAPI operations into MCP tools, enabling AI systems to interact with REST APIs through standardized interfaces. The tool system provides intelligent generation, filtering, and management capabilities.
+            </p>
+            
+            <div class="system-features">
+              <div class="feature-item">
+                <h3>🔄 Dynamic Generation</h3>
+                <p>Automatically creates tools from OpenAPI specifications with intelligent naming and parameter mapping</p>
+              </div>
+              <div class="feature-item">
+                <h3>🎯 Advanced Filtering</h3>
+                <p>Filter tools by tags, resources, operations, or explicit lists to expose only what you need</p>
+              </div>
+              <div class="feature-item">
+                <h3>📝 Smart Naming</h3>
+                <p>Intelligent abbreviation system with ≤64 character limit and readable formats</p>
+              </div>
+              <div class="feature-item">
+                <h3>⚡ Meta-Tools</h3>
+                <p>Built-in API exploration and dynamic endpoint invocation capabilities</p>
+              </div>
+            </div>
+          </section>
+
+          <!-- Tool Generation -->
+          <section id="tool-generation" class="doc-section">
+            <h2>Tool Generation Process</h2>
+            <p>
+              Tools are automatically generated from OpenAPI operations using a sophisticated mapping process:
+            </p>
+
+            <div class="generation-steps">
+              <div class="step-item">
+                <h3>1. OpenAPI Parsing</h3>
+                <p>The server parses the OpenAPI specification and identifies all available operations</p>
+                <div class="code-block">
+                  <pre><code class="language-yaml"># OpenAPI specification example
+paths:
+  /users:
+    get:
+      operationId: getUsers
+      summary: List all users
+      tags: [users]
+      parameters:
+        - name: limit
+          in: query
+          schema:
+            type: integer
+    post:
+      operationId: createUser
+      summary: Create a new user
+      tags: [users]
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                email:
+                  type: string</code></pre>
+                </div>
+              </div>
+
+              <div class="step-item">
+                <h3>2. Tool ID Generation</h3>
+                <p>Each operation gets a unique tool ID using the format <code>METHOD::pathPart</code></p>
+                <div class="code-block">
+                  <pre><code class="language-text"># Examples of tool ID generation
+GET /users                     → GET::users
+POST /users                    → POST::users
+GET /users/{id}                → GET::users__---id
+PUT /api/v1/users/{id}/profile → PUT::api__v1__users__---id__profile
+
+# Path encoding rules:
+# - Double underscores (__) separate path segments
+# - Triple dashes (---) indicate path parameters
+# - Leading/trailing slashes are removed</code></pre>
+                </div>
+              </div>
+
+              <div class="step-item">
+                <h3>3. Tool Name Generation</h3>
+                <p>Human-readable names are generated with intelligent abbreviation for the 64-character limit</p>
+                <div class="code-block">
+                  <pre><code class="language-typescript">// Name generation priority:
+// 1. operationId (if present)
+// 2. summary (if operationId missing)  
+// 3. Generated from method + path (fallback)
+
+"getUsers" → "get-users"
+"ServiceUsersManagementController_updateUser" → "svc-usrs-mgmt-upd-usr-a1b2"
+"List all active user accounts" → "list-all-actv-usr-accnts"</code></pre>
+                </div>
+              </div>
+
+              <div class="step-item">
+                <h3>4. Schema Mapping</h3>
+                <p>Parameters and request bodies are mapped to MCP tool input schemas</p>
+                <div class="code-block">
+                  <pre><code class="language-json">{
+  "type": "object",
+  "properties": {
+    "limit": {
+      "type": "integer",
+      "description": "Maximum number of users to return"
+    },
+    "name": {
+      "type": "string", 
+      "description": "User's full name"
+    },
+    "email": {
+      "type": "string",
+      "format": "email",
+      "description": "User's email address"
+    }
+  },
+  "required": ["name", "email"]
+}</code></pre>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Tool ID System -->
+          <section id="tool-id-system" class="doc-section">
+            <h2>Tool ID System</h2>
+            <p>
+              The tool ID system provides a robust way to identify and reference tools, even with complex OpenAPI paths.
+            </p>
+
+            <div class="id-section">
+              <h3>ID Format</h3>
+              <p>Tool IDs follow the format: <code>METHOD::pathPart</code></p>
+              <div class="code-block">
+                <pre><code class="language-text"># Basic examples
+GET::users                    # GET /users
+POST::users                   # POST /users
+DELETE::users__123            # DELETE /users/123
+
+# Path parameters
+GET::users__---id             # GET /users/{id}
+PUT::users__---id__profile    # PUT /users/{id}/profile
+
+# Complex paths
+GET::api__v1__users__---userId__orders__---orderId__items
+# Represents: GET /api/v1/users/{userId}/orders/{orderId}/items</code></pre>
+              </div>
+            </div>
+
+            <div class="id-section">
+              <h3>Path Encoding Rules</h3>
+              <div class="encoding-table">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Original</th>
+                      <th>Encoded</th>
+                      <th>Description</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><code>/</code></td>
+                      <td><code>__</code></td>
+                      <td>Path separators become double underscores</td>
+                    </tr>
+                    <tr>
+                      <td><code>{param}</code></td>
+                      <td><code>---param</code></td>
+                      <td>Path parameters get triple dash prefix</td>
+                    </tr>
+                    <tr>
+                      <td><code>/api/v1/</code></td>
+                      <td><code>api__v1</code></td>
+                      <td>Leading/trailing slashes removed</td>
+                    </tr>
+                    <tr>
+                      <td><code>//users//</code></td>
+                      <td><code>users</code></td>
+                      <td>Multiple slashes collapsed</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="id-section">
+              <h3>ID Parsing and Validation</h3>
+              <div class="code-block">
+                <pre><code class="language-typescript">import { parseToolId, isValidToolId } from "@lucid-spark/openapi-mcp-server";
+
+// Parse tool ID back to method and path
+const { method, path } = parseToolId("GET::api__v1__users__---id");
+// Returns: { method: "GET", path: "/api/v1/users/{id}" }
+
+// Validate tool ID format
+const isValid = isValidToolId("POST::users");
+// Returns: true
+
+const isInvalid = isValidToolId("invalid-id");
+// Returns: false</code></pre>
+              </div>
+            </div>
+          </section>
+
+          <!-- Tool Name Generation -->
+          <section id="tool-naming" class="doc-section">
+            <h2>Tool Name Generation</h2>
+            <p>
+              Tool names must be ≤64 characters and follow the pattern <code>[a-z0-9-]+</code>. The system uses intelligent abbreviation to ensure compliance.
+            </p>
+
+            <div class="naming-section">
+              <h3>Name Generation Priority</h3>
+              <ol>
+                <li><strong>operationId</strong> - If present in OpenAPI spec</li>
+                <li><strong>summary</strong> - If operationId is missing</li>
+                <li><strong>Generated name</strong> - From HTTP method and path as fallback</li>
+              </ol>
+            </div>
+
+            <div class="naming-section">
+              <h3>Abbreviation Process</h3>
+              <div class="abbreviation-steps">
+                <div class="abbrev-step">
+                  <h4>1. Initial Sanitization</h4>
+                  <p>Convert to lowercase and replace non-alphanumeric characters with hyphens</p>
+                  <div class="code-block small">
+                    <pre><code>"getUserDetails" → "getuserdetails"
+"Service_Users_Management" → "service-users-management"</code></pre>
+                  </div>
+                </div>
+
+                <div class="abbrev-step">
+                  <h4>2. Word Splitting</h4>
+                  <p>Split on camelCase, underscores, hyphens, and number boundaries</p>
+                  <div class="code-block small">
+                    <pre><code>"getUserDetails" → ["get", "user", "details"]
+"apiV1Users" → ["api", "v1", "users"]</code></pre>
+                  </div>
+                </div>
+
+                <div class="abbrev-step">
+                  <h4>3. Common Word Removal</h4>
+                  <p>Remove common API terms like "controller", "service", "api", etc.</p>
+                  <div class="code-block small">
+                    <pre><code>["user", "service", "controller"] → ["user"]
+["api", "v1", "users"] → ["v1", "users"]</code></pre>
+                  </div>
+                </div>
+
+                <div class="abbrev-step">
+                  <h4>4. Standard Abbreviations</h4>
+                  <p>Apply standard abbreviations for common terms</p>
+                  <div class="code-block small">
+                    <pre><code>"service" → "svc"
+"management" → "mgmt"
+"authentication" → "auth"
+"configuration" → "config"</code></pre>
+                  </div>
+                </div>
+
+                <div class="abbrev-step">
+                  <h4>5. Vowel Removal</h4>
+                  <p>Remove vowels from words longer than 5 characters</p>
+                  <div class="code-block small">
+                    <pre><code>"details" → "dtls"
+"information" → "nfrmtn"
+"administrator" → "dmn"</code></pre>
+                  </div>
+                </div>
+
+                <div class="abbrev-step">
+                  <h4>6. Hash Addition</h4>
+                  <p>Add 4-character hash if still too long or input was very long</p>
+                  <div class="code-block small">
+                    <pre><code>"very-long-operation-name" → "very-lng-oprtn-nm-a1b2"</code></pre>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="naming-section">
+              <h3>Disabling Abbreviation</h3>
+              <p>You can disable abbreviation if you prefer full names (may cause errors with long names):</p>
+              <div class="code-block">
+                <pre><code class="language-bash"># CLI usage
+npx @lucid-spark/openapi-mcp-server \
+  --api-base-url https://api.example.com \
+  --openapi-spec ./api-spec.yaml \
+  --disable-abbreviation</code></pre>
+              </div>
+              <div class="code-block">
+                <pre><code class="language-typescript">// Library usage
+const server = new OpenAPIServer({
+  // ... other config
+  disableAbbreviation: true
+});</code></pre>
+              </div>
+            </div>
+          </section>
+
+          <!-- Tool Filtering -->
+          <section id="tool-filtering" class="doc-section">
+            <h2>Tool Filtering</h2>
+            <p>
+              Control which tools are generated from your OpenAPI specification using various filtering options.
+            </p>
+
+            <div class="filtering-section">
+              <h3>Tools Mode</h3>
+              <p>Choose how tools are loaded from your API specification:</p>
+              
+              <div class="mode-grid">
+                <div class="mode-card">
+                  <h4>🌟 All Mode (Default)</h4>
+                  <p>Load all tools from the OpenAPI spec, applying any specified filters</p>
+                  <div class="code-block small">
+                    <pre><code class="language-bash">--tools all</code></pre>
+                  </div>
+                </div>
+                
+                <div class="mode-card">
+                  <h4>⚡ Dynamic Mode</h4>
+                  <p>Load only meta-tools for API exploration and dynamic invocation</p>
+                  <div class="code-block small">
+                    <pre><code class="language-bash">--tools dynamic</code></pre>
+                  </div>
+                </div>
+                
+                <div class="mode-card">
+                  <h4>🎯 Explicit Mode</h4>
+                  <p>Load only tools explicitly listed with --tool options</p>
+                  <div class="code-block small">
+                    <pre><code class="language-bash">--tools explicit --tool GET::users --tool POST::users</code></pre>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="filtering-section">
+              <h3>Filter Types</h3>
+              
+              <div class="filter-grid">
+                <div class="filter-card">
+                  <h4>By Tool ID/Name</h4>
+                  <p>Include specific tools by their ID or name</p>
+                  <div class="code-block small">
+                    <pre><code class="language-bash">--tool GET::users
+--tool post-users
+--tool "user-management"</code></pre>
+                  </div>
+                </div>
+                
+                <div class="filter-card">
+                  <h4>By OpenAPI Tags</h4>
+                  <p>Include tools tagged with specific labels</p>
+                  <div class="code-block small">
+                    <pre><code class="language-bash">--tag users
+--tag public
+--tag admin</code></pre>
+                  </div>
+                </div>
+                
+                <div class="filter-card">
+                  <h4>By Resource Path</h4>
+                  <p>Include tools under specific resource paths</p>
+                  <div class="code-block small">
+                    <pre><code class="language-bash">--resource users
+--resource auth
+--resource api/v1</code></pre>
+                  </div>
+                </div>
+                
+                <div class="filter-card">
+                  <h4>By HTTP Method</h4>
+                  <p>Include tools for specific HTTP operations</p>
+                  <div class="code-block small">
+                    <pre><code class="language-bash">--operation GET
+--operation POST
+--operation PUT</code></pre>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="filtering-section">
+              <h3>Filtering Examples</h3>
+              
+              <div class="example-grid">
+                <div class="example-card">
+                  <h4>Read-only API Access</h4>
+                  <div class="code-block small">
+                    <pre><code class="language-bash">npx @lucid-spark/openapi-mcp-server \
+  --api-base-url https://api.example.com \
+  --openapi-spec ./api-spec.yaml \
+  --operation GET \
+  --operation HEAD</code></pre>
+                  </div>
+                </div>
+                
+                <div class="example-card">
+                  <h4>User Management Only</h4>
+                  <div class="code-block small">
+                    <pre><code class="language-bash">npx @lucid-spark/openapi-mcp-server \
+  --api-base-url https://api.example.com \
+  --openapi-spec ./api-spec.yaml \
+  --tag users \
+  --resource users</code></pre>
+                  </div>
+                </div>
+                
+                <div class="example-card">
+                  <h4>Specific Operations</h4>
+                  <div class="code-block small">
+                    <pre><code class="language-bash">npx @lucid-spark/openapi-mcp-server \
+  --api-base-url https://api.example.com \
+  --openapi-spec ./api-spec.yaml \
+  --tools explicit \
+  --tool GET::users \
+  --tool POST::users \
+  --tool GET::users__---id</code></pre>
+                  </div>
+                </div>
+                
+                <div class="example-card">
+                  <h4>Public API Only</h4>
+                  <div class="code-block small">
+                    <pre><code class="language-bash">npx @lucid-spark/openapi-mcp-server \
+  --api-base-url https://api.example.com \
+  --openapi-spec ./api-spec.yaml \
+  --tag public \
+  --tag external</code></pre>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Meta-Tools -->
+          <section id="meta-tools" class="doc-section">
+            <h2>Meta-Tools</h2>
+            <p>
+              Meta-tools provide dynamic API exploration and invocation capabilities, allowing you to interact with endpoints that weren't pre-generated as tools.
+            </p>
+
+            <div class="meta-tools-grid">
+              <div class="meta-tool-card">
+                <h3>🔍 list-api-endpoints</h3>
+                <p>Lists all available API endpoints with optional filtering</p>
+                <div class="code-block small">
+                  <pre><code class="language-json">{
+  "name": "list-api-endpoints",
+  "arguments": {
+    "tag": "users",
+    "method": "GET",
+    "path": "/users"
+  }
+}</code></pre>
+                </div>
+                <div class="tool-features">
+                  <h4>Features:</h4>
+                  <ul>
+                    <li>Filter by OpenAPI tags</li>
+                    <li>Filter by HTTP methods</li>
+                    <li>Filter by path patterns</li>
+                    <li>Returns tool IDs and descriptions</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="meta-tool-card">
+                <h3>📋 get-api-endpoint-schema</h3>
+                <p>Gets detailed schema information for a specific endpoint</p>
+                <div class="code-block small">
+                  <pre><code class="language-json">{
+  "name": "get-api-endpoint-schema",
+  "arguments": {
+    "toolId": "GET::users__---id"
+  }
+}</code></pre>
+                </div>
+                <div class="tool-features">
+                  <h4>Returns:</h4>
+                  <ul>
+                    <li>Complete parameter schemas</li>
+                    <li>Request body schemas</li>
+                    <li>Response schemas</li>
+                    <li>Security requirements</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="meta-tool-card">
+                <h3>⚡ invoke-api-endpoint</h3>
+                <p>Directly invokes any API endpoint dynamically</p>
+                <div class="code-block small">
+                  <pre><code class="language-json">{
+  "name": "invoke-api-endpoint",
+  "arguments": {
+    "toolId": "POST::users",
+    "parameters": {
+      "name": "John Doe",
+      "email": "john@example.com"
+    }
+  }
+}</code></pre>
+                </div>
+                <div class="tool-features">
+                  <h4>Capabilities:</h4>
+                  <ul>
+                    <li>Invoke any endpoint dynamically</li>
+                    <li>Automatic parameter validation</li>
+                    <li>Full authentication support</li>
+                    <li>Error handling and reporting</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div class="meta-tools-usage">
+              <h3>When to Use Meta-Tools</h3>
+              <div class="usage-scenarios">
+                <div class="scenario-item">
+                  <h4>🔍 API Discovery</h4>
+                  <p>Explore unfamiliar APIs without generating all tools upfront</p>
+                </div>
+                <div class="scenario-item">
+                  <h4>📊 Large APIs</h4>
+                  <p>Work with APIs that have hundreds of endpoints efficiently</p>
+                </div>
+                <div class="scenario-item">
+                  <h4>🧪 Testing</h4>
+                  <p>Test specific endpoints during development</p>
+                </div>
+                <div class="scenario-item">
+                  <h4>🎯 Selective Usage</h4>
+                  <p>Use only specific operations without cluttering the tool list</p>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Best Practices -->
+          <section id="best-practices" class="doc-section">
+            <h2>Tool Management Best Practices</h2>
+
+            <div class="practices-grid">
+              <div class="practice-card">
+                <h3>🎯 Filtering Strategy</h3>
+                <ul>
+                  <li>Use <code>--operation GET</code> for read-only access</li>
+                  <li>Filter by tags for logical grouping</li>
+                  <li>Use explicit mode for precise control</li>
+                  <li>Consider meta-tools for large APIs</li>
+                </ul>
+              </div>
+
+              <div class="practice-card">
+                <h3>📝 Naming Optimization</h3>
+                <ul>
+                  <li>Use clear operationIds in OpenAPI specs</li>
+                  <li>Keep names descriptive but concise</li>
+                  <li>Disable abbreviation only when necessary</li>
+                  <li>Test name generation with examples</li>
+                </ul>
+              </div>
+
+              <div class="practice-card">
+                <h3>⚡ Performance</h3>
+                <ul>
+                  <li>Filter tools to reduce memory usage</li>
+                  <li>Use dynamic mode for exploration</li>
+                  <li>Monitor tool generation time</li>
+                  <li>Cache large OpenAPI specifications</li>
+                </ul>
+              </div>
+
+              <div class="practice-card">
+                <h3>🔧 Development</h3>
+                <ul>
+                  <li>Use debug mode to inspect tool generation</li>
+                  <li>Validate tool IDs and names</li>
+                  <li>Test filtering combinations</li>
+                  <li>Document your filtering strategy</li>
+                </ul>
+              </div>
+            </div>
+          </section>
+
+          <!-- Tool Statistics -->
+          <section id="statistics" class="doc-section">
+            <h2>Tool Statistics and Monitoring</h2>
+            <p>
+              Monitor tool generation and usage with built-in statistics:
+            </p>
+
+            <div class="stats-section">
+              <h3>Server Statistics</h3>
+              <div class="code-block">
+                <pre><code class="language-typescript">// Get server statistics (library usage)
+const server = new OpenAPIServer(config);
+await server.start();
+
+const stats = server.getStats();
+console.log(stats);
+
+// Example output:
+{
+  tools: {
+    total: 47,
+    endpointTools: 44,
+    metaTools: 3
+  },
+  openapi: {
+    version: "3.0.0",
+    paths: 22,
+    operations: 44
+  },
+  filtering: {
+    applied: true,
+    includedTags: ["users", "public"],
+    includedOperations: ["GET", "POST"]
+  }
+}</code></pre>
+              </div>
+            </div>
+
+            <div class="stats-section">
+              <h3>Debug Logging</h3>
+              <div class="code-block">
+                <pre><code class="language-bash"># Enable debug mode to see tool generation details
+npx @lucid-spark/openapi-mcp-server \
+  --api-base-url https://api.example.com \
+  --openapi-spec ./api-spec.yaml \
+  --debug
+
+# Example debug output:
+# ✅ Loaded OpenAPI specification (3.0.0)
+# 🔍 Found 44 operations across 22 paths
+# 🎯 Applying filters: tags=[users], operations=[GET,POST]
+# 📝 Generated tool: get-users (GET::users)
+# 📝 Generated tool: create-user (POST::users)
+# ✅ Generated 15 tools (12 endpoint + 3 meta)</code></pre>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-section">
+            <h4>OpenAPI MCP Server</h4>
+            <p>Connect any OpenAPI to Claude Desktop with dynamic tool generation.</p>
+          </div>
+          <div class="footer-section">
+            <h4>Documentation</h4>
+            <ul>
+              <li><a href="./installation.html">Installation</a></li>
+              <li><a href="./configuration.html">Configuration</a></li>
+              <li><a href="./authentication.html">Authentication</a></li>
+              <li><a href="./examples.html">Examples</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>&copy; 2024 OpenAPI MCP Server. Released under the MIT License.</p>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+  </body>
+</html>

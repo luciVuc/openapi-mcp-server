@@ -1,0 +1,27 @@
+version: "3.8"
+
+# Development override for docker-compose.yml
+# Usage: docker-compose -f docker-compose.yml -f docker-compose.dev.yml up
+
+services:
+  openapi-mcp-server:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    volumes:
+      # Mount source code for development
+      - ./src:/app/src:ro
+      - ./package*.json:/app/
+      - ./tsconfig.json:/app/tsconfig.json:ro
+      # Node modules volume for faster rebuilds
+      - node_modules:/app/node_modules
+    environment:
+      - NODE_ENV=development
+      - DEBUG=true
+    command: ["npm", "run", "dev"]
+    ports:
+      - "3000:3000"
+      - "9229:9229" # Node.js debug port
+
+volumes:
+  node_modules:

@@ -1,0 +1,747 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Transport Types - OpenAPI MCP Server</title>
+    <meta
+      name="description"
+      content="Complete guide to transport types in OpenAPI MCP Server including stdio and HTTP transport, session management, and streaming features."
+    />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/components.css" />
+    <link rel="stylesheet" href="../css/responsive.css" />
+
+    <!-- Syntax highlighting -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <!-- Navigation -->
+    <nav class="navbar">
+      <div class="nav-container">
+        <div class="nav-brand">
+          <a class="nav-brand" href="../index.html">
+            <img
+              src="../assets/logo.svg"
+              alt="OpenAPI MCP Server"
+              class="nav-logo"
+            />
+            <span class="nav-title">OpenAPI MCP Server</span>
+          </a>
+        </div>
+        <div class="nav-menu">
+          <a href="../index.html" class="nav-link">Home</a>
+          <a href="../index.html#features" class="nav-link">Features</a>
+          <a href="../index.html#quickstart" class="nav-link">Quick Start</a>
+          <a href="../index.html#documentation" class="nav-link">Documentation</a>
+          <a href="../index.html#examples" class="nav-link">Examples</a>
+          <a
+            href="https://github.com/lucivuc/openapi-mcp-server"
+            class="nav-link"
+            target="_blank"
+          >
+            <svg class="github-icon" viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+            </svg>
+            GitHub
+          </a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div class="container">
+        <div class="doc-header">
+          <h1 class="doc-title">Transport Types</h1>
+          <p class="doc-subtitle">
+            Complete guide to stdio and HTTP transport types, session management, and streaming features.
+          </p>
+        </div>
+
+        <div class="doc-content">
+          <!-- Transport Overview -->
+          <section id="overview" class="doc-section">
+            <h2>Transport Overview</h2>
+            <p>
+              OpenAPI MCP Server supports two transport methods to accommodate different integration scenarios. Each transport type is optimized for specific use cases and client requirements.
+            </p>
+            
+            <div class="transport-comparison">
+              <div class="comparison-table">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Feature</th>
+                      <th>Stdio Transport</th>
+                      <th>HTTP Transport</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><strong>Use Case</strong></td>
+                      <td>AI systems, Claude Desktop</td>
+                      <td>Web applications, HTTP clients</td>
+                    </tr>
+                    <tr>
+                      <td><strong>Protocol</strong></td>
+                      <td>JSON-RPC over stdin/stdout</td>
+                      <td>JSON-RPC over HTTP with SSE</td>
+                    </tr>
+                    <tr>
+                      <td><strong>Session Management</strong></td>
+                      <td>Single persistent session</td>
+                      <td>Multiple concurrent sessions</td>
+                    </tr>
+                    <tr>
+                      <td><strong>Streaming</strong></td>
+                      <td>Bidirectional via stdio</td>
+                      <td>Server-Sent Events (SSE)</td>
+                    </tr>
+                    <tr>
+                      <td><strong>Network Required</strong></td>
+                      <td>No</td>
+                      <td>Yes</td>
+                    </tr>
+                    <tr>
+                      <td><strong>Security</strong></td>
+                      <td>Process isolation</td>
+                      <td>HTTP headers, CORS</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </section>
+
+          <!-- Stdio Transport -->
+          <section id="stdio-transport" class="doc-section">
+            <h2>Stdio Transport</h2>
+            <p>
+              The stdio transport uses standard input and output streams for communication, making it ideal for AI systems like Claude Desktop that manage MCP servers as child processes.
+            </p>
+
+            <div class="transport-section">
+              <h3>Key Features</h3>
+              <div class="feature-list">
+                <div class="feature-item">
+                  <h4>🔗 Direct Integration</h4>
+                  <p>No network configuration required - communication via stdin/stdout</p>
+                </div>
+                <div class="feature-item">
+                  <h4>🔒 Process Isolation</h4>
+                  <p>Each server runs as a separate process with built-in security</p>
+                </div>
+                <div class="feature-item">
+                  <h4>⚡ Low Latency</h4>
+                  <p>Direct process communication without network overhead</p>
+                </div>
+                <div class="feature-item">
+                  <h4>🎯 Single Session</h4>
+                  <p>One persistent session per server instance</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="transport-section">
+              <h3>Configuration</h3>
+              <div class="code-block">
+                <pre><code class="language-bash"># CLI usage (default transport)
+npx @lucid-spark/openapi-mcp-server \
+  --api-base-url https://api.example.com \
+  --openapi-spec https://api.example.com/openapi.json \
+  --transport stdio</code></pre>
+              </div>
+              
+              <div class="code-block">
+                <pre><code class="language-typescript">// Library usage
+import { OpenAPIServer } from "@lucid-spark/openapi-mcp-server";
+
+const server = new OpenAPIServer({
+  apiBaseUrl: "https://api.example.com",
+  openApiSpec: "https://api.example.com/openapi.json",
+  transportType: "stdio" // Default
+});
+
+await server.start();</code></pre>
+              </div>
+            </div>
+
+            <div class="transport-section">
+              <h3>Claude Desktop Integration</h3>
+              <p>Configure the stdio transport for Claude Desktop:</p>
+              <div class="code-block">
+                <pre><code class="language-json">{
+  "mcpServers": {
+    "openapi": {
+      "command": "npx",
+      "args": ["-y", "@lucid-spark/openapi-mcp-server"],
+      "env": {
+        "API_BASE_URL": "https://api.example.com",
+        "OPENAPI_SPEC_PATH": "https://api.example.com/openapi.json",
+        "API_HEADERS": "Authorization:Bearer token123"
+      }
+    }
+  }
+}</code></pre>
+              </div>
+            </div>
+
+            <div class="transport-section">
+              <h3>Communication Flow</h3>
+              <div class="flow-diagram">
+                <div class="flow-step">
+                  <h4>1. Process Start</h4>
+                  <p>Claude Desktop starts the MCP server as a child process</p>
+                </div>
+                <div class="flow-arrow">→</div>
+                <div class="flow-step">
+                  <h4>2. Initialization</h4>
+                  <p>MCP initialization handshake via stdin/stdout</p>
+                </div>
+                <div class="flow-arrow">→</div>
+                <div class="flow-step">
+                  <h4>3. Tool Discovery</h4>
+                  <p>Client requests available tools</p>
+                </div>
+                <div class="flow-arrow">→</div>
+                <div class="flow-step">
+                  <h4>4. Tool Execution</h4>
+                  <p>Bidirectional JSON-RPC communication</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="transport-section">
+              <h3>Message Format</h3>
+              <div class="code-block">
+                <pre><code class="language-json"># Client to Server (via stdin)
+{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "method": "tools/list"
+}
+
+# Server to Client (via stdout)
+{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "result": {
+    "tools": [
+      {
+        "name": "get-users",
+        "description": "List all users",
+        "inputSchema": { ... }
+      }
+    ]
+  }
+}</code></pre>
+              </div>
+            </div>
+          </section>
+
+          <!-- HTTP Transport -->
+          <section id="http-transport" class="doc-section">
+            <h2>HTTP Transport</h2>
+            <p>
+              The HTTP transport enables web applications and HTTP clients to interact with the MCP server over HTTP using JSON-RPC with Server-Sent Events for streaming.
+            </p>
+
+            <div class="transport-section">
+              <h3>Key Features</h3>
+              <div class="feature-list">
+                <div class="feature-item">
+                  <h4>🌐 Web Compatible</h4>
+                  <p>Standard HTTP protocol compatible with web applications</p>
+                </div>
+                <div class="feature-item">
+                  <h4>🎯 Multi-Session</h4>
+                  <p>Support for multiple concurrent client sessions</p>
+                </div>
+                <div class="feature-item">
+                  <h4>📡 Server-Sent Events</h4>
+                  <p>Streaming responses using SSE for real-time communication</p>
+                </div>
+                <div class="feature-item">
+                  <h4>🔄 Session Management</h4>
+                  <p>Automatic session lifecycle with unique session IDs</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="transport-section">
+              <h3>Configuration</h3>
+              <div class="code-block">
+                <pre><code class="language-bash"># CLI usage
+npx @lucid-spark/openapi-mcp-server \
+  --api-base-url https://api.example.com \
+  --openapi-spec https://api.example.com/openapi.json \
+  --transport http \
+  --port 3000 \
+  --host 127.0.0.1 \
+  --endpoint-path /mcp</code></pre>
+              </div>
+              
+              <div class="code-block">
+                <pre><code class="language-typescript">// Library usage
+import { OpenAPIServer } from "@lucid-spark/openapi-mcp-server";
+
+const server = new OpenAPIServer({
+  apiBaseUrl: "https://api.example.com",
+  openApiSpec: "https://api.example.com/openapi.json",
+  transportType: "http",
+  httpPort: 3000,
+  httpHost: "0.0.0.0", // Bind to all interfaces
+  endpointPath: "/mcp"
+});
+
+await server.start();</code></pre>
+              </div>
+            </div>
+
+            <div class="transport-section">
+              <h3>HTTP Endpoints</h3>
+              <div class="endpoint-table">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Method</th>
+                      <th>Path</th>
+                      <th>Purpose</th>
+                      <th>Headers Required</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><code>POST</code></td>
+                      <td><code>/mcp</code></td>
+                      <td>Send JSON-RPC requests</td>
+                      <td><code>Content-Type: application/json</code></td>
+                    </tr>
+                    <tr>
+                      <td><code>GET</code></td>
+                      <td><code>/mcp</code></td>
+                      <td>Receive streaming responses (SSE)</td>
+                      <td><code>Mcp-Session-Id</code></td>
+                    </tr>
+                    <tr>
+                      <td><code>DELETE</code></td>
+                      <td><code>/mcp</code></td>
+                      <td>Terminate session</td>
+                      <td><code>Mcp-Session-Id</code></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="transport-section">
+              <h3>Session Management</h3>
+              <div class="session-flow">
+                <div class="session-step">
+                  <h4>1. Session Initialization</h4>
+                  <div class="code-block small">
+                    <pre><code class="language-bash">curl -X POST http://localhost:3000/mcp \
+  -H "Content-Type: application/json" \
+  -d '{"jsonrpc":"2.0","id":0,"method":"initialize","params":{...}}'</code></pre>
+                  </div>
+                  <p>Server responds with session ID in the <code>Mcp-Session-Id</code> header</p>
+                </div>
+
+                <div class="session-step">
+                  <h4>2. Open Streaming Connection</h4>
+                  <div class="code-block small">
+                    <pre><code class="language-bash">curl -N http://localhost:3000/mcp \
+  -H "Mcp-Session-Id: your-session-id"</code></pre>
+                  </div>
+                  <p>Establishes SSE connection for receiving server responses</p>
+                </div>
+
+                <div class="session-step">
+                  <h4>3. Send Requests</h4>
+                  <div class="code-block small">
+                    <pre><code class="language-bash">curl -X POST http://localhost:3000/mcp \
+  -H "Content-Type: application/json" \
+  -H "Mcp-Session-Id: your-session-id" \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/list"}'</code></pre>
+                  </div>
+                  <p>Send JSON-RPC requests with session ID</p>
+                </div>
+
+                <div class="session-step">
+                  <h4>4. Session Termination</h4>
+                  <div class="code-block small">
+                    <pre><code class="language-bash">curl -X DELETE http://localhost:3000/mcp \
+  -H "Mcp-Session-Id: your-session-id"</code></pre>
+                  </div>
+                  <p>Clean up session resources</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="transport-section">
+              <h3>Server-Sent Events (SSE)</h3>
+              <p>HTTP transport uses SSE for streaming server responses:</p>
+              <div class="code-block">
+                <pre><code class="language-text"># SSE stream format
+data: {"jsonrpc":"2.0","id":1,"result":{"tools":[...]}}
+
+data: {"jsonrpc":"2.0","id":2,"result":{"content":[{"type":"text","text":"API response"}]}}
+
+# Heartbeat to keep connection alive
+data: {"type":"heartbeat","timestamp":"2024-01-01T00:00:00.000Z"}
+</code></pre>
+              </div>
+            </div>
+
+            <div class="transport-section">
+              <h3>Complete HTTP Client Example</h3>
+              <div class="code-block">
+                <pre><code class="language-javascript">class MCPHttpClient {
+  constructor(baseUrl) {
+    this.baseUrl = baseUrl;
+    this.sessionId = null;
+    this.eventSource = null;
+  }
+
+  async initialize() {
+    // Initialize session
+    const response = await fetch(`${this.baseUrl}/mcp`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        jsonrpc: '2.0',
+        id: 0,
+        method: 'initialize',
+        params: {
+          protocolVersion: '2025-03-26',
+          capabilities: {},
+          clientInfo: { name: 'HttpClient', version: '1.0.0' }
+        }
+      })
+    });
+
+    this.sessionId = response.headers.get('Mcp-Session-Id');
+    
+    // Open SSE connection
+    this.eventSource = new EventSource(`${this.baseUrl}/mcp?${new URLSearchParams({
+      'Mcp-Session-Id': this.sessionId
+    })}`);
+
+    this.eventSource.onmessage = (event) => {
+      const data = JSON.parse(event.data);
+      this.handleResponse(data);
+    };
+  }
+
+  async sendRequest(method, params = {}) {
+    const response = await fetch(`${this.baseUrl}/mcp`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Mcp-Session-Id': this.sessionId
+      },
+      body: JSON.stringify({
+        jsonrpc: '2.0',
+        id: Date.now(),
+        method,
+        params
+      })
+    });
+
+    // Some responses are immediate (tools/list)
+    if (response.headers.get('Content-Type')?.includes('application/json')) {
+      return response.json();
+    }
+  }
+
+  async listTools() {
+    return this.sendRequest('tools/list');
+  }
+
+  async executeTool(name, arguments) {
+    // Response will come via SSE
+    this.sendRequest('tools/call', { name, arguments });
+  }
+
+  async disconnect() {
+    if (this.eventSource) {
+      this.eventSource.close();
+    }
+
+    await fetch(`${this.baseUrl}/mcp`, {
+      method: 'DELETE',
+      headers: { 'Mcp-Session-Id': this.sessionId }
+    });
+  }
+
+  handleResponse(data) {
+    // Handle JSON-RPC responses from SSE
+    console.log('Received response:', data);
+  }
+}</code></pre>
+              </div>
+            </div>
+          </section>
+
+          <!-- Security Considerations -->
+          <section id="security" class="doc-section">
+            <h2>Security Considerations</h2>
+
+            <div class="security-section">
+              <h3>Stdio Transport Security</h3>
+              <div class="security-list">
+                <div class="security-item">
+                  <h4>🔒 Process Isolation</h4>
+                  <p>Each server runs as a separate process with OS-level isolation</p>
+                </div>
+                <div class="security-item">
+                  <h4>🎯 Single Client</h4>
+                  <p>One-to-one relationship between client and server process</p>
+                </div>
+                <div class="security-item">
+                  <h4>🚫 No Network Exposure</h4>
+                  <p>No network ports opened, reducing attack surface</p>
+                </div>
+                <div class="security-item">
+                  <h4>🔐 Environment Variables</h4>
+                  <p>Secrets passed via environment variables (not command line)</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="security-section">
+              <h3>HTTP Transport Security</h3>
+              <div class="security-list">
+                <div class="security-item">
+                  <h4>🌐 Origin Validation</h4>
+                  <p>Origin headers validated to prevent DNS rebinding attacks</p>
+                </div>
+                <div class="security-item">
+                  <h4>🔒 Localhost Binding</h4>
+                  <p>Default binding to 127.0.0.1 prevents external access</p>
+                </div>
+                <div class="security-item">
+                  <h4>🎫 Session Management</h4>
+                  <p>Unique session IDs prevent cross-session interference</p>
+                </div>
+                <div class="security-item">
+                  <h4>⏰ Session Timeouts</h4>
+                  <p>Automatic session cleanup to prevent resource leaks</p>
+                </div>
+              </div>
+
+              <div class="security-config">
+                <h4>Production HTTP Security</h4>
+                <div class="code-block">
+                  <pre><code class="language-bash"># Secure HTTP configuration
+npx @lucid-spark/openapi-mcp-server \
+  --transport http \
+  --host 127.0.0.1 \  # Localhost only
+  --port 3000 \
+  --endpoint-path /mcp/api \  # Non-obvious path
+  # Consider adding reverse proxy with:
+  # - HTTPS termination
+  # - Rate limiting
+  # - Authentication
+  # - Request size limits</code></pre>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Performance Considerations -->
+          <section id="performance" class="doc-section">
+            <h2>Performance Considerations</h2>
+
+            <div class="performance-grid">
+              <div class="perf-card">
+                <h3>📡 Stdio Transport</h3>
+                <ul>
+                  <li><strong>Latency:</strong> Very low (direct process communication)</li>
+                  <li><strong>Throughput:</strong> High (no network overhead)</li>
+                  <li><strong>Scalability:</strong> One session per process</li>
+                  <li><strong>Memory:</strong> Lower overhead</li>
+                </ul>
+              </div>
+
+              <div class="perf-card">
+                <h3>🌐 HTTP Transport</h3>
+                <ul>
+                  <li><strong>Latency:</strong> Network dependent</li>
+                  <li><strong>Throughput:</strong> Good (HTTP/1.1)</li>
+                  <li><strong>Scalability:</strong> Multiple concurrent sessions</li>
+                  <li><strong>Memory:</strong> Higher overhead per session</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="performance-tips">
+              <h3>Optimization Tips</h3>
+              <div class="tip-list">
+                <div class="tip-item">
+                  <h4>🎯 Choose the Right Transport</h4>
+                  <p>Use stdio for single-client scenarios, HTTP for multi-client or web integration</p>
+                </div>
+                <div class="tip-item">
+                  <h4>🔄 Connection Reuse</h4>
+                  <p>Keep HTTP sessions alive and reuse connections for multiple requests</p>
+                </div>
+                <div class="tip-item">
+                  <h4>📊 Monitor Sessions</h4>
+                  <p>Track active sessions and implement cleanup for abandoned connections</p>
+                </div>
+                <div class="tip-item">
+                  <h4>⚡ Tool Filtering</h4>
+                  <p>Filter tools to reduce memory usage and improve startup performance</p>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Troubleshooting -->
+          <section id="troubleshooting" class="doc-section">
+            <h2>Transport Troubleshooting</h2>
+
+            <div class="trouble-section">
+              <h3>Stdio Transport Issues</h3>
+              <div class="trouble-list">
+                <div class="trouble-item">
+                  <h4>❌ Process Not Starting</h4>
+                  <p><strong>Symptoms:</strong> Claude Desktop shows server as unavailable</p>
+                  <p><strong>Solutions:</strong></p>
+                  <ul>
+                    <li>Check Node.js installation and version (≥18.0.0)</li>
+                    <li>Verify package installation: <code>npx @lucid-spark/openapi-mcp-server --version</code></li>
+                    <li>Test configuration with debug mode</li>
+                    <li>Check environment variables in Claude config</li>
+                  </ul>
+                </div>
+
+                <div class="trouble-item">
+                  <h4>❌ Communication Errors</h4>
+                  <p><strong>Symptoms:</strong> Tools not appearing or execution failures</p>
+                  <p><strong>Solutions:</strong></p>
+                  <ul>
+                    <li>Enable debug logging to see JSON-RPC messages</li>
+                    <li>Verify OpenAPI specification is valid</li>
+                    <li>Check API authentication and connectivity</li>
+                    <li>Test with simplified configuration</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div class="trouble-section">
+              <h3>HTTP Transport Issues</h3>
+              <div class="trouble-list">
+                <div class="trouble-item">
+                  <h4>❌ Server Not Starting</h4>
+                  <p><strong>Symptoms:</strong> Connection refused errors</p>
+                  <p><strong>Solutions:</strong></p>
+                  <ul>
+                    <li>Check if port is already in use: <code>lsof -i :3000</code></li>
+                    <li>Verify host binding (use 0.0.0.0 for external access)</li>
+                    <li>Check firewall settings</li>
+                    <li>Test with different port numbers</li>
+                  </ul>
+                </div>
+
+                <div class="trouble-item">
+                  <h4>❌ Session Issues</h4>
+                  <p><strong>Symptoms:</strong> Session not found or expired errors</p>
+                  <p><strong>Solutions:</strong></p>
+                  <ul>
+                    <li>Ensure session ID is included in all requests</li>
+                    <li>Check session timeout settings</li>
+                    <li>Verify SSE connection is maintained</li>
+                    <li>Implement proper session cleanup</li>
+                  </ul>
+                </div>
+
+                <div class="trouble-item">
+                  <h4>❌ CORS Errors</h4>
+                  <p><strong>Symptoms:</strong> Browser blocks requests</p>
+                  <p><strong>Solutions:</strong></p>
+                  <ul>
+                    <li>Use same-origin requests when possible</li>
+                    <li>Configure reverse proxy with CORS headers</li>
+                    <li>Consider using stdio transport for local clients</li>
+                    <li>Implement proper Origin validation</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div class="trouble-section">
+              <h3>Debug Commands</h3>
+              <div class="code-block">
+                <pre><code class="language-bash"># Test stdio transport
+npx @lucid-spark/openapi-mcp-server \
+  --api-base-url https://httpbin.org \
+  --openapi-spec examples/httpbin-openapi.json \
+  --transport stdio \
+  --debug
+
+# Test HTTP transport
+npx @lucid-spark/openapi-mcp-server \
+  --api-base-url https://httpbin.org \
+  --openapi-spec examples/httpbin-openapi.json \
+  --transport http \
+  --port 3000 \
+  --debug
+
+# Test HTTP endpoint
+curl -X POST http://localhost:3000/mcp \
+  -H "Content-Type: application/json" \
+  -d '{"jsonrpc":"2.0","id":0,"method":"initialize","params":{"protocolVersion":"2025-03-26","capabilities":{},"clientInfo":{"name":"test","version":"1.0"}}}'</code></pre>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-section">
+            <h4>OpenAPI MCP Server</h4>
+            <p>Connect any OpenAPI to Claude Desktop with dynamic tool generation.</p>
+          </div>
+          <div class="footer-section">
+            <h4>Documentation</h4>
+            <ul>
+              <li><a href="./installation.html">Installation</a></li>
+              <li><a href="./configuration.html">Configuration</a></li>
+              <li><a href="./authentication.html">Authentication</a></li>
+              <li><a href="./examples.html">Examples</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>&copy; 2024 OpenAPI MCP Server. Released under the MIT License.</p>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+  </body>
+</html>

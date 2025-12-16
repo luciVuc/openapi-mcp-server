@@ -1,0 +1,1237 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Examples - OpenAPI MCP Server</title>
+    <meta
+      name="description"
+      content="Comprehensive examples and tutorials for OpenAPI MCP Server including real-world use cases and integration patterns."
+    />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/components.css" />
+    <link rel="stylesheet" href="../css/responsive.css" />
+
+    <!-- Syntax highlighting -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <!-- Navigation -->
+    <nav class="navbar">
+      <div class="nav-container">
+        <div class="nav-brand">
+          <a class="nav-brand" href="../index.html">
+            <img
+              src="../assets/logo.svg"
+              alt="OpenAPI MCP Server"
+              class="nav-logo"
+            />
+            <span class="nav-title">OpenAPI MCP Server</span>
+          </a>
+        </div>
+        <div class="nav-menu">
+          <a href="../index.html" class="nav-link">Home</a>
+          <a href="../index.html#features" class="nav-link">Features</a>
+          <a href="../index.html#quickstart" class="nav-link">Quick Start</a>
+          <a href="../index.html#documentation" class="nav-link">Documentation</a>
+          <a href="../index.html#examples" class="nav-link">Examples</a>
+          <a
+            href="https://github.com/lucivuc/openapi-mcp-server"
+            class="nav-link"
+            target="_blank"
+          >
+            <svg class="github-icon" viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+            </svg>
+            GitHub
+          </a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div class="container">
+        <div class="doc-header">
+          <h1 class="doc-title">Examples & Tutorials</h1>
+          <p class="doc-subtitle">
+            Real-world examples and comprehensive tutorials for OpenAPI MCP Server integration patterns.
+          </p>
+        </div>
+
+        <div class="doc-content">
+          <!-- Quick Start Examples -->
+          <section id="quick-examples" class="doc-section">
+            <h2>Quick Start Examples</h2>
+            
+            <div class="example-grid">
+              <div class="example-card">
+                <h3>🚀 JSONPlaceholder API</h3>
+                <p>Perfect for testing and learning - connects to the public JSONPlaceholder API</p>
+                <div class="code-block">
+                  <pre><code class="language-bash"># CLI usage
+npx @lucid-spark/openapi-mcp-server \
+  --api-base-url "https://jsonplaceholder.typicode.com" \
+  --openapi-spec "https://jsonplaceholder.typicode.com/openapi.json"</code></pre>
+                </div>
+                <div class="code-block">
+                  <pre><code class="language-typescript">// Library usage
+import { OpenAPIServer } from "@lucid-spark/openapi-mcp-server";
+
+const server = new OpenAPIServer({
+  apiBaseUrl: "https://jsonplaceholder.typicode.com",
+  openApiSpec: "https://jsonplaceholder.typicode.com/openapi.json"
+});
+
+await server.start();</code></pre>
+                </div>
+              </div>
+
+              <div class="example-card">
+                <h3>🔐 Basic Authentication</h3>
+                <p>Simple header-based authentication with API keys</p>
+                <div class="code-block">
+                  <pre><code class="language-bash"># Using environment variables
+export API_KEY="your-api-key"
+export OPENAPI_SPEC_URL="https://api.example.com/openapi.json"
+
+npx @lucid-spark/openapi-mcp-server \
+  --api-base-url "https://api.example.com" \
+  --header "Authorization=Bearer $API_KEY"</code></pre>
+                </div>
+                <div class="code-block">
+                  <pre><code class="language-typescript">// Library configuration
+const server = new OpenAPIServer({
+  apiBaseUrl: "https://api.example.com",
+  openApiSpec: process.env.OPENAPI_SPEC_URL,
+  headers: {
+    "Authorization": `Bearer ${process.env.API_KEY}`,
+    "Accept": "application/json"
+  }
+});</code></pre>
+                </div>
+              </div>
+
+              <div class="example-card">
+                <h3>🎯 Filtered Tools</h3>
+                <p>Include only specific endpoints or tags to reduce tool clutter</p>
+                <div class="code-block">
+                  <pre><code class="language-bash"># Include only user-related endpoints
+npx @lucid-spark/openapi-mcp-server \
+  --api-base-url "https://api.example.com" \
+  --include-tags "users,profiles" \
+  --include-operations "GET,POST"</code></pre>
+                </div>
+                <div class="code-block">
+                  <pre><code class="language-typescript">// Programmatic filtering
+const server = new OpenAPIServer({
+  apiBaseUrl: "https://api.example.com",
+  openApiSpec: "./api-spec.yaml",
+  includeTags: ["users", "profiles"],
+  includeOperations: ["GET", "POST"]
+});</code></pre>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Real-World Examples -->
+          <section id="real-world" class="doc-section">
+            <h2>Real-World Integration Examples</h2>
+
+            <div class="integration-examples">
+              <div class="integration-example">
+                <h3>📊 GitHub API Integration</h3>
+                <p>Connect to GitHub's REST API for repository management, issue tracking, and more.</p>
+                
+                <div class="example-tabs">
+                  <div class="tab-content">
+                    <h4>CLI Setup</h4>
+                    <div class="code-block">
+                      <pre><code class="language-bash"># Create a GitHub personal access token first
+export GITHUB_TOKEN="ghp_your_token_here"
+
+npx @lucid-spark/openapi-mcp-server \
+  --api-base-url "https://api.github.com" \
+  --openapi-spec "https://raw.githubusercontent.com/github/rest-api-description/main/descriptions/api.github.com/api.github.com.json" \
+  --header "Authorization=Bearer $GITHUB_TOKEN" \
+  --header "Accept=application/vnd.github.v3+json" \
+  --header "User-Agent=OpenAPI-MCP-Server" \
+  --include-tags "repos,issues,pulls"</code></pre>
+                    </div>
+                  </div>
+
+                  <div class="tab-content">
+                    <h4>Claude Desktop Configuration</h4>
+                    <div class="code-block">
+                      <pre><code class="language-json">{
+  "mcpServers": {
+    "github-api": {
+      "command": "npx",
+      "args": [
+        "@lucid-spark/openapi-mcp-server",
+        "--api-base-url", "https://api.github.com",
+        "--openapi-spec", "https://raw.githubusercontent.com/github/rest-api-description/main/descriptions/api.github.com/api.github.com.json",
+        "--header", "Authorization=Bearer YOUR_GITHUB_TOKEN",
+        "--header", "Accept=application/vnd.github.v3+json",
+        "--header", "User-Agent=Claude-GitHub-Integration",
+        "--include-tags", "repos,issues,pulls"
+      ]
+    }
+  }
+}</code></pre>
+                    </div>
+                  </div>
+
+                  <div class="tab-content">
+                    <h4>Library Implementation</h4>
+                    <div class="code-block">
+                      <pre><code class="language-typescript">import { OpenAPIServer, StaticAuthProvider } from "@lucid-spark/openapi-mcp-server";
+
+const githubServer = new OpenAPIServer({
+  apiBaseUrl: "https://api.github.com",
+  openApiSpec: "https://raw.githubusercontent.com/github/rest-api-description/main/descriptions/api.github.com/api.github.com.json",
+  authProvider: new StaticAuthProvider({
+    "Authorization": `Bearer ${process.env.GITHUB_TOKEN}`,
+    "Accept": "application/vnd.github.v3+json",
+    "User-Agent": "OpenAPI-MCP-Server"
+  }),
+  includeTags: ["repos", "issues", "pulls"],
+  name: "github-api-server",
+  version: "1.0.0"
+});
+
+await githubServer.start();
+
+// Test the connection
+const connected = await githubServer.testConnection();
+console.log(`GitHub API: ${connected ? 'Connected' : 'Failed'}`);
+
+// Get server statistics
+const stats = githubServer.getStats();
+console.log(`Generated ${stats.tools.total} tools from GitHub API`);</code></pre>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="example-usage">
+                  <h4>🤖 Example Claude Interactions</h4>
+                  <div class="chat-example">
+                    <div class="user-message">
+                      <strong>You:</strong> Can you list the repositories in my GitHub account?
+                    </div>
+                    <div class="assistant-message">
+                      <strong>Claude:</strong> I'll list your GitHub repositories using the GitHub API.
+                      <br><em>[Uses get-repos-for-authenticated-user tool]</em>
+                    </div>
+                    <div class="user-message">
+                      <strong>You:</strong> Create a new issue in my project repo titled "Feature Request: Dark Mode"
+                    </div>
+                    <div class="assistant-message">
+                      <strong>Claude:</strong> I'll create that issue for you.
+                      <br><em>[Uses create-issue tool with repo owner/name, title, and body]</em>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="integration-example">
+                <h3>🛍️ E-commerce API Integration</h3>
+                <p>Connect to an e-commerce platform for product management and order processing.</p>
+                
+                <div class="example-tabs">
+                  <div class="tab-content">
+                    <h4>OAuth2 Authentication</h4>
+                    <div class="code-block">
+                      <pre><code class="language-typescript">import { OpenAPIServer, IAuthProvider } from "@lucid-spark/openapi-mcp-server";
+import { AxiosError } from "axios";
+
+class EcommerceAuthProvider implements IAuthProvider {
+  private accessToken: string;
+  private refreshToken: string;
+  private clientId: string;
+  private clientSecret: string;
+  private tokenEndpoint: string;
+  private tokenExpiry: Date;
+
+  constructor(config: {
+    accessToken: string;
+    refreshToken: string;
+    clientId: string;
+    clientSecret: string;
+    tokenEndpoint: string;
+    expiresIn: number;
+  }) {
+    this.accessToken = config.accessToken;
+    this.refreshToken = config.refreshToken;
+    this.clientId = config.clientId;
+    this.clientSecret = config.clientSecret;
+    this.tokenEndpoint = config.tokenEndpoint;
+    this.tokenExpiry = new Date(Date.now() + config.expiresIn * 1000);
+  }
+
+  async getAuthHeaders(): Promise<Record<string, string>> {
+    if (this.isTokenExpiring()) {
+      await this.refreshAccessToken();
+    }
+
+    return {
+      Authorization: `Bearer ${this.accessToken}`,
+      "Content-Type": "application/json"
+    };
+  }
+
+  async handleAuthError(error: AxiosError): Promise<boolean> {
+    if (error.response?.status === 401) {
+      try {
+        await this.refreshAccessToken();
+        return true; // Retry request
+      } catch (refreshError) {
+        console.error("Token refresh failed:", refreshError);
+        return false;
+      }
+    }
+    return false;
+  }
+
+  private isTokenExpiring(): boolean {
+    const bufferTime = 5 * 60 * 1000; // 5 minutes buffer
+    return this.tokenExpiry.getTime() <= (Date.now() + bufferTime);
+  }
+
+  private async refreshAccessToken(): Promise<void> {
+    const response = await fetch(this.tokenEndpoint, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        "Authorization": `Basic ${Buffer.from(`${this.clientId}:${this.clientSecret}`).toString("base64")}`
+      },
+      body: new URLSearchParams({
+        grant_type: "refresh_token",
+        refresh_token: this.refreshToken
+      })
+    });
+
+    if (!response.ok) {
+      throw new Error(`Token refresh failed: ${response.statusText}`);
+    }
+
+    const data = await response.json();
+    this.accessToken = data.access_token;
+    
+    if (data.refresh_token) {
+      this.refreshToken = data.refresh_token;
+    }
+    
+    this.tokenExpiry = new Date(Date.now() + data.expires_in * 1000);
+  }
+}
+
+// Usage
+const authProvider = new EcommerceAuthProvider({
+  accessToken: process.env.ECOMMERCE_ACCESS_TOKEN!,
+  refreshToken: process.env.ECOMMERCE_REFRESH_TOKEN!,
+  clientId: process.env.ECOMMERCE_CLIENT_ID!,
+  clientSecret: process.env.ECOMMERCE_CLIENT_SECRET!,
+  tokenEndpoint: "https://api.ecommerce.com/oauth/token",
+  expiresIn: 3600
+});
+
+const ecommerceServer = new OpenAPIServer({
+  apiBaseUrl: "https://api.ecommerce.com/v1",
+  openApiSpec: "https://api.ecommerce.com/v1/openapi.json",
+  authProvider: authProvider,
+  includeTags: ["products", "orders", "customers"],
+  name: "ecommerce-api"
+});</code></pre>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="integration-example">
+                <h3>📈 Analytics API Integration</h3>
+                <p>Connect to analytics platforms for data retrieval and reporting.</p>
+                
+                <div class="code-block">
+                  <pre><code class="language-typescript">// Advanced filtering and custom headers
+const analyticsServer = new OpenAPIServer({
+  apiBaseUrl: "https://api.analytics.com",
+  openApiSpec: "./analytics-api-spec.yaml",
+  headers: {
+    "Authorization": `Token ${process.env.ANALYTICS_API_TOKEN}`,
+    "X-Client-Version": "1.0.0",
+    "Accept": "application/json"
+  },
+  // Only include specific endpoints for data retrieval
+  includeOperations: ["GET", "POST"],
+  includeTags: ["reports", "metrics", "dashboards"],
+  // Exclude internal/admin endpoints
+  includeTools: [
+    "get-daily-metrics",
+    "get-user-analytics", 
+    "post-custom-report",
+    "get-dashboard-data"
+  ],
+  name: "analytics-server",
+  debug: true
+});
+
+// Start with error handling
+try {
+  await analyticsServer.start();
+  console.log("Analytics API server started successfully");
+  
+  const stats = analyticsServer.getStats();
+  console.log(`Available tools: ${stats.tools.total}`);
+  console.log(`API paths: ${stats.openapi.paths}`);
+  
+} catch (error) {
+  console.error("Failed to start analytics server:", error.message);
+  process.exit(1);
+}</code></pre>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Advanced Patterns -->
+          <section id="advanced-patterns" class="doc-section">
+            <h2>Advanced Integration Patterns</h2>
+
+            <div class="pattern-examples">
+              <div class="pattern-example">
+                <h3>🔄 Multi-Environment Setup</h3>
+                <p>Manage different API environments (dev, staging, production) with environment-specific configurations.</p>
+                
+                <div class="code-block">
+                  <pre><code class="language-typescript">// config/environments.ts
+interface Environment {
+  name: string;
+  apiBaseUrl: string;
+  openApiSpec: string;
+  headers: Record<string, string>;
+}
+
+const environments: Record<string, Environment> = {
+  development: {
+    name: "dev-api",
+    apiBaseUrl: "https://dev-api.example.com",
+    openApiSpec: "https://dev-api.example.com/openapi.json",
+    headers: {
+      "Authorization": `Bearer ${process.env.DEV_API_TOKEN}`,
+      "X-Environment": "development"
+    }
+  },
+  staging: {
+    name: "staging-api", 
+    apiBaseUrl: "https://staging-api.example.com",
+    openApiSpec: "https://staging-api.example.com/openapi.json",
+    headers: {
+      "Authorization": `Bearer ${process.env.STAGING_API_TOKEN}`,
+      "X-Environment": "staging"
+    }
+  },
+  production: {
+    name: "prod-api",
+    apiBaseUrl: "https://api.example.com",
+    openApiSpec: "https://api.example.com/openapi.json", 
+    headers: {
+      "Authorization": `Bearer ${process.env.PROD_API_TOKEN}`,
+      "X-Environment": "production"
+    }
+  }
+};
+
+// server-manager.ts
+import { OpenAPIServer } from "@lucid-spark/openapi-mcp-server";
+
+export class MultiEnvironmentManager {
+  private servers: Map<string, OpenAPIServer> = new Map();
+
+  async createServer(environment: string): Promise<OpenAPIServer> {
+    const env = environments[environment];
+    if (!env) {
+      throw new Error(`Unknown environment: ${environment}`);
+    }
+
+    const server = new OpenAPIServer({
+      ...env,
+      transportType: "http",
+      httpPort: this.getPortForEnvironment(environment)
+    });
+
+    await server.start();
+    this.servers.set(environment, server);
+    
+    return server;
+  }
+
+  async stopServer(environment: string): Promise<void> {
+    const server = this.servers.get(environment);
+    if (server) {
+      await server.stop();
+      this.servers.delete(environment);
+    }
+  }
+
+  private getPortForEnvironment(environment: string): number {
+    const basePorts = { development: 3001, staging: 3002, production: 3003 };
+    return basePorts[environment] || 3000;
+  }
+}
+
+// Usage
+const manager = new MultiEnvironmentManager();
+
+// Start development server
+const devServer = await manager.createServer("development");
+
+// Switch to production for final testing
+await manager.stopServer("development");
+const prodServer = await manager.createServer("production");</code></pre>
+                </div>
+              </div>
+
+              <div class="pattern-example">
+                <h3>🎛️ Dynamic Configuration Loading</h3>
+                <p>Load OpenAPI specifications and configurations dynamically from various sources.</p>
+                
+                <div class="code-block">
+                  <pre><code class="language-typescript">// config-loader.ts
+import { readFile } from "fs/promises";
+import { load } from "js-yaml";
+import { OpenAPIServer, IOpenAPIServerConfig } from "@lucid-spark/openapi-mcp-server";
+
+export class DynamicConfigLoader {
+  static async loadFromFile(configPath: string): Promise<IOpenAPIServerConfig> {
+    try {
+      const content = await readFile(configPath, "utf-8");
+      
+      // Support both JSON and YAML
+      const config = configPath.endsWith('.yaml') || configPath.endsWith('.yml') 
+        ? load(content) as IOpenAPIServerConfig
+        : JSON.parse(content) as IOpenAPIServerConfig;
+      
+      // Resolve environment variables in config
+      return this.resolveEnvironmentVariables(config);
+    } catch (error) {
+      throw new Error(`Failed to load config from ${configPath}: ${error.message}`);
+    }
+  }
+
+  static async loadFromUrl(configUrl: string): Promise<IOpenAPIServerConfig> {
+    try {
+      const response = await fetch(configUrl);
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+      }
+      
+      const config = await response.json();
+      return this.resolveEnvironmentVariables(config);
+    } catch (error) {
+      throw new Error(`Failed to load config from ${configUrl}: ${error.message}`);
+    }
+  }
+
+  static async loadFromRegistry(serviceName: string): Promise<IOpenAPIServerConfig> {
+    // Example: Service discovery integration
+    const registryUrl = process.env.SERVICE_REGISTRY_URL || "http://localhost:8500";
+    const response = await fetch(`${registryUrl}/v1/catalog/service/${serviceName}`);
+    
+    if (!response.ok) {
+      throw new Error(`Service ${serviceName} not found in registry`);
+    }
+    
+    const services = await response.json();
+    const service = services[0]; // Use first available instance
+    
+    return {
+      apiBaseUrl: `http://${service.ServiceAddress}:${service.ServicePort}`,
+      openApiSpec: `http://${service.ServiceAddress}:${service.ServicePort}/openapi.json`,
+      name: serviceName,
+      headers: {
+        "X-Service-Version": service.ServiceMeta?.version || "unknown"
+      }
+    };
+  }
+
+  private static resolveEnvironmentVariables(config: any): any {
+    const resolved = JSON.parse(JSON.stringify(config));
+    
+    const replaceEnvVars = (obj: any): any => {
+      if (typeof obj === "string") {
+        return obj.replace(/\$\{([^}]+)\}/g, (match, envVar) => {
+          return process.env[envVar] || match;
+        });
+      } else if (Array.isArray(obj)) {
+        return obj.map(replaceEnvVars);
+      } else if (typeof obj === "object" && obj !== null) {
+        const result: any = {};
+        for (const [key, value] of Object.entries(obj)) {
+          result[key] = replaceEnvVars(value);
+        }
+        return result;
+      }
+      return obj;
+    };
+    
+    return replaceEnvVars(resolved);
+  }
+}
+
+// Example configuration file (config.yaml)
+/*
+apiBaseUrl: ${API_BASE_URL}
+openApiSpec: ${OPENAPI_SPEC_URL}
+headers:
+  Authorization: "Bearer ${API_TOKEN}"
+  X-Client-ID: ${CLIENT_ID}
+includeTags:
+  - users
+  - orders
+transportType: stdio
+debug: ${DEBUG_MODE:false}
+*/
+
+// Usage examples
+const configLoader = new DynamicConfigLoader();
+
+// Load from file
+const fileConfig = await configLoader.loadFromFile("./config.yaml");
+const fileServer = new OpenAPIServer(fileConfig);
+
+// Load from URL
+const urlConfig = await configLoader.loadFromUrl("https://config.example.com/api-config.json");
+const urlServer = new OpenAPIServer(urlConfig);
+
+// Load from service registry
+const registryConfig = await configLoader.loadFromRegistry("user-service");
+const registryServer = new OpenAPIServer(registryConfig);</code></pre>
+                </div>
+              </div>
+
+              <div class="pattern-example">
+                <h3>🔌 Plugin Architecture</h3>
+                <p>Extend the server with custom plugins for specialized functionality.</p>
+                
+                <div class="code-block">
+                  <pre><code class="language-typescript">// plugins/base-plugin.ts
+export interface IPlugin {
+  name: string;
+  version: string;
+  initialize(server: OpenAPIServer): Promise<void>;
+  beforeRequest?(request: any): Promise<any>;
+  afterResponse?(response: any): Promise<any>;
+  cleanup?(): Promise<void>;
+}
+
+// plugins/logging-plugin.ts
+export class LoggingPlugin implements IPlugin {
+  name = "logging-plugin";
+  version = "1.0.0";
+  
+  private requestCount = 0;
+  private errorCount = 0;
+
+  async initialize(server: OpenAPIServer): Promise<void> {
+    console.log(`[${this.name}] Initialized for server: ${server.getStats().openapi.version}`);
+  }
+
+  async beforeRequest(request: any): Promise<any> {
+    this.requestCount++;
+    console.log(`[${this.name}] Request #${this.requestCount}: ${request.method} ${request.url}`);
+    return request;
+  }
+
+  async afterResponse(response: any): Promise<any> {
+    if (response.status >= 400) {
+      this.errorCount++;
+      console.error(`[${this.name}] Error response: ${response.status} ${response.statusText}`);
+    }
+    return response;
+  }
+
+  getStats() {
+    return {
+      totalRequests: this.requestCount,
+      totalErrors: this.errorCount,
+      errorRate: this.requestCount > 0 ? (this.errorCount / this.requestCount) * 100 : 0
+    };
+  }
+}
+
+// plugins/caching-plugin.ts
+export class CachingPlugin implements IPlugin {
+  name = "caching-plugin";
+  version = "1.0.0";
+  
+  private cache = new Map<string, { data: any; expires: number }>();
+  private ttl: number;
+
+  constructor(ttlMinutes: number = 5) {
+    this.ttl = ttlMinutes * 60 * 1000;
+  }
+
+  async initialize(server: OpenAPIServer): Promise<void> {
+    console.log(`[${this.name}] Cache TTL: ${this.ttl}ms`);
+    
+    // Clean expired entries every minute
+    setInterval(() => this.cleanExpired(), 60000);
+  }
+
+  async beforeRequest(request: any): Promise<any> {
+    if (request.method === "GET") {
+      const cacheKey = this.getCacheKey(request);
+      const cached = this.cache.get(cacheKey);
+      
+      if (cached && cached.expires > Date.now()) {
+        console.log(`[${this.name}] Cache hit: ${cacheKey}`);
+        request.cachedResponse = cached.data;
+      }
+    }
+    return request;
+  }
+
+  async afterResponse(response: any): Promise<any> {
+    if (response.status === 200 && response.config?.method === "GET") {
+      const cacheKey = this.getCacheKey(response.config);
+      this.cache.set(cacheKey, {
+        data: response.data,
+        expires: Date.now() + this.ttl
+      });
+      console.log(`[${this.name}] Cached response: ${cacheKey}`);
+    }
+    return response;
+  }
+
+  private getCacheKey(request: any): string {
+    return `${request.method}:${request.url}`;
+  }
+
+  private cleanExpired(): void {
+    const now = Date.now();
+    for (const [key, value] of this.cache.entries()) {
+      if (value.expires <= now) {
+        this.cache.delete(key);
+      }
+    }
+  }
+}
+
+// enhanced-server.ts
+export class EnhancedOpenAPIServer extends OpenAPIServer {
+  private plugins: IPlugin[] = [];
+
+  addPlugin(plugin: IPlugin): void {
+    this.plugins.push(plugin);
+  }
+
+  async start(): Promise<void> {
+    // Initialize plugins
+    for (const plugin of this.plugins) {
+      await plugin.initialize(this);
+    }
+    
+    // Start the base server
+    await super.start();
+  }
+
+  async stop(): Promise<void> {
+    // Cleanup plugins
+    for (const plugin of this.plugins) {
+      if (plugin.cleanup) {
+        await plugin.cleanup();
+      }
+    }
+    
+    await super.stop();
+  }
+
+  // Override request handling to apply plugins
+  protected async processRequest(request: any): Promise<any> {
+    let processedRequest = request;
+    
+    // Apply beforeRequest hooks
+    for (const plugin of this.plugins) {
+      if (plugin.beforeRequest) {
+        processedRequest = await plugin.beforeRequest(processedRequest);
+      }
+    }
+    
+    // Check for cached response
+    if (processedRequest.cachedResponse) {
+      return processedRequest.cachedResponse;
+    }
+    
+    // Process request normally
+    let response = await super.processRequest(processedRequest);
+    
+    // Apply afterResponse hooks
+    for (const plugin of this.plugins) {
+      if (plugin.afterResponse) {
+        response = await plugin.afterResponse(response);
+      }
+    }
+    
+    return response;
+  }
+}
+
+// Usage
+const server = new EnhancedOpenAPIServer({
+  apiBaseUrl: "https://api.example.com",
+  openApiSpec: "./api-spec.yaml"
+});
+
+// Add plugins
+server.addPlugin(new LoggingPlugin());
+server.addPlugin(new CachingPlugin(10)); // 10-minute cache
+
+await server.start();</code></pre>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Common Use Cases -->
+          <section id="use-cases" class="doc-section">
+            <h2>Common Use Cases</h2>
+
+            <div class="use-case-grid">
+              <div class="use-case-card">
+                <h3>📝 Content Management</h3>
+                <div class="code-block">
+                  <pre><code class="language-json">{
+  "mcpServers": {
+    "cms-api": {
+      "command": "npx",
+      "args": [
+        "@lucid-spark/openapi-mcp-server",
+        "--api-base-url", "https://cms.example.com/api/v1",
+        "--openapi-spec", "https://cms.example.com/api/openapi.json",
+        "--header", "Authorization=Bearer CMS_TOKEN",
+        "--include-tags", "articles,pages,media",
+        "--include-operations", "GET,POST,PUT,DELETE"
+      ]
+    }
+  }
+}</code></pre>
+                </div>
+                <p><strong>Enables:</strong> Content creation, editing, publishing, media management</p>
+              </div>
+
+              <div class="use-case-card">
+                <h3>💰 Financial Services</h3>
+                <div class="code-block">
+                  <pre><code class="language-json">{
+  "mcpServers": {
+    "fintech-api": {
+      "command": "npx", 
+      "args": [
+        "@lucid-spark/openapi-mcp-server",
+        "--api-base-url", "https://api.fintech.com/v2",
+        "--openapi-spec", "./fintech-openapi.yaml",
+        "--header", "X-API-Key=FINTECH_API_KEY",
+        "--header", "Accept=application/json",
+        "--include-tags", "accounts,transactions,payments",
+        "--include-operations", "GET,POST"
+      ]
+    }
+  }
+}</code></pre>
+                </div>
+                <p><strong>Enables:</strong> Account queries, transaction history, payment processing</p>
+              </div>
+
+              <div class="use-case-card">
+                <h3>🏢 CRM Integration</h3>
+                <div class="code-block">
+                  <pre><code class="language-json">{
+  "mcpServers": {
+    "crm-api": {
+      "command": "npx",
+      "args": [
+        "@lucid-spark/openapi-mcp-server", 
+        "--api-base-url", "https://crm.example.com/api",
+        "--openapi-spec", "https://crm.example.com/docs/openapi.json",
+        "--header", "Authorization=OAuth OAUTH_TOKEN",
+        "--include-tags", "contacts,leads,opportunities,tasks"
+      ]
+    }
+  }
+}</code></pre>
+                </div>
+                <p><strong>Enables:</strong> Contact management, lead tracking, opportunity management</p>
+              </div>
+
+              <div class="use-case-card">
+                <h3>📊 Business Intelligence</h3>
+                <div class="code-block">
+                  <pre><code class="language-json">{
+  "mcpServers": {
+    "bi-api": {
+      "command": "npx",
+      "args": [
+        "@lucid-spark/openapi-mcp-server",
+        "--api-base-url", "https://bi.example.com/api/v1",
+        "--openapi-spec", "./bi-api-spec.yaml",
+        "--header", "Authorization=Bearer BI_TOKEN",
+        "--include-tags", "reports,dashboards,metrics",
+        "--include-operations", "GET"
+      ]
+    }
+  }
+}</code></pre>
+                </div>
+                <p><strong>Enables:</strong> Report generation, dashboard data, KPI monitoring</p>
+              </div>
+
+              <div class="use-case-card">
+                <h3>🏪 E-commerce Platform</h3>
+                <div class="code-block">
+                  <pre><code class="language-json">{
+  "mcpServers": {
+    "ecommerce-api": {
+      "command": "npx",
+      "args": [
+        "@lucid-spark/openapi-mcp-server",
+        "--api-base-url", "https://shop.example.com/api",
+        "--openapi-spec", "https://shop.example.com/openapi.json",
+        "--header", "X-Shop-Token=SHOP_TOKEN",
+        "--include-tags", "products,orders,customers,inventory"
+      ]
+    }
+  }
+}</code></pre>
+                </div>
+                <p><strong>Enables:</strong> Product management, order processing, customer service</p>
+              </div>
+
+              <div class="use-case-card">
+                <h3>☁️ Cloud Infrastructure</h3>
+                <div class="code-block">
+                  <pre><code class="language-json">{
+  "mcpServers": {
+    "cloud-api": {
+      "command": "npx",
+      "args": [
+        "@lucid-spark/openapi-mcp-server",
+        "--api-base-url", "https://api.cloudprovider.com/v1",
+        "--openapi-spec", "https://api.cloudprovider.com/openapi.json", 
+        "--header", "Authorization=Bearer CLOUD_TOKEN",
+        "--include-tags", "compute,storage,networking,monitoring"
+      ]
+    }
+  }
+}</code></pre>
+                </div>
+                <p><strong>Enables:</strong> Infrastructure management, resource monitoring, cost analysis</p>
+              </div>
+            </div>
+          </section>
+
+          <!-- Testing Examples -->
+          <section id="testing" class="doc-section">
+            <h2>Testing & Debugging</h2>
+
+            <div class="testing-section">
+              <h3>🧪 Testing Your Integration</h3>
+              
+              <div class="test-example">
+                <h4>Connection Testing</h4>
+                <div class="code-block">
+                  <pre><code class="language-typescript">// test-connection.ts
+import { OpenAPIServer } from "@lucid-spark/openapi-mcp-server";
+
+async function testApiConnection() {
+  const server = new OpenAPIServer({
+    apiBaseUrl: "https://api.example.com",
+    openApiSpec: "./api-spec.yaml",
+    headers: {
+      "Authorization": `Bearer ${process.env.API_TOKEN}`
+    },
+    debug: true // Enable debug logging
+  });
+
+  try {
+    console.log("Testing API connection...");
+    const connected = await server.testConnection();
+    
+    if (connected) {
+      console.log("✅ API connection successful");
+      
+      // Test server startup
+      await server.start();
+      console.log("✅ Server started successfully");
+      
+      // Get statistics
+      const stats = server.getStats();
+      console.log(`📊 Generated ${stats.tools.total} tools`);
+      console.log(`📊 API has ${stats.openapi.paths} paths`);
+      
+      await server.stop();
+      console.log("✅ Server stopped cleanly");
+      
+    } else {
+      console.error("❌ API connection failed");
+      console.log("Check your API URL and authentication");
+    }
+    
+  } catch (error) {
+    console.error("❌ Error:", error.message);
+    
+    // Debug information
+    if (error.response) {
+      console.error(`HTTP ${error.response.status}: ${error.response.statusText}`);
+      console.error("Response data:", error.response.data);
+    }
+  }
+}
+
+testApiConnection();</code></pre>
+                </div>
+              </div>
+
+              <div class="test-example">
+                <h4>Debug Mode Usage</h4>
+                <div class="code-block">
+                  <pre><code class="language-bash"># Enable debug mode in CLI
+npx @lucid-spark/openapi-mcp-server \
+  --api-base-url "https://api.example.com" \
+  --openapi-spec "./api-spec.yaml" \
+  --debug \
+  --header "Authorization=Bearer YOUR_TOKEN"
+
+# Debug output will show:
+# [DEBUG] Loading OpenAPI spec from: ./api-spec.yaml
+# [DEBUG] Found 15 paths with 23 operations
+# [DEBUG] Generated 23 endpoint tools + 3 meta tools
+# [DEBUG] Starting stdio transport
+# [DEBUG] Server ready</code></pre>
+                </div>
+              </div>
+
+              <div class="test-example">
+                <h4>Error Handling Patterns</h4>
+                <div class="code-block">
+                  <pre><code class="language-typescript">// robust-server.ts
+import { OpenAPIServer, isAuthError } from "@lucid-spark/openapi-mcp-server";
+
+class RobustApiServer {
+  private server: OpenAPIServer | null = null;
+  private retryCount = 0;
+  private maxRetries = 3;
+
+  async start() {
+    while (this.retryCount < this.maxRetries) {
+      try {
+        this.server = new OpenAPIServer({
+          apiBaseUrl: process.env.API_BASE_URL!,
+          openApiSpec: process.env.OPENAPI_SPEC!,
+          headers: {
+            "Authorization": `Bearer ${process.env.API_TOKEN}`
+          },
+          debug: process.env.NODE_ENV === "development"
+        });
+
+        await this.server.start();
+        console.log("🚀 Server started successfully");
+        this.retryCount = 0; // Reset on success
+        return;
+
+      } catch (error) {
+        this.retryCount++;
+        console.error(`❌ Attempt ${this.retryCount} failed:`, error.message);
+
+        if (isAuthError(error)) {
+          console.error("🔒 Authentication error - check your token");
+          break; // Don't retry auth errors
+        }
+
+        if (error.message.includes("ENOTFOUND")) {
+          console.error("🌐 Network error - check your connection");
+        }
+
+        if (this.retryCount < this.maxRetries) {
+          const delay = Math.pow(2, this.retryCount) * 1000; // Exponential backoff
+          console.log(`⏳ Retrying in ${delay}ms...`);
+          await new Promise(resolve => setTimeout(resolve, delay));
+        }
+      }
+    }
+
+    throw new Error("Failed to start server after maximum retries");
+  }
+
+  async stop() {
+    if (this.server) {
+      await this.server.stop();
+      this.server = null;
+    }
+  }
+
+  async healthCheck(): Promise<boolean> {
+    if (!this.server) return false;
+    
+    try {
+      return await this.server.testConnection();
+    } catch {
+      return false;
+    }
+  }
+}
+
+// Usage
+const robustServer = new RobustApiServer();
+
+process.on("SIGINT", async () => {
+  console.log("🛑 Shutting down gracefully...");
+  await robustServer.stop();
+  process.exit(0);
+});
+
+process.on("unhandledRejection", (reason) => {
+  console.error("💥 Unhandled rejection:", reason);
+  process.exit(1);
+});
+
+try {
+  await robustServer.start();
+} catch (error) {
+  console.error("💀 Failed to start server:", error.message);
+  process.exit(1);
+}</code></pre>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Best Practices -->
+          <section id="best-practices" class="doc-section">
+            <h2>Best Practices</h2>
+
+            <div class="best-practices-grid">
+              <div class="practice-card">
+                <h3>🔐 Security</h3>
+                <ul>
+                  <li>Store API tokens in environment variables, never in code</li>
+                  <li>Use HTTPS for all API communications</li>
+                  <li>Implement token refresh for OAuth2 authentication</li>
+                  <li>Validate SSL certificates in production</li>
+                  <li>Use least-privilege principles for API access</li>
+                </ul>
+                <div class="code-block small">
+                  <pre><code class="language-bash"># Example .env file
+API_TOKEN=your_secure_token_here
+API_BASE_URL=https://api.example.com
+OPENAPI_SPEC_URL=https://api.example.com/openapi.json</code></pre>
+                </div>
+              </div>
+
+              <div class="practice-card">
+                <h3>⚡ Performance</h3>
+                <ul>
+                  <li>Use tool filtering to reduce Claude's tool set</li>
+                  <li>Cache OpenAPI specifications when possible</li>
+                  <li>Implement request timeouts and retries</li>
+                  <li>Use HTTP/2 when available</li>
+                  <li>Monitor API rate limits</li>
+                </ul>
+                <div class="code-block small">
+                  <pre><code class="language-typescript">// Optimized configuration
+const config = {
+  // ... other config
+  includeOperations: ["GET", "POST"], // Limit to needed operations
+  includeTags: ["users", "orders"],   // Focus on relevant endpoints
+  httpTimeout: 30000,                 // 30-second timeout
+  maxRetries: 3                       // Retry failed requests
+};</code></pre>
+                </div>
+              </div>
+
+              <div class="practice-card">
+                <h3>🛠️ Maintainability</h3>
+                <ul>
+                  <li>Use version control for configuration files</li>
+                  <li>Document API-specific Claude instructions</li>
+                  <li>Test with actual API endpoints before deployment</li>
+                  <li>Keep OpenAPI specifications up to date</li>
+                  <li>Monitor for breaking API changes</li>
+                </ul>
+                <div class="code-block small">
+                  <pre><code class="language-typescript">// Version your configurations
+const config = {
+  name: "my-api-v2",
+  version: "2.1.0", 
+  // ... rest of config
+};</code></pre>
+                </div>
+              </div>
+
+              <div class="practice-card">
+                <h3>🐛 Debugging</h3>
+                <ul>
+                  <li>Enable debug mode during development</li>
+                  <li>Use structured logging for production</li>
+                  <li>Test connection before starting full server</li>
+                  <li>Validate configurations programmatically</li>
+                  <li>Implement health checks</li>
+                </ul>
+                <div class="code-block small">
+                  <pre><code class="language-typescript">// Debug helper
+if (process.env.NODE_ENV === "development") {
+  config.debug = true;
+  await server.testConnection();
+}</code></pre>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-section">
+            <h4>OpenAPI MCP Server</h4>
+            <p>Connect any OpenAPI to Claude Desktop with dynamic tool generation.</p>
+          </div>
+          <div class="footer-section">
+            <h4>Documentation</h4>
+            <ul>
+              <li><a href="./installation.html">Installation</a></li>
+              <li><a href="./configuration.html">Configuration</a></li>
+              <li><a href="./authentication.html">Authentication</a></li>
+              <li><a href="./api-reference.html">API Reference</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>&copy; 2024 OpenAPI MCP Server. Released under the MIT License.</p>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+  </body>
+</html>

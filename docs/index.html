@@ -1,0 +1,678 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>OpenAPI MCP Server - Connect any OpenAPI to Claude Desktop</title>
+    <meta
+      name="description"
+      content="A generic Model Context Protocol (MCP) server that dynamically exposes OpenAPI-defined REST APIs as MCP tools for Claude Desktop and other AI systems."
+    />
+    <meta
+      name="keywords"
+      content="MCP, Model Context Protocol, OpenAPI, Claude Desktop, AI, API, REST, TypeScript"
+    />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta
+      property="og:url"
+      content="https://lucivuc.github.io/openapi-mcp-server/"
+    />
+    <meta property="og:title" content="OpenAPI MCP Server" />
+    <meta
+      property="og:description"
+      content="Connect any OpenAPI-defined REST API to Claude Desktop with dynamic tool generation, flexible authentication, and smart filtering."
+    />
+    <meta
+      property="og:image"
+      content="https://lucivuc.github.io/openapi-mcp-server/assets/og-image.png"
+    />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta
+      property="twitter:url"
+      content="https://lucivuc.github.io/openapi-mcp-server/"
+    />
+    <meta property="twitter:title" content="OpenAPI MCP Server" />
+    <meta
+      property="twitter:description"
+      content="Connect any OpenAPI-defined REST API to Claude Desktop with dynamic tool generation, flexible authentication, and smart filtering."
+    />
+    <meta
+      property="twitter:image"
+      content="https://lucivuc.github.io/openapi-mcp-server/assets/og-image.png"
+    />
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/x-icon" href="./assets/favicon.ico" />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="./assets/apple-touch-icon.png"
+    />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="./css/style.css" />
+    <link rel="stylesheet" href="./css/components.css" />
+    <link rel="stylesheet" href="./css/responsive.css" />
+
+    <!-- Syntax highlighting -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <!-- Navigation -->
+    <nav class="navbar">
+      <div class="nav-container">
+        <div class="nav-brand">
+          <img
+            src="./assets/logo.svg"
+            alt="OpenAPI MCP Server"
+            class="nav-logo"
+          />
+          <span class="nav-title">OpenAPI MCP Server</span>
+        </div>
+        <div class="nav-menu" id="nav-menu">
+          <a href="#home" class="nav-link">Home</a>
+          <a href="#features" class="nav-link">Features</a>
+          <a href="#quickstart" class="nav-link">Quick Start</a>
+          <a href="#documentation" class="nav-link">Documentation</a>
+          <a href="#examples" class="nav-link">Examples</a>
+          <a
+            href="https://github.com/lucivuc/openapi-mcp-server"
+            class="nav-link"
+            target="_blank"
+          >
+            <svg class="github-icon" viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"
+              />
+            </svg>
+            GitHub
+          </a>
+        </div>
+        <div class="nav-toggle" id="nav-toggle">
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+      <div class="container">
+        <div class="hero-content">
+          <h1 class="hero-title">
+            Connect <span class="gradient-text">Any OpenAPI</span> to Claude
+            Desktop
+          </h1>
+          <p class="hero-subtitle">
+            A generic Model Context Protocol (MCP) server that dynamically
+            converts OpenAPI specifications into MCP tools, enabling Claude
+            Desktop and other AI systems to interact with any REST API.
+          </p>
+          <div class="hero-badges">
+            <img
+              src="https://img.shields.io/badge/TypeScript-5.3+-blue?style=flat-square&logo=typescript"
+              alt="TypeScript"
+            />
+            <img
+              src="https://img.shields.io/badge/Node.js-18+-green?style=flat-square&logo=node.js"
+              alt="Node.js"
+            />
+            <img
+              src="https://img.shields.io/badge/MCP-1.0-purple?style=flat-square"
+              alt="MCP Protocol"
+            />
+            <img
+              src="https://img.shields.io/badge/License-MIT-yellow?style=flat-square"
+              alt="MIT License"
+            />
+          </div>
+          <div class="hero-actions">
+            <a href="#quickstart" class="btn btn-primary">Get Started</a>
+            <a
+              href="https://github.com/lucivuc/openapi-mcp-server"
+              class="btn btn-secondary"
+              target="_blank"
+            >
+              View on GitHub
+            </a>
+          </div>
+        </div>
+        <div class="hero-visual">
+          <div class="code-preview">
+            <div class="code-header">
+              <div class="code-dots">
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+              <span class="code-title">Terminal</span>
+            </div>
+            <pre
+              class="code-content"
+            ><code class="language-bash"># Connect any OpenAPI to Claude Desktop
+npx @lucid-spark/openapi-mcp-server \
+  --api-base-url https://api.example.com \
+  --openapi-spec https://api.example.com/openapi.json \
+  --headers "Authorization:Bearer token123"
+
+# ✨ 47 tools generated from OpenAPI spec
+# 🔗 Server ready for Claude Desktop connection</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">Powerful Features</h2>
+          <p class="section-subtitle">
+            Everything you need to connect APIs to AI systems
+          </p>
+        </div>
+        <div class="features-grid">
+          <div class="feature-card">
+            <div class="feature-icon">🔄</div>
+            <h3 class="feature-title">Dynamic Tool Generation</h3>
+            <p class="feature-description">
+              Automatically converts OpenAPI operations to MCP tools with
+              intelligent naming and parameter mapping
+            </p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">🔐</div>
+            <h3 class="feature-title">Flexible Authentication</h3>
+            <p class="feature-description">
+              Support for static headers, dynamic providers, token refresh, and
+              complex authentication patterns
+            </p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">📊</div>
+            <h3 class="feature-title">Advanced Filtering</h3>
+            <p class="feature-description">
+              Filter tools by tags, resources, operations, or explicit lists to
+              expose only what you need
+            </p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">🌐</div>
+            <h3 class="feature-title">Multiple Transports</h3>
+            <p class="feature-description">
+              Stdio for Claude Desktop integration, HTTP for web applications
+              with streaming support
+            </p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">📝</div>
+            <h3 class="feature-title">Smart Tool Naming</h3>
+            <p class="feature-description">
+              Intelligent abbreviation system with ≤64 character limit and
+              readable formats
+            </p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">⚡</div>
+            <h3 class="feature-title">Meta-Tools</h3>
+            <p class="feature-description">
+              Built-in API exploration and dynamic endpoint invocation
+              capabilities
+            </p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">🏗️</div>
+            <h3 class="feature-title">Interface-Based Architecture</h3>
+            <p class="feature-description">
+              Type-safe, modular design with comprehensive TypeScript interfaces
+            </p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">📥</div>
+            <h3 class="feature-title">Multiple Input Methods</h3>
+            <p class="feature-description">
+              Load OpenAPI specs from URL, file, stdin, or inline content
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Quick Start Section -->
+    <section id="quickstart" class="quickstart">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">Quick Start</h2>
+          <p class="section-subtitle">Get up and running in minutes</p>
+        </div>
+        <div class="quickstart-tabs">
+          <div class="tab-nav">
+            <button class="tab-btn active" data-tab="claude">
+              Claude Desktop
+            </button>
+            <button class="tab-btn" data-tab="cli">Command Line</button>
+            <button class="tab-btn" data-tab="library">Library Usage</button>
+          </div>
+          <div class="tab-content">
+            <div class="tab-pane active" id="claude-tab">
+              <h3>1. Configure Claude Desktop</h3>
+              <p>Add to your Claude Desktop configuration file:</p>
+              <div class="code-block">
+                <div class="code-header">
+                  <span class="code-lang">JSON</span>
+                  <button class="copy-btn" data-copy="claude-config">
+                    Copy
+                  </button>
+                </div>
+                <pre><code class="language-json" id="claude-config">{
+  "mcpServers": {
+    "openapi": {
+      "command": "npx",
+      "args": ["-y", "@lucid-spark/openapi-mcp-server"],
+      "env": {
+        "API_BASE_URL": "https://api.example.com",
+        "OPENAPI_SPEC_PATH": "https://api.example.com/openapi.json",
+        "API_HEADERS": "Authorization:Bearer token123"
+      }
+    }
+  }
+}</code></pre>
+              </div>
+              <h3>2. Restart Claude Desktop</h3>
+              <p>
+                Your API endpoints will appear as available tools in Claude
+                conversations.
+              </p>
+            </div>
+            <div class="tab-pane" id="cli-tab">
+              <h3>1. Install globally (optional)</h3>
+              <div class="code-block">
+                <pre><code class="language-bash">npm install -g @lucid-spark/openapi-mcp-server</code></pre>
+              </div>
+              <h3>2. Run with any OpenAPI-compliant API</h3>
+              <div class="code-block">
+                <pre><code class="language-bash">npx @lucid-spark/openapi-mcp-server \
+  --api-base-url https://api.example.com \
+  --openapi-spec https://api.example.com/openapi.json \
+  --headers "Authorization:Bearer token123" \
+  --transport stdio</code></pre>
+              </div>
+            </div>
+            <div class="tab-pane" id="library-tab">
+              <h3>1. Install as dependency</h3>
+              <div class="code-block">
+                <pre><code class="language-bash">npm install @lucid-spark/openapi-mcp-server</code></pre>
+              </div>
+              <h3>2. Use in your application</h3>
+              <div class="code-block">
+                <pre><code class="language-typescript">import { OpenAPIServer } from "@lucid-spark/openapi-mcp-server";
+
+const server = new OpenAPIServer({
+  apiBaseUrl: "https://api.example.com",
+  openApiSpec: "https://api.example.com/openapi.json",
+  headers: {
+    Authorization: "Bearer token123"
+  },
+  transportType: "stdio"
+});
+
+await server.start();</code></pre>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Architecture Section -->
+    <section id="architecture" class="architecture">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">Architecture Overview</h2>
+          <p class="section-subtitle">
+            Modular, type-safe design for maximum flexibility
+          </p>
+        </div>
+        <div class="architecture-diagram">
+          <div class="arch-layer">
+            <div class="arch-component">
+              <h4>OpenAPI Server</h4>
+              <p>Orchestration & MCP Protocol</p>
+            </div>
+            <div class="arch-component">
+              <h4>Configuration</h4>
+              <p>Validation & Defaults</p>
+            </div>
+            <div class="arch-component">
+              <h4>Type System</h4>
+              <p>Interface-based Safety</p>
+            </div>
+          </div>
+          <div class="arch-layer">
+            <div class="arch-component">
+              <h4>Spec Loader</h4>
+              <p>Multiple Inputs & $ref Resolution</p>
+            </div>
+            <div class="arch-component">
+              <h4>Tools Manager</h4>
+              <p>Creation, Filtering & Caching</p>
+            </div>
+            <div class="arch-component">
+              <h4>Authentication</h4>
+              <p>Static & Dynamic Providers</p>
+            </div>
+          </div>
+          <div class="arch-layer">
+            <div class="arch-component">
+              <h4>Tool System</h4>
+              <p>ID Generation & Name Abbreviation</p>
+            </div>
+            <div class="arch-component">
+              <h4>API Client</h4>
+              <p>HTTP Requests & Auth Integration</p>
+            </div>
+            <div class="arch-component">
+              <h4>Transport Layer</h4>
+              <p>Stdio (Claude) & HTTP (Web)</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Examples Section -->
+    <section id="examples" class="examples">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">Usage Examples</h2>
+          <p class="section-subtitle">Real-world scenarios and patterns</p>
+        </div>
+        <div class="examples-grid">
+          <div class="example-card">
+            <h3>Public API (No Auth)</h3>
+            <div class="code-block small">
+              <pre><code class="language-bash">openapi-mcp-server \
+  --api-base-url https://jsonplaceholder.typicode.com \
+  --openapi-spec https://jsonplaceholder.typicode.com/openapi.json</code></pre>
+            </div>
+          </div>
+          <div class="example-card">
+            <h3>GitHub API</h3>
+            <div class="code-block small">
+              <pre><code class="language-bash">openapi-mcp-server \
+  --api-base-url https://api.github.com \
+  --openapi-spec https://api.github.com/openapi.json \
+  --headers "Authorization:Bearer ghp_xxxx"</code></pre>
+            </div>
+          </div>
+          <div class="example-card">
+            <h3>Filtered API Subset</h3>
+            <div class="code-block small">
+              <pre><code class="language-bash">openapi-mcp-server \
+  --api-base-url https://api.example.com \
+  --openapi-spec ./api-spec.yaml \
+  --tag public --operation GET</code></pre>
+            </div>
+          </div>
+          <div class="example-card">
+            <h3>HTTP Transport</h3>
+            <div class="code-block small">
+              <pre><code class="language-bash">openapi-mcp-server \
+  --api-base-url https://api.example.com \
+  --openapi-spec ./api-spec.yaml \
+  --transport http --port 3000</code></pre>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Documentation Section -->
+    <section id="documentation" class="documentation">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">Documentation</h2>
+          <p class="section-subtitle">Comprehensive guides and references</p>
+        </div>
+        <div class="docs-grid">
+          <a href="./pages/installation.html" class="doc-card">
+            <div class="doc-icon">📦</div>
+            <h3>Installation Guide</h3>
+            <p>
+              Prerequisites, global installation, local setup, and development
+              environment
+            </p>
+          </a>
+          <a href="./pages/configuration.html" class="doc-card">
+            <div class="doc-icon">⚙️</div>
+            <h3>Configuration</h3>
+            <p>
+              Complete configuration options, environment variables, and CLI
+              arguments
+            </p>
+          </a>
+          <a href="./pages/authentication.html" class="doc-card">
+            <div class="doc-icon">🔐</div>
+            <h3>Authentication</h3>
+            <p>
+              Static headers, dynamic providers, token refresh, and complex auth
+              patterns
+            </p>
+          </a>
+          <a href="./pages/tool-management.html" class="doc-card">
+            <div class="doc-icon">🛠️</div>
+            <h3>Tool Management</h3>
+            <p>
+              Tool generation, filtering, naming conventions, and meta-tools
+            </p>
+          </a>
+          <a href="./pages/transport.html" class="doc-card">
+            <div class="doc-icon">🌐</div>
+            <h3>Transport Types</h3>
+            <p>
+              Stdio for Claude Desktop, HTTP for web apps, and session
+              management
+            </p>
+          </a>
+          <a href="./pages/architecture.html" class="doc-card">
+            <div class="doc-icon">🏗️</div>
+            <h3>Architecture Guide</h3>
+            <p>
+              Component design, data flow, interface patterns, and extensibility
+            </p>
+          </a>
+          <a href="./pages/api-reference.html" class="doc-card">
+            <div class="doc-icon">📚</div>
+            <h3>API Reference</h3>
+            <p>TypeScript interfaces, method signatures, and library usage</p>
+          </a>
+          <a href="./pages/examples.html" class="doc-card">
+            <div class="doc-icon">💡</div>
+            <h3>Examples & Patterns</h3>
+            <p>
+              Real-world usage examples, integration patterns, and best
+              practices
+            </p>
+          </a>
+          <a href="./pages/troubleshooting.html" class="doc-card">
+            <div class="doc-icon">🐛</div>
+            <h3>Troubleshooting</h3>
+            <p>Common issues, debug mode, error handling, and solutions</p>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Community Section -->
+    <section id="community" class="community">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">Community & Support</h2>
+          <p class="section-subtitle">Get help and contribute to the project</p>
+        </div>
+        <div class="community-grid">
+          <a
+            href="https://github.com/lucivuc/openapi-mcp-server"
+            class="community-card"
+            target="_blank"
+          >
+            <div class="community-icon">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path
+                  d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"
+                />
+              </svg>
+            </div>
+            <h3>GitHub Repository</h3>
+            <p>Source code, issues, and contributions</p>
+          </a>
+          <a
+            href="https://github.com/lucivuc/openapi-mcp-server/issues"
+            class="community-card"
+            target="_blank"
+          >
+            <div class="community-icon">🐛</div>
+            <h3>Report Issues</h3>
+            <p>Bug reports and feature requests</p>
+          </a>
+          <a
+            href="https://github.com/lucivuc/openapi-mcp-server/discussions"
+            class="community-card"
+            target="_blank"
+          >
+            <div class="community-icon">💬</div>
+            <h3>Discussions</h3>
+            <p>Community help and general discussion</p>
+          </a>
+          <a
+            href="https://modelcontextprotocol.io/"
+            class="community-card"
+            target="_blank"
+          >
+            <div class="community-icon">📖</div>
+            <h3>MCP Protocol</h3>
+            <p>Official Model Context Protocol documentation</p>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-section">
+            <h4>OpenAPI MCP Server</h4>
+            <p>
+              Connect any OpenAPI to Claude Desktop with dynamic tool generation
+              and flexible authentication.
+            </p>
+            <div class="footer-badges">
+              <img
+                src="https://img.shields.io/badge/TypeScript-5.3+-blue?style=flat-square&logo=typescript"
+                alt="TypeScript"
+              />
+              <img
+                src="https://img.shields.io/badge/Node.js-18+-green?style=flat-square&logo=node.js"
+                alt="Node.js"
+              />
+              <img
+                src="https://img.shields.io/badge/MCP-1.0-purple?style=flat-square"
+                alt="MCP Protocol"
+              />
+            </div>
+          </div>
+          <div class="footer-section">
+            <h4>Documentation</h4>
+            <ul>
+              <li><a href="./pages/installation.html">Installation</a></li>
+              <li><a href="./pages/configuration.html">Configuration</a></li>
+              <li><a href="./pages/authentication.html">Authentication</a></li>
+              <li><a href="./pages/architecture.html">Architecture</a></li>
+              <li><a href="./pages/examples.html">Examples</a></li>
+            </ul>
+          </div>
+          <div class="footer-section">
+            <h4>Community</h4>
+            <ul>
+              <li>
+                <a
+                  href="https://github.com/lucivuc/openapi-mcp-server"
+                  target="_blank"
+                  >GitHub</a
+                >
+              </li>
+              <li>
+                <a
+                  href="https://github.com/lucivuc/openapi-mcp-server/issues"
+                  target="_blank"
+                  >Issues</a
+                >
+              </li>
+              <li>
+                <a
+                  href="https://github.com/lucivuc/openapi-mcp-server/discussions"
+                  target="_blank"
+                  >Discussions</a
+                >
+              </li>
+              <li>
+                <a href="https://modelcontextprotocol.io/" target="_blank"
+                  >MCP Protocol</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div class="footer-section">
+            <h4>Resources</h4>
+            <ul>
+              <li>
+                <a href="./pages/troubleshooting.html">Troubleshooting</a>
+              </li>
+              <li><a href="./pages/api-reference.html">API Reference</a></li>
+              <li>
+                <a
+                  href="https://github.com/lucivuc/openapi-mcp-server/blob/main/CONTRIBUTING.md"
+                  target="_blank"
+                  >Contributing</a
+                >
+              </li>
+              <li>
+                <a
+                  href="https://github.com/lucivuc/openapi-mcp-server/blob/main/LICENSE"
+                  target="_blank"
+                  >License</a
+                >
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>&copy; 2024 OpenAPI MCP Server. Released under the MIT License.</p>
+          <p>Made with ❤️ for the MCP ecosystem</p>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script src="./js/main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,842 @@
+openapi: 3.0.0
+info:
+  description: |
+    Petstore API - A comprehensive pet store management system providing endpoints for managing pets, store orders, and users.
+    
+    This API allows you to:
+    - Create, read, update, and delete pet records
+    - Search for pets by status or tags
+    - Manage store inventory and orders
+    - Handle user authentication and profiles
+    
+    Authentication: Use the api key `special-key` for testing authorization filters.
+  version: 1.0.0
+  title: Swagger Petstore
+  termsOfService: http://swagger.io/terms/
+  contact:
+    email: apiteam@swagger.io
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+externalDocs:
+  description: Find out more about Swagger
+  url: http://swagger.io
+servers:
+  - url: http://petstore.swagger.io/v2
+tags:
+  - name: pet
+    description: Operations for managing pets in the store inventory
+    externalDocs:
+      description: Find out more
+      url: http://swagger.io
+  - name: store
+    description: Operations for managing store orders and inventory
+  - name: user
+    description: Operations for managing user accounts and authentication
+    externalDocs:
+      description: Find out more about our store
+      url: http://swagger.io
+paths:
+  '/pet':
+    post:
+      tags:
+        - pet
+      summary: Add a new pet to the store
+      description: |
+        Creates a new pet record in the store inventory. This operation requires authentication with write permissions.
+        
+        Usage: Use this endpoint when you need to add a new pet to the store's database. The pet must have a name and at least one photo URL.
+        
+        Example: To add a new dog named "Buddy" with available status, provide a JSON body with name="Buddy", photoUrls array, and status="available".
+      operationId: addPet
+      requestBody:
+        $ref: '#/components/requestBodies/Pet'
+      responses:
+        '405':
+          description: Invalid input - The request body does not meet validation requirements
+      security:
+        - petstore_auth:
+            - write:pets
+            - read:pets
+    put:
+      tags:
+        - pet
+      summary: Update an existing pet
+      description: |
+        Updates an existing pet record in the store. This operation requires authentication with write permissions.
+        
+        Usage: Use this endpoint to modify any property of an existing pet. You must provide the complete pet object including the pet ID.
+        
+        Example: To update a pet's status from "available" to "sold", include the pet's ID and change the status field to "sold" in the request body.
+      operationId: updatePet
+      requestBody:
+        $ref: '#/components/requestBodies/Pet'
+      responses:
+        '400':
+          description: Invalid ID supplied - The pet ID format is incorrect
+        '404':
+          description: Pet not found - No pet exists with the provided ID
+        '405':
+          description: Validation exception - The request body failed validation
+      security:
+        - petstore_auth:
+            - write:pets
+            - read:pets
+  '/pet/findByStatus':
+    get:
+      tags:
+        - pet
+      summary: Finds Pets by status
+      description: |
+        Retrieves a list of pets filtered by their current status. Multiple status values can be provided as comma-separated strings.
+        
+        Usage: Use this endpoint to query pets based on their availability status. This is useful for displaying available pets to customers or managing inventory.
+        
+        Example: To find all available pets, set status parameter to "available". To find both available and pending pets, use "available,pending".
+        
+        Valid status values: available, pending, sold
+      operationId: findPetsByStatus
+      parameters:
+        - name: status
+          in: query
+          description: 'Status values that need to be considered for filter. Can be one or more of: available, pending, sold'
+          required: true
+          explode: true
+          schema:
+            type: array
+            items:
+              type: string
+              enum:
+                - available
+                - pending
+                - sold
+              default: available
+      responses:
+        '200':
+          description: Successful operation - Returns an array of pet objects matching the status criteria
+          content:
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pet'
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pet'
+        '400':
+          description: Invalid status value - One or more provided status values are not valid
+      security:
+        - petstore_auth:
+            - write:pets
+            - read:pets
+  '/pet/findByTags':
+    get:
+      tags:
+        - pet
+      summary: Finds Pets by tags
+      description: |
+        Retrieves a list of pets filtered by tags. Multiple tags can be provided as comma-separated strings.
+        
+        Usage: Use this endpoint to search for pets based on their associated tags. This is useful for categorizing pets by breed, size, color, or other characteristics.
+        
+        Example: To find pets tagged with "small" and "friendly", provide tags parameter as "small,friendly".
+        
+        Note: This endpoint is deprecated and may be removed in future versions. Consider using status-based filtering instead.
+      operationId: findPetsByTags
+      parameters:
+        - name: tags
+          in: query
+          description: Tags to filter by - provide one or more tag names as comma-separated values
+          required: true
+          explode: true
+          schema:
+            type: array
+            items:
+              type: string
+      responses:
+        '200':
+          description: Successful operation - Returns an array of pet objects matching the tag criteria
+          content:
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pet'
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pet'
+        '400':
+          description: Invalid tag value - One or more provided tags are not valid
+      security:
+        - petstore_auth:
+            - write:pets
+            - read:pets
+      deprecated: true
+  '/pet/{petId}':
+    get:
+      tags:
+        - pet
+      summary: Find pet by ID
+      description: |
+        Retrieves detailed information about a specific pet using its unique ID.
+        
+        Usage: Use this endpoint to get complete details about a single pet. This is useful when you need to display full pet information or verify pet details.
+        
+        Example: To retrieve pet with ID 123, call GET /pet/123. The response will include all pet details including name, status, photos, tags, and category.
+      operationId: getPetById
+      parameters:
+        - name: petId
+          in: path
+          description: ID of pet to return - must be a valid integer ID
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Successful operation - Returns the complete pet object
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Pet'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+        '400':
+          description: Invalid ID supplied - The pet ID format is incorrect or not a valid integer
+        '404':
+          description: Pet not found - No pet exists with the provided ID
+        default:
+          description: Successful response
+      security:
+        - api_key: []
+    post:
+      tags:
+        - pet
+      summary: Updates a pet in the store with form data
+      description: |
+        Updates specific fields of an existing pet using form-encoded data. This operation requires authentication with write permissions.
+        
+        Usage: Use this endpoint to update a pet's name or status without providing the complete pet object. This is useful for quick updates.
+        
+        Example: To update pet 123's status to "sold", send a POST to /pet/123 with form data containing status="sold".
+      operationId: updatePetWithForm
+      parameters:
+        - name: petId
+          in: path
+          description: ID of pet that needs to be updated - must be a valid integer ID
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                name:
+                  description: Updated name of the pet
+                  type: string
+                status:
+                  description: Updated status of the pet (available, pending, or sold)
+                  type: string
+      responses:
+        '405':
+          description: Invalid input - The form data does not meet validation requirements
+      security:
+        - petstore_auth:
+            - write:pets
+            - read:pets
+    delete:
+      tags:
+        - pet
+      summary: Deletes a pet
+      description: |
+        Removes a pet from the store inventory. This operation requires authentication with write permissions.
+        
+        Usage: Use this endpoint to permanently delete a pet record from the system. This action cannot be undone.
+        
+        Example: To delete pet with ID 123, send a DELETE request to /pet/123. Optionally include an api_key header for additional authentication.
+      operationId: deletePet
+      parameters:
+        - name: api_key
+          in: header
+          description: Optional API key for additional authentication
+          required: false
+          schema:
+            type: string
+        - name: petId
+          in: path
+          description: Pet id to delete - must be a valid integer ID
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '400':
+          description: Invalid ID supplied - The pet ID format is incorrect
+        '404':
+          description: Pet not found - No pet exists with the provided ID
+      security:
+        - petstore_auth:
+            - write:pets
+            - read:pets
+  '/pet/{petId}/uploadImage':
+    post:
+      tags:
+        - pet
+      summary: Uploads an image
+      description: |
+        Uploads an image file for a specific pet. This operation requires authentication with write permissions.
+        
+        Usage: Use this endpoint to add or update a pet's photo. The file should be sent as multipart/form-data.
+        
+        Example: To upload a photo for pet 123, send a POST to /pet/123/uploadImage with the image file in the "file" field and optional metadata in "additionalMetadata" field.
+      operationId: uploadFile
+      parameters:
+        - name: petId
+          in: path
+          description: ID of pet to update - must be a valid integer ID
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                additionalMetadata:
+                  description: Additional data to pass to server (e.g., image description, photographer name)
+                  type: string
+                file:
+                  description: Image file to upload - accepted formats include JPEG, PNG, GIF
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: Successful operation - Image uploaded successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+      security:
+        - petstore_auth:
+            - write:pets
+            - read:pets
+  '/store/inventory':
+    get:
+      tags:
+        - store
+      summary: Returns pet inventories by status
+      description: |
+        Retrieves a summary of pet inventory organized by status. Returns a map where keys are status values and values are the count of pets with that status.
+        
+        Usage: Use this endpoint to get an overview of store inventory. This is useful for dashboard displays and inventory management reports.
+        
+        Example: Response might be {"available": 45, "pending": 12, "sold": 103} indicating 45 available pets, 12 pending, and 103 sold.
+      operationId: getInventory
+      responses:
+        '200':
+          description: Successful operation - Returns a map of status codes to quantities
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: integer
+                  format: int32
+      security:
+        - api_key: []
+  '/store/order':
+    post:
+      tags:
+        - store
+      summary: Place an order for a pet
+      description: |
+        Creates a new order for purchasing a pet from the store.
+        
+        Usage: Use this endpoint to record a pet purchase. The order must include a pet ID and quantity. The system will automatically set the order date and generate an order ID.
+        
+        Example: To order pet with ID 123, send a POST with JSON body containing petId=123, quantity=1, and optionally status="placed".
+      operationId: placeOrder
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Order'
+        description: Order object representing the purchase request - must include petId and quantity
+        required: true
+      responses:
+        '200':
+          description: Successful operation - Order placed successfully, returns the complete order object with generated ID
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Order'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+        '400':
+          description: Invalid Order - The order data does not meet validation requirements or references a non-existent pet
+  '/store/order/{orderId}':
+    get:
+      tags:
+        - store
+      summary: Find purchase order by ID
+      description: |
+        Retrieves details of a specific order using its unique ID.
+        
+        Usage: Use this endpoint to look up order information for tracking, customer service, or order management purposes.
+        
+        Example: To retrieve order with ID 5, call GET /store/order/5. The response includes order details such as pet ID, quantity, ship date, status, and completion flag.
+        
+        Note: For valid response, use integer IDs with value between 1 and 10. Other values will generate exceptions.
+      operationId: getOrderById
+      parameters:
+        - name: orderId
+          in: path
+          description: ID of order to fetch - must be an integer between 1 and 10 for testing purposes
+          required: true
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+            maximum: 10
+      responses:
+        '200':
+          description: Successful operation - Returns the complete order object
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Order'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+        '400':
+          description: Invalid ID supplied - The order ID is out of valid range or not a valid integer
+        '404':
+          description: Order not found - No order exists with the provided ID
+    delete:
+      tags:
+        - store
+      summary: Delete purchase order by ID
+      description: |
+        Cancels and removes an order from the system.
+        
+        Usage: Use this endpoint to cancel orders that haven't been processed or to remove old order records. This action cannot be undone.
+        
+        Example: To delete order with ID 5, send a DELETE request to /store/order/5.
+        
+        Note: For valid response, use positive integer IDs. Negative or non-integer values will generate API errors.
+      operationId: deleteOrder
+      parameters:
+        - name: orderId
+          in: path
+          description: ID of the order that needs to be deleted - must be a positive integer
+          required: true
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+      responses:
+        '400':
+          description: Invalid ID supplied - The order ID is negative or not a valid integer
+        '404':
+          description: Order not found - No order exists with the provided ID
+  '/user':
+    post:
+      tags:
+        - user
+      summary: Create user
+      description: |
+        Creates a new user account in the system. This operation can only be performed by logged-in users.
+        
+        Usage: Use this endpoint to register new users. Provide user details including username, email, password, and optional profile information.
+        
+        Example: To create a user "johndoe", send a POST with JSON body containing username="johndoe", email="john@example.com", password="securepass123", and optional fields like firstName, lastName, phone.
+      operationId: createUser
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+        description: User object to be created - must include at minimum a username
+        required: true
+      responses:
+        default:
+          description: Successful operation - User created successfully
+  '/user/createWithArray':
+    post:
+      tags:
+        - user
+      summary: Creates list of users with given input array
+      description: |
+        Creates multiple user accounts in a single operation by providing an array of user objects.
+        
+        Usage: Use this endpoint for bulk user creation, such as importing users from another system or batch registration.
+        
+        Example: Send a POST with JSON body containing an array of user objects: [{"username": "user1", "email": "user1@example.com"}, {"username": "user2", "email": "user2@example.com"}]
+      operationId: createUsersWithArrayInput
+      requestBody:
+        $ref: '#/components/requestBodies/UserArray'
+      responses:
+        default:
+          description: Successful operation - All users created successfully
+  '/user/createWithList':
+    post:
+      tags:
+        - user
+      summary: Creates list of users with given input array
+      description: |
+        Creates multiple user accounts in a single operation by providing a list of user objects. This is functionally identical to createWithArray.
+        
+        Usage: Use this endpoint for bulk user creation. Provide a JSON array of complete user objects.
+        
+        Example: Send a POST with JSON body containing a list of user objects with all required and optional fields populated.
+      operationId: createUsersWithListInput
+      requestBody:
+        $ref: '#/components/requestBodies/UserArray'
+      responses:
+        default:
+          description: Successful operation - All users in the list created successfully
+  '/user/login':
+    get:
+      tags:
+        - user
+      summary: Logs user into the system
+      description: |
+        Authenticates a user and creates a session. Returns authentication tokens and session information.
+        
+        Usage: Use this endpoint to authenticate users before they can perform authenticated operations. The username and password are sent as query parameters.
+        
+        Example: To log in user "johndoe" with password "mypassword", call GET /user/login?username=johndoe&password=mypassword. The response includes session tokens in headers.
+        
+        Security Note: In production, this should use POST with encrypted body rather than GET with query parameters.
+      operationId: loginUser
+      parameters:
+        - name: username
+          in: query
+          description: The user name for login - must match an existing user account
+          required: true
+          schema:
+            type: string
+        - name: password
+          in: query
+          description: The password for login in clear text - should match the user's password
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation - User logged in successfully, returns session token
+          headers:
+            X-Rate-Limit:
+              description: Number of API calls per hour allowed by the user's account tier
+              schema:
+                type: integer
+                format: int32
+            X-Expires-After:
+              description: Date and time in UTC when the session token expires
+              schema:
+                type: string
+                format: date-time
+          content:
+            application/xml:
+              schema:
+                type: string
+            application/json:
+              schema:
+                type: string
+        '400':
+          description: Invalid username/password supplied - Credentials do not match any user account
+  '/user/logout':
+    get:
+      tags:
+        - user
+      summary: Logs out current logged in user session
+      description: |
+        Terminates the current user session and invalidates the session token.
+        
+        Usage: Use this endpoint when a user wants to log out. This will end the session and require re-authentication for protected operations.
+        
+        Example: Call GET /user/logout with the current session's authentication credentials to terminate the session.
+      operationId: logoutUser
+      responses:
+        default:
+          description: Successful operation - User logged out successfully, session terminated
+  '/user/{username}':
+    get:
+      tags:
+        - user
+      summary: Get user by user name
+      description: |
+        Retrieves detailed information about a specific user by their username.
+        
+        Usage: Use this endpoint to fetch user profile information. This is useful for displaying user details or verifying user information.
+        
+        Example: To retrieve user profile for "johndoe", call GET /user/johndoe. The response includes all user details except the password.
+        
+        Test data: Use "user1" for testing purposes.
+      operationId: getUserByName
+      parameters:
+        - name: username
+          in: path
+          description: The username that needs to be fetched. Use "user1" for testing.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation - Returns the complete user object
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/User'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '400':
+          description: Invalid username supplied - The username format is invalid or contains illegal characters
+        '404':
+          description: User not found - No user exists with the provided username
+    put:
+      tags:
+        - user
+      summary: Updated user
+      description: |
+        Updates an existing user's information. This operation can only be performed by the logged-in user updating their own account.
+        
+        Usage: Use this endpoint to modify user profile information such as email, name, phone, or password.
+        
+        Example: To update user "johndoe"'s email, send a PUT to /user/johndoe with JSON body containing the complete user object with the new email address.
+      operationId: updateUser
+      parameters:
+        - name: username
+          in: path
+          description: Username of the account that needs to be updated
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+        description: Updated user object - must include all user fields, not just changed ones
+        required: true
+      responses:
+        '400':
+          description: Invalid user supplied - The user data does not meet validation requirements
+        '404':
+          description: User not found - No user exists with the provided username
+    delete:
+      tags:
+        - user
+      summary: Delete user
+      description: |
+        Removes a user account from the system. This operation can only be performed by the logged-in user deleting their own account.
+        
+        Usage: Use this endpoint to permanently delete a user account. This action cannot be undone and will remove all user data.
+        
+        Example: To delete user account "johndoe", send a DELETE request to /user/johndoe while authenticated as johndoe.
+      operationId: deleteUser
+      parameters:
+        - name: username
+          in: path
+          description: The username of the account that needs to be deleted
+          required: true
+          schema:
+            type: string
+      responses:
+        '400':
+          description: Invalid username supplied - The username format is invalid or contains illegal characters
+        '404':
+          description: User not found - No user exists with the provided username
+components:
+  requestBodies:
+    Pet:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Pet'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/Pet'
+      description: Pet object that needs to be added to the store. Must include required fields name and photoUrls array.
+      required: true
+    UserArray:
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/User'
+      description: List of user objects for batch creation. Each user object should contain complete user information.
+      required: true
+  securitySchemes:
+    petstore_auth:
+      type: oauth2
+      flows:
+        implicit:
+          authorizationUrl: http://petstore.swagger.io/oauth/dialog
+          scopes:
+            write:pets: Grants permission to modify pets in your account
+            read:pets: Grants permission to read your pets
+    api_key:
+      type: apiKey
+      name: api_key
+      in: header
+  schemas:
+    Order:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: Unique identifier for the order, automatically generated by the system
+        petId:
+          type: integer
+          format: int64
+          description: ID of the pet being ordered - must reference an existing pet
+        quantity:
+          type: integer
+          format: int32
+          description: Number of pets being ordered - must be a positive integer
+        shipDate:
+          type: string
+          format: date-time
+          description: Estimated or actual shipping date in ISO 8601 format
+        status:
+          type: string
+          description: Current status of the order in the fulfillment process
+          enum:
+            - placed
+            - approved
+            - delivered
+        complete:
+          type: boolean
+          default: false
+          description: Flag indicating whether the order has been completed and delivered
+      xml:
+        name: Order
+    Category:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: Unique identifier for the category
+        name:
+          type: string
+          description: Display name of the category (e.g., "Dogs", "Cats", "Birds")
+      xml:
+        name: Category
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: Unique identifier for the user, automatically generated by the system
+        username:
+          type: string
+          description: Unique username for login - must be alphanumeric and unique across all users
+        firstName:
+          type: string
+          description: User's first name for display purposes
+        lastName:
+          type: string
+          description: User's last name for display purposes
+        email:
+          type: string
+          description: User's email address - must be valid email format and unique
+        password:
+          type: string
+          description: User's password - should be stored encrypted, never returned in responses
+        phone:
+          type: string
+          description: User's phone number for contact purposes
+        userStatus:
+          type: integer
+          format: int32
+          description: User account status code (e.g., 0=inactive, 1=active, 2=suspended)
+      xml:
+        name: User
+    Tag:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: Unique identifier for the tag
+        name:
+          type: string
+          description: Display name of the tag (e.g., "small", "friendly", "trained")
+      xml:
+        name: Tag
+    Pet:
+      type: object
+      required:
+        - name
+        - photoUrls
+      properties:
+        id:
+          type: integer
+          format: int64
+          readOnly: true
+          default: 40
+          example: 25
+          description: Unique identifier for the pet, automatically generated by the system and read-only
+        category:
+          $ref: '#/components/schemas/Category'
+          description: Category classification for the pet (e.g., Dog, Cat, Bird)
+        name:
+          type: string
+          example: doggie
+          description: Name of the pet - required field, used for display and identification
+        photoUrls:
+          type: array
+          xml:
+            name: photoUrl
+            wrapped: true
+          items:
+            type: string
+            example: https://example.com/photo.png
+          description: Array of URLs pointing to photos of the pet - at least one URL is required
+        tags:
+          type: array
+          xml:
+            name: tag
+            wrapped: true
+          items:
+            $ref: '#/components/schemas/Tag'
+          description: Array of tags associated with the pet for categorization and search
+        status:
+          type: string
+          description: Current availability status of the pet in the store
+          enum:
+            - available
+            - pending
+            - sold
+      xml:
+        name: Pet
+    ApiResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+          description: HTTP status code or custom response code indicating the result
+        type:
+          type: string
+          description: Type of response (e.g., "success", "error", "warning")
+        message:
+          type: string
+          description: Human-readable message describing the operation result

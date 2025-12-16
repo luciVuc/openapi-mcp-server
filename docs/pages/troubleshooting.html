@@ -1,0 +1,1037 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Troubleshooting - OpenAPI MCP Server</title>
+    <meta
+      name="description"
+      content="Comprehensive troubleshooting guide for OpenAPI MCP Server including common issues, debug techniques, and solutions."
+    />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/components.css" />
+    <link rel="stylesheet" href="../css/responsive.css" />
+
+    <!-- Syntax highlighting -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <!-- Navigation -->
+    <nav class="navbar">
+      <div class="nav-container">
+        <div class="nav-brand">
+          <a class="nav-brand" href="../index.html">
+            <img
+              src="../assets/logo.svg"
+              alt="OpenAPI MCP Server"
+              class="nav-logo"
+            />
+            <span class="nav-title">OpenAPI MCP Server</span>
+          </a>
+        </div>
+        <div class="nav-menu">
+          <a href="../index.html" class="nav-link">Home</a>
+          <a href="../index.html#features" class="nav-link">Features</a>
+          <a href="../index.html#quickstart" class="nav-link">Quick Start</a>
+          <a href="../index.html#documentation" class="nav-link">Documentation</a>
+          <a href="../index.html#examples" class="nav-link">Examples</a>
+          <a
+            href="https://github.com/lucivuc/openapi-mcp-server"
+            class="nav-link"
+            target="_blank"
+          >
+            <svg class="github-icon" viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+            </svg>
+            GitHub
+          </a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div class="container">
+        <div class="doc-header">
+          <h1 class="doc-title">Troubleshooting Guide</h1>
+          <p class="doc-subtitle">
+            Common issues, debug techniques, and step-by-step solutions for OpenAPI MCP Server problems.
+          </p>
+        </div>
+
+        <div class="doc-content">
+          <!-- Quick Diagnosis -->
+          <section id="quick-diagnosis" class="doc-section">
+            <h2>Quick Diagnosis</h2>
+            <p>
+              Start here for rapid problem identification and common solutions.
+            </p>
+
+            <div class="diagnosis-grid">
+              <div class="diagnosis-card">
+                <h3>🚨 Server Won't Start</h3>
+                <div class="symptoms">
+                  <h4>Symptoms:</h4>
+                  <ul>
+                    <li>Error on startup</li>
+                    <li>Process exits immediately</li>
+                    <li>Configuration validation fails</li>
+                  </ul>
+                </div>
+                <div class="quick-fixes">
+                  <h4>Quick Fixes:</h4>
+                  <ol>
+                    <li>Check <code>apiBaseUrl</code> is provided</li>
+                    <li>Verify OpenAPI spec path/URL is accessible</li>
+                    <li>Validate authentication credentials</li>
+                    <li>Run with <code>--debug</code> flag</li>
+                  </ol>
+                </div>
+              </div>
+
+              <div class="diagnosis-card">
+                <h3>🔌 Connection Issues</h3>
+                <div class="symptoms">
+                  <h4>Symptoms:</h4>
+                  <ul>
+                    <li>API requests fail</li>
+                    <li>"Connection refused" errors</li>
+                    <li>Timeout errors</li>
+                  </ul>
+                </div>
+                <div class="quick-fixes">
+                  <h4>Quick Fixes:</h4>
+                  <ol>
+                    <li>Test API URL manually with curl</li>
+                    <li>Check network connectivity</li>
+                    <li>Verify firewall settings</li>
+                    <li>Test with <code>testConnection()</code> method</li>
+                  </ol>
+                </div>
+              </div>
+
+              <div class="diagnosis-card">
+                <h3>🔐 Authentication Errors</h3>
+                <div class="symptoms">
+                  <h4>Symptoms:</h4>
+                  <ul>
+                    <li>401 Unauthorized errors</li>
+                    <li>403 Forbidden responses</li>
+                    <li>Token expiry issues</li>
+                  </ul>
+                </div>
+                <div class="quick-fixes">
+                  <h4>Quick Fixes:</h4>
+                  <ol>
+                    <li>Verify token/credentials are correct</li>
+                    <li>Check token expiration</li>
+                    <li>Test authentication manually</li>
+                    <li>Implement token refresh logic</li>
+                  </ol>
+                </div>
+              </div>
+
+              <div class="diagnosis-card">
+                <h3>🛠️ Tool Generation Issues</h3>
+                <div class="symptoms">
+                  <h4>Symptoms:</h4>
+                  <ul>
+                    <li>No tools generated</li>
+                    <li>Unexpected tool count</li>
+                    <li>Missing specific endpoints</li>
+                  </ul>
+                </div>
+                <div class="quick-fixes">
+                  <h4>Quick Fixes:</h4>
+                  <ol>
+                    <li>Check OpenAPI spec validity</li>
+                    <li>Review filtering configuration</li>
+                    <li>Verify spec has operations</li>
+                    <li>Check <code>getStats()</code> output</li>
+                  </ol>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Common Issues -->
+          <section id="common-issues" class="doc-section">
+            <h2>Common Issues & Solutions</h2>
+
+            <div class="issue-list">
+              <div class="issue-item">
+                <h3>❌ Error: "apiBaseUrl is required"</h3>
+                <div class="error-details">
+                  <div class="error-message">
+                    <code>Error: apiBaseUrl is required in configuration</code>
+                  </div>
+                  
+                  <div class="solution">
+                    <h4>🔧 Solution:</h4>
+                    <p>The base URL for your API is mandatory. Provide it in configuration:</p>
+                    <div class="code-block">
+                      <pre><code class="language-bash"># CLI
+npx @lucid-spark/openapi-mcp-server --api-base-url "https://api.example.com"</code></pre>
+                    </div>
+                    <div class="code-block">
+                      <pre><code class="language-typescript">// Library
+const server = new OpenAPIServer({
+  apiBaseUrl: "https://api.example.com",
+  // ... other config
+});</code></pre>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="issue-item">
+                <h3>❌ OpenAPI Specification Loading Errors</h3>
+                <div class="error-details">
+                  <div class="error-message">
+                    <code>Error: Failed to load OpenAPI spec from: ./api-spec.yaml</code>
+                  </div>
+                  
+                  <div class="solution">
+                    <h4>🔧 Solutions:</h4>
+                    
+                    <div class="solution-steps">
+                      <h5>1. File Path Issues</h5>
+                      <div class="code-block">
+                        <pre><code class="language-bash"># Check file exists
+ls -la ./api-spec.yaml
+
+# Use absolute path
+npx @lucid-spark/openapi-mcp-server \
+  --api-base-url "https://api.example.com" \
+  --openapi-spec "/full/path/to/api-spec.yaml"</code></pre>
+                      </div>
+
+                      <h5>2. URL Accessibility</h5>
+                      <div class="code-block">
+                        <pre><code class="language-bash"># Test URL manually
+curl -I "https://api.example.com/openapi.json"
+
+# Check for CORS issues (browser only)
+# Try with different content-type headers</code></pre>
+                      </div>
+
+                      <h5>3. Format Validation</h5>
+                      <div class="code-block">
+                        <pre><code class="language-bash"># Validate YAML syntax
+npx js-yaml api-spec.yaml
+
+# Validate JSON syntax  
+jq . api-spec.json
+
+# Validate OpenAPI spec
+npx swagger-cli validate api-spec.yaml</code></pre>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="issue-item">
+                <h3>❌ Authentication Token Errors</h3>
+                <div class="error-details">
+                  <div class="error-message">
+                    <code>Error: Request failed with status code 401</code>
+                  </div>
+                  
+                  <div class="solution">
+                    <h4>🔧 Solutions:</h4>
+                    
+                    <div class="solution-steps">
+                      <h5>1. Verify Token Format</h5>
+                      <div class="code-block">
+                        <pre><code class="language-bash"># Test authentication manually
+curl -H "Authorization: Bearer YOUR_TOKEN" \
+     "https://api.example.com/some-endpoint"
+
+# Check token format (Bearer, Basic, API Key, etc.)
+# Refer to API documentation for correct format</code></pre>
+                      </div>
+
+                      <h5>2. Token Expiry Check</h5>
+                      <div class="code-block">
+                        <pre><code class="language-typescript">// Decode JWT token (if applicable)
+const jwt = require('jsonwebtoken');
+const decoded = jwt.decode(token);
+console.log('Token expires:', new Date(decoded.exp * 1000));
+
+// Implement refresh logic
+class TokenManager {
+  async refreshIfNeeded() {
+    if (this.isTokenExpiring()) {
+      await this.refreshToken();
+    }
+  }
+}</code></pre>
+                      </div>
+
+                      <h5>3. Header Configuration</h5>
+                      <div class="code-block">
+                        <pre><code class="language-typescript">// Common authentication patterns
+const configs = {
+  bearer: {
+    headers: { "Authorization": "Bearer YOUR_TOKEN" }
+  },
+  apiKey: {
+    headers: { "X-API-Key": "YOUR_API_KEY" }
+  },
+  basic: {
+    headers: { "Authorization": "Basic " + Buffer.from("user:pass").toString("base64") }
+  }
+};</code></pre>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="issue-item">
+                <h3>❌ Network Connection Issues</h3>
+                <div class="error-details">
+                  <div class="error-message">
+                    <code>Error: getaddrinfo ENOTFOUND api.example.com</code>
+                  </div>
+                  
+                  <div class="solution">
+                    <h4>🔧 Solutions:</h4>
+                    
+                    <div class="solution-steps">
+                      <h5>1. DNS Resolution</h5>
+                      <div class="code-block">
+                        <pre><code class="language-bash"># Test DNS resolution
+nslookup api.example.com
+dig api.example.com
+
+# Try alternative DNS servers
+# 8.8.8.8 (Google), 1.1.1.1 (Cloudflare)</code></pre>
+                      </div>
+
+                      <h5>2. Network Connectivity</h5>
+                      <div class="code-block">
+                        <pre><code class="language-bash"># Test basic connectivity
+ping api.example.com
+
+# Test specific port
+telnet api.example.com 443
+
+# Check proxy settings
+echo $HTTP_PROXY
+echo $HTTPS_PROXY</code></pre>
+                      </div>
+
+                      <h5>3. SSL/TLS Issues</h5>
+                      <div class="code-block">
+                        <pre><code class="language-bash"># Test SSL certificate
+openssl s_client -connect api.example.com:443 -servername api.example.com
+
+# Check certificate validity
+curl -I --verbose "https://api.example.com"</code></pre>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="issue-item">
+                <h3>❌ Tool Filtering Not Working</h3>
+                <div class="error-details">
+                  <div class="error-message">
+                    <code>Warning: No tools generated after applying filters</code>
+                  </div>
+                  
+                  <div class="solution">
+                    <h4>🔧 Solutions:</h4>
+                    
+                    <div class="solution-steps">
+                      <h5>1. Check Filter Configuration</h5>
+                      <div class="code-block">
+                        <pre><code class="language-typescript">// Debug filter settings
+const server = new OpenAPIServer({
+  // ... config
+  debug: true  // Enable debug output
+});
+
+const stats = server.getStats();
+console.log("Filter status:", stats.filtering);</code></pre>
+                      </div>
+
+                      <h5>2. Validate Tag Names</h5>
+                      <div class="code-block">
+                        <pre><code class="language-bash"># List available tags in OpenAPI spec
+cat api-spec.yaml | grep -A 5 "tags:"
+
+# Use exact tag names (case-sensitive)
+npx @lucid-spark/openapi-mcp-server \
+  --include-tags "Users,Orders" \  # NOT "users,orders"
+  # ... other config</code></pre>
+                      </div>
+
+                      <h5>3. Operation Validation</h5>
+                      <div class="code-block">
+                        <pre><code class="language-typescript">// Check which operations exist
+const spec = await loadOpenAPISpec("./api-spec.yaml");
+const operations = [];
+
+Object.entries(spec.paths).forEach(([path, methods]) => {
+  Object.keys(methods).forEach(method => {
+    if (['get', 'post', 'put', 'patch', 'delete'].includes(method)) {
+      operations.push(method.toUpperCase());
+    }
+  });
+});
+
+console.log("Available operations:", [...new Set(operations)]);</code></pre>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Debug Techniques -->
+          <section id="debug-techniques" class="doc-section">
+            <h2>Debug Techniques</h2>
+
+            <div class="debug-section">
+              <h3>🔍 Enable Debug Mode</h3>
+              <p>Debug mode provides detailed logging for troubleshooting:</p>
+              
+              <div class="debug-examples">
+                <div class="debug-example">
+                  <h4>CLI Debug Mode</h4>
+                  <div class="code-block">
+                    <pre><code class="language-bash"># Enable debug output
+npx @lucid-spark/openapi-mcp-server \
+  --api-base-url "https://api.example.com" \
+  --openapi-spec "./api-spec.yaml" \
+  --debug
+
+# Expected debug output:
+# [DEBUG] Configuration validated successfully
+# [DEBUG] Loading OpenAPI spec from: ./api-spec.yaml
+# [DEBUG] Found 15 paths with 23 operations
+# [DEBUG] Applying filters: includeTags=[], includeOperations=[]
+# [DEBUG] Generated 23 endpoint tools + 3 meta tools
+# [DEBUG] Starting stdio transport
+# [DEBUG] Server ready and listening</code></pre>
+                  </div>
+                </div>
+
+                <div class="debug-example">
+                  <h4>Library Debug Mode</h4>
+                  <div class="code-block">
+                    <pre><code class="language-typescript">import { OpenAPIServer } from "@lucid-spark/openapi-mcp-server";
+
+const server = new OpenAPIServer({
+  apiBaseUrl: "https://api.example.com",
+  openApiSpec: "./api-spec.yaml",
+  debug: true,  // Enable debug mode
+  // ... other config
+});
+
+// Debug information will be logged to console
+await server.start();</code></pre>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="debug-section">
+              <h3>📊 Connection Testing</h3>
+              <p>Test your API connection before starting the full server:</p>
+              
+              <div class="code-block">
+                <pre><code class="language-typescript">// connection-test.ts
+import { OpenAPIServer } from "@lucid-spark/openapi-mcp-server";
+
+async function testSetup() {
+  const server = new OpenAPIServer({
+    apiBaseUrl: "https://api.example.com",
+    openApiSpec: "./api-spec.yaml",
+    headers: {
+      "Authorization": `Bearer ${process.env.API_TOKEN}`
+    }
+  });
+
+  console.log("🔍 Testing API connection...");
+  
+  try {
+    const connected = await server.testConnection();
+    
+    if (connected) {
+      console.log("✅ Connection successful");
+      
+      // Test server initialization
+      await server.start();
+      
+      // Get detailed statistics
+      const stats = server.getStats();
+      console.log("📊 Server Statistics:");
+      console.log(`  - Total tools: ${stats.tools.total}`);
+      console.log(`  - Endpoint tools: ${stats.tools.endpointTools}`);
+      console.log(`  - Meta tools: ${stats.tools.metaTools}`);
+      console.log(`  - OpenAPI version: ${stats.openapi.version}`);
+      console.log(`  - API paths: ${stats.openapi.paths}`);
+      console.log(`  - API operations: ${stats.openapi.operations}`);
+      
+      if (stats.filtering?.applied) {
+        console.log("🎯 Filtering applied:");
+        console.log(`  - Included tags: ${stats.filtering.includedTags?.join(', ') || 'none'}`);
+        console.log(`  - Included operations: ${stats.filtering.includedOperations?.join(', ') || 'all'}`);
+      }
+      
+      await server.stop();
+      console.log("✅ Test completed successfully");
+      
+    } else {
+      console.error("❌ Connection failed");
+    }
+    
+  } catch (error) {
+    console.error("❌ Error during testing:", error.message);
+    
+    // Provide debugging hints
+    if (error.code === 'ENOTFOUND') {
+      console.log("💡 Hint: Check the API base URL for typos");
+    } else if (error.response?.status === 401) {
+      console.log("💡 Hint: Check your authentication credentials");
+    } else if (error.response?.status === 404) {
+      console.log("💡 Hint: OpenAPI spec path might be incorrect");
+    }
+  }
+}
+
+testSetup();</code></pre>
+              </div>
+            </div>
+
+            <div class="debug-section">
+              <h3>🕵️ Manual API Testing</h3>
+              <p>Test your API manually to verify it works outside of the MCP server:</p>
+              
+              <div class="manual-testing">
+                <div class="test-method">
+                  <h4>Using curl</h4>
+                  <div class="code-block">
+                    <pre><code class="language-bash"># Test basic connectivity
+curl -I "https://api.example.com"
+
+# Test with authentication
+curl -H "Authorization: Bearer YOUR_TOKEN" \
+     -H "Accept: application/json" \
+     "https://api.example.com/some-endpoint"
+
+# Test OpenAPI spec endpoint
+curl "https://api.example.com/openapi.json" | jq .
+
+# Test with verbose output for debugging
+curl -v -H "Authorization: Bearer YOUR_TOKEN" \
+     "https://api.example.com/some-endpoint"</code></pre>
+                  </div>
+                </div>
+
+                <div class="test-method">
+                  <h4>Using Node.js</h4>
+                  <div class="code-block">
+                    <pre><code class="language-typescript">// manual-test.js
+const https = require('https');
+
+function testApi() {
+  const options = {
+    hostname: 'api.example.com',
+    port: 443,
+    path: '/some-endpoint',
+    method: 'GET',
+    headers: {
+      'Authorization': `Bearer ${process.env.API_TOKEN}`,
+      'Accept': 'application/json'
+    }
+  };
+
+  const req = https.request(options, (res) => {
+    console.log(`Status: ${res.statusCode}`);
+    console.log(`Headers:`, res.headers);
+    
+    let data = '';
+    res.on('data', (chunk) => data += chunk);
+    res.on('end', () => {
+      console.log('Response:', data);
+    });
+  });
+
+  req.on('error', (error) => {
+    console.error('Error:', error.message);
+  });
+
+  req.end();
+}
+
+testApi();</code></pre>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Performance Issues -->
+          <section id="performance" class="doc-section">
+            <h2>Performance Troubleshooting</h2>
+
+            <div class="performance-issues">
+              <div class="performance-issue">
+                <h3>🐌 Slow Server Startup</h3>
+                <div class="issue-details">
+                  <h4>Possible Causes:</h4>
+                  <ul>
+                    <li>Large OpenAPI specification</li>
+                    <li>Network latency loading spec from URL</li>
+                    <li>Complex authentication setup</li>
+                    <li>Excessive tool generation</li>
+                  </ul>
+                  
+                  <h4>Solutions:</h4>
+                  <div class="code-block">
+                    <pre><code class="language-typescript">// Optimize configuration
+const config = {
+  apiBaseUrl: "https://api.example.com",
+  
+  // Cache spec locally instead of fetching from URL
+  openApiSpec: "./cached-api-spec.yaml",  // vs remote URL
+  
+  // Limit tool generation
+  includeOperations: ["GET", "POST"],     // Only needed operations
+  includeTags: ["users", "orders"],       // Only relevant tags
+  includeTools: [                         // Specific tools only
+    "get-user",
+    "create-order",
+    "get-order-status"
+  ],
+  
+  // Disable abbreviation for faster processing
+  disableAbbreviation: true
+};</code></pre>
+                  </div>
+                </div>
+              </div>
+
+              <div class="performance-issue">
+                <h3>⏱️ Request Timeouts</h3>
+                <div class="issue-details">
+                  <h4>Solutions:</h4>
+                  <div class="code-block">
+                    <pre><code class="language-typescript">// Configure timeouts
+import { OpenAPIServer } from "@lucid-spark/openapi-mcp-server";
+import axios from "axios";
+
+// Configure global axios timeout
+axios.defaults.timeout = 30000; // 30 seconds
+
+// Custom HTTP client with retry logic
+class RobustApiClient {
+  constructor(baseUrl, authProvider) {
+    this.axios = axios.create({
+      baseURL: baseUrl,
+      timeout: 30000,
+      retry: 3,
+      retryDelay: 1000
+    });
+    
+    // Add retry interceptor
+    this.axios.interceptors.response.use(null, async (error) => {
+      const config = error.config;
+      
+      if (!config || !config.retry) return Promise.reject(error);
+      
+      config.retryCount = config.retryCount || 0;
+      
+      if (config.retryCount >= config.retry) {
+        return Promise.reject(error);
+      }
+      
+      config.retryCount++;
+      
+      await new Promise(resolve => 
+        setTimeout(resolve, config.retryDelay * config.retryCount)
+      );
+      
+      return this.axios(config);
+    });
+  }
+}</code></pre>
+                  </div>
+                </div>
+              </div>
+
+              <div class="performance-issue">
+                <h3>🔄 Memory Usage Issues</h3>
+                <div class="issue-details">
+                  <h4>Monitor Memory Usage:</h4>
+                  <div class="code-block">
+                    <pre><code class="language-typescript">// memory-monitor.ts
+function monitorMemory() {
+  setInterval(() => {
+    const usage = process.memoryUsage();
+    console.log('Memory Usage:');
+    console.log(`  RSS: ${Math.round(usage.rss / 1024 / 1024)} MB`);
+    console.log(`  Heap Used: ${Math.round(usage.heapUsed / 1024 / 1024)} MB`);
+    console.log(`  Heap Total: ${Math.round(usage.heapTotal / 1024 / 1024)} MB`);
+    console.log(`  External: ${Math.round(usage.external / 1024 / 1024)} MB`);
+  }, 60000); // Every minute
+}
+
+// Start monitoring
+monitorMemory();
+
+// Garbage collection hints
+if (global.gc) {
+  setInterval(() => {
+    global.gc();
+  }, 300000); // Every 5 minutes
+}</code></pre>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Claude Desktop Issues -->
+          <section id="claude-desktop" class="doc-section">
+            <h2>Claude Desktop Integration Issues</h2>
+
+            <div class="claude-issues">
+              <div class="claude-issue">
+                <h3>🖥️ Claude Desktop Not Recognizing Server</h3>
+                <div class="issue-details">
+                  <h4>Check Configuration Location:</h4>
+                  <div class="code-block">
+                    <pre><code class="language-bash"># macOS
+~/Library/Application Support/Claude/claude_desktop_config.json
+
+# Windows
+%APPDATA%\Claude\claude_desktop_config.json
+
+# Linux
+~/.config/Claude/claude_desktop_config.json</code></pre>
+                  </div>
+                  
+                  <h4>Validate Configuration Format:</h4>
+                  <div class="code-block">
+                    <pre><code class="language-json">{
+  "mcpServers": {
+    "openapi-server": {
+      "command": "npx",
+      "args": [
+        "@lucid-spark/openapi-mcp-server",
+        "--api-base-url", "https://api.example.com",
+        "--openapi-spec", "https://api.example.com/openapi.json",
+        "--header", "Authorization=Bearer YOUR_TOKEN"
+      ]
+    }
+  }
+}</code></pre>
+                  </div>
+                  
+                  <h4>Debugging Steps:</h4>
+                  <ol>
+                    <li>Validate JSON syntax with a JSON validator</li>
+                    <li>Restart Claude Desktop after configuration changes</li>
+                    <li>Check Claude Desktop console logs</li>
+                    <li>Test the exact command manually in terminal</li>
+                  </ol>
+                </div>
+              </div>
+
+              <div class="claude-issue">
+                <h3>🔧 Tools Not Appearing in Claude</h3>
+                <div class="issue-details">
+                  <h4>Verification Steps:</h4>
+                  <div class="code-block">
+                    <pre><code class="language-bash"># Test the exact command from Claude config
+npx @lucid-spark/openapi-mcp-server \
+  --api-base-url "https://api.example.com" \
+  --openapi-spec "https://api.example.com/openapi.json" \
+  --header "Authorization=Bearer YOUR_TOKEN" \
+  --debug
+
+# Look for:
+# - "Server ready and listening"
+# - Tool count > 0
+# - No error messages</code></pre>
+                  </div>
+                  
+                  <h4>Common Fixes:</h4>
+                  <ul>
+                    <li>Ensure server name is unique in Claude config</li>
+                    <li>Check that OpenAPI spec has valid operations</li>
+                    <li>Verify authentication doesn't block tool discovery</li>
+                    <li>Try with a minimal configuration first</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="claude-issue">
+                <h3>⚡ Performance Issues in Claude</h3>
+                <div class="issue-details">
+                  <h4>Optimize for Claude:</h4>
+                  <div class="code-block">
+                    <pre><code class="language-json">{
+  "mcpServers": {
+    "api-server": {
+      "command": "npx",
+      "args": [
+        "@lucid-spark/openapi-mcp-server",
+        "--api-base-url", "https://api.example.com",
+        "--openapi-spec", "./local-spec.yaml",
+        "--include-operations", "GET,POST",
+        "--include-tags", "users,orders",
+        "--disable-abbreviation"
+      ]
+    }
+  }
+}</code></pre>
+                  </div>
+                  <p>This reduces tool count and improves Claude's response time.</p>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Logs Analysis -->
+          <section id="logs-analysis" class="doc-section">
+            <h2>Log Analysis</h2>
+
+            <div class="logs-section">
+              <h3>📝 Understanding Log Messages</h3>
+              
+              <div class="log-examples">
+                <div class="log-example">
+                  <h4>✅ Successful Startup Logs</h4>
+                  <div class="code-block log-output">
+                    <pre><code class="language-log">[DEBUG] Configuration validated successfully
+[DEBUG] Loading OpenAPI spec from: https://api.example.com/openapi.json
+[DEBUG] Found 15 paths with 23 operations
+[DEBUG] Applying filters: includeTags=["users"], includeOperations=["GET","POST"]
+[DEBUG] Generated 12 endpoint tools + 3 meta tools
+[DEBUG] Starting stdio transport
+[INFO] Server ready and listening</code></pre>
+                  </div>
+                  <p><strong>Analysis:</strong> Normal startup with 15 tools generated from filtered operations.</p>
+                </div>
+
+                <div class="log-example">
+                  <h4>⚠️ Warning Logs</h4>
+                  <div class="code-block log-output">
+                    <pre><code class="language-log">[WARN] No operations found for tag: "admin"
+[WARN] Tool name abbreviated: "getUserDetailsByIdentifier" → "get-usr-dtls-by-idntfr"
+[WARN] Duplicate operationId found: "getUser" - using path for uniqueness</code></pre>
+                  </div>
+                  <p><strong>Analysis:</strong> Non-critical warnings about filtering and naming.</p>
+                </div>
+
+                <div class="log-example">
+                  <h4>❌ Error Logs</h4>
+                  <div class="code-block log-output">
+                    <pre><code class="language-log">[ERROR] Failed to load OpenAPI spec: getaddrinfo ENOTFOUND api.example.com
+[ERROR] Authentication failed: 401 Unauthorized
+[ERROR] Invalid OpenAPI specification: Missing required field 'paths'</code></pre>
+                  </div>
+                  <p><strong>Analysis:</strong> Critical errors preventing server startup.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="logs-section">
+              <h3>🔍 Debug Log Interpretation</h3>
+              
+              <div class="log-interpretation">
+                <div class="log-pattern">
+                  <h4>Configuration Phase</h4>
+                  <div class="code-block">
+                    <pre><code class="language-log">[DEBUG] Configuration validated successfully
+[DEBUG] API Base URL: https://api.example.com
+[DEBUG] OpenAPI Spec: ./api-spec.yaml
+[DEBUG] Transport: stdio
+[DEBUG] Authentication: Static headers</code></pre>
+                  </div>
+                  <p>Shows configuration was loaded and validated correctly.</p>
+                </div>
+
+                <div class="log-pattern">
+                  <h4>Specification Loading</h4>
+                  <div class="code-block">
+                    <pre><code class="language-log">[DEBUG] Loading OpenAPI spec from: ./api-spec.yaml
+[DEBUG] Spec format detected: YAML
+[DEBUG] OpenAPI version: 3.0.3
+[DEBUG] Found 15 paths with 23 operations</code></pre>
+                  </div>
+                  <p>OpenAPI specification was loaded and parsed successfully.</p>
+                </div>
+
+                <div class="log-pattern">
+                  <h4>Tool Generation</h4>
+                  <div class="code-block">
+                    <pre><code class="language-log">[DEBUG] Applying filters: includeTags=["users"], includeOperations=[]
+[DEBUG] Tool created: get-user (GET /users/{id})
+[DEBUG] Tool created: create-user (POST /users)
+[DEBUG] Generated 12 endpoint tools + 3 meta tools</code></pre>
+                  </div>
+                  <p>Tools are being generated and filtered correctly.</p>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Getting Help -->
+          <section id="getting-help" class="doc-section">
+            <h2>Getting Help</h2>
+
+            <div class="help-section">
+              <h3>📞 When to Seek Help</h3>
+              <ul>
+                <li>You've tried all troubleshooting steps</li>
+                <li>Error messages are unclear or undocumented</li>
+                <li>Issue appears to be a bug in the software</li>
+                <li>Configuration works elsewhere but not in your environment</li>
+              </ul>
+
+              <h3>📋 Information to Provide</h3>
+              <div class="help-checklist">
+                <h4>Before reporting an issue, gather:</h4>
+                <div class="checklist-grid">
+                  <div class="checklist-item">
+                    <h5>🔧 Environment Details</h5>
+                    <ul>
+                      <li>Operating system and version</li>
+                      <li>Node.js version (<code>node --version</code>)</li>
+                      <li>Package version (<code>npm list @lucid-spark/openapi-mcp-server</code>)</li>
+                      <li>Claude Desktop version (if applicable)</li>
+                    </ul>
+                  </div>
+
+                  <div class="checklist-item">
+                    <h5>📄 Configuration</h5>
+                    <ul>
+                      <li>Complete configuration (sanitized of secrets)</li>
+                      <li>OpenAPI specification (or sample)</li>
+                      <li>Command line arguments used</li>
+                      <li>Environment variables (names only)</li>
+                    </ul>
+                  </div>
+
+                  <div class="checklist-item">
+                    <h5>📊 Debug Output</h5>
+                    <ul>
+                      <li>Full debug logs (<code>--debug</code> flag)</li>
+                      <li>Error messages and stack traces</li>
+                      <li>Server statistics output</li>
+                      <li>Network test results</li>
+                    </ul>
+                  </div>
+
+                  <div class="checklist-item">
+                    <h5>🔄 Reproduction Steps</h5>
+                    <ul>
+                      <li>Minimal config to reproduce issue</li>
+                      <li>Expected vs actual behavior</li>
+                      <li>Frequency of the issue</li>
+                      <li>Recent changes before issue started</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <div class="help-template">
+                <h4>📝 Issue Report Template</h4>
+                <div class="code-block">
+                  <pre><code class="language-markdown">## Issue Summary
+Brief description of the problem
+
+## Environment
+- OS: macOS 14.0 / Windows 11 / Ubuntu 22.04
+- Node.js: v18.17.0
+- Package: @lucid-spark/openapi-mcp-server@1.0.0
+- Claude Desktop: 1.0.0 (if applicable)
+
+## Configuration
+```json
+{
+  "apiBaseUrl": "https://api.example.com",
+  "openApiSpec": "./api-spec.yaml",
+  // ... rest of config (remove secrets)
+}
+```
+
+## Expected Behavior
+What should happen
+
+## Actual Behavior
+What actually happens
+
+## Debug Output
+```
+[DEBUG] logs here...
+```
+
+## Steps to Reproduce
+1. Step one
+2. Step two
+3. Observe issue
+
+## Additional Context
+Any other relevant information</code></pre>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-section">
+            <h4>OpenAPI MCP Server</h4>
+            <p>Connect any OpenAPI to Claude Desktop with dynamic tool generation.</p>
+          </div>
+          <div class="footer-section">
+            <h4>Documentation</h4>
+            <ul>
+              <li><a href="./installation.html">Installation</a></li>
+              <li><a href="./configuration.html">Configuration</a></li>
+              <li><a href="./authentication.html">Authentication</a></li>
+              <li><a href="./examples.html">Examples</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>&copy; 2024 OpenAPI MCP Server. Released under the MIT License.</p>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+  </body>
+</html>

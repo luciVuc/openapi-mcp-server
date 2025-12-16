@@ -1,0 +1,73 @@
+# OpenAPI MCP Server Docker Environment Configuration
+# Copy this file to .env for docker-compose usage
+
+# === REQUIRED CONFIGURATION ===
+# Base URL for your API
+API_BASE_URL=https://api.example.com
+
+# OpenAPI specification source (choose one)
+OPENAPI_SPEC_PATH=https://api.example.com/openapi.json
+# OPENAPI_SPEC_PATH=./specs/api-spec.yaml
+# OPENAPI_SPEC_INLINE='{"openapi":"3.0.0",...}'
+
+# === AUTHENTICATION ===
+# API headers for authentication (comma-separated key:value pairs)
+API_HEADERS=Authorization:Bearer your-token,X-API-Key:your-api-key
+
+# === SERVER CONFIGURATION ===
+# Server identity
+SERVER_NAME=openapi-mcp-server
+SERVER_VERSION=1.0.0
+NAMESPACE=
+
+# Transport settings
+TRANSPORT_TYPE=http
+HTTP_PORT=3000
+HTTP_HOST=0.0.0.0
+ENDPOINT_PATH=/mcp
+
+# === TOOL FILTERING ===
+# Tool loading mode: all, dynamic, or explicit
+TOOLS_MODE=all
+
+# Specific tools to include (only used with TOOLS_MODE=explicit)
+# INCLUDE_TOOLS=GET::users,POST::users
+
+# Tags to include (only used with TOOLS_MODE=all)
+# INCLUDE_TAGS=public,users
+
+# Resources to include (only used with TOOLS_MODE=all)
+# INCLUDE_RESOURCES=users,posts
+
+# Operations to include (only used with TOOLS_MODE=all)
+# INCLUDE_OPERATIONS=GET,POST
+
+# === DEBUG AND OPTIMIZATION ===
+# Enable debug logging
+DEBUG=false
+
+# Disable tool name abbreviation
+DISABLE_ABBREVIATION=false
+
+# === EXAMPLE CONFIGURATIONS ===
+# Uncomment and modify one of these for quick setup:
+
+# Example 1: Petstore API
+# API_BASE_URL=https://petstore.swagger.io/v2
+# OPENAPI_SPEC_PATH=https://raw.githubusercontent.com/readmeio/oas-examples/main/3.0/json/petstore.json
+# API_HEADERS=accept:application/json,api_key:special-key
+# SERVER_NAME=petstore-mcp-server
+# NAMESPACE=petstore
+
+# Example 2: JSONPlaceholder API
+# API_BASE_URL=https://jsonplaceholder.typicode.com
+# OPENAPI_SPEC_INLINE='{"openapi":"3.0.0","info":{"title":"JSONPlaceholder","version":"1.0.0"},"paths":{"/posts":{"get":{"operationId":"getPosts","responses":{"200":{"description":"List of posts"}}}},"/posts/{id}":{"get":{"operationId":"getPost","parameters":[{"name":"id","in":"path","required":true,"schema":{"type":"integer"}}],"responses":{"200":{"description":"A post"}}}}}}'
+# SERVER_NAME=jsonplaceholder-mcp-server
+# NAMESPACE=jsonplaceholder
+
+# Example 3: GitHub API (requires valid token)
+# API_BASE_URL=https://api.github.com
+# OPENAPI_SPEC_PATH=https://raw.githubusercontent.com/github/rest-api-description/main/descriptions/api.github.com/api.github.com.json
+# API_HEADERS=Authorization:Bearer ghp_xxxxxxxxxxxx,Accept:application/vnd.github.v3+json
+# SERVER_NAME=github-mcp-server
+# NAMESPACE=github

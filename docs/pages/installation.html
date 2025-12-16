@@ -1,0 +1,476 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Installation Guide - OpenAPI MCP Server</title>
+    <meta
+      name="description"
+      content="Complete installation guide for OpenAPI MCP Server including prerequisites, global installation, local setup, and development environment."
+    />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/components.css" />
+    <link rel="stylesheet" href="../css/responsive.css" />
+
+    <!-- Syntax highlighting -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <!-- Navigation -->
+    <nav class="navbar">
+      <div class="nav-container">
+        <div class="nav-brand">
+          <a class="nav-brand" href="../index.html">
+            <img
+              src="../assets/logo.svg"
+              alt="OpenAPI MCP Server"
+              class="nav-logo"
+            />
+            <span class="nav-title">OpenAPI MCP Server</span>
+          </a>
+        </div>
+        <div class="nav-menu">
+          <a href="../index.html" class="nav-link">Home</a>
+          <a href="../index.html#features" class="nav-link">Features</a>
+          <a href="../index.html#quickstart" class="nav-link">Quick Start</a>
+          <a href="../index.html#documentation" class="nav-link">Documentation</a>
+          <a href="../index.html#examples" class="nav-link">Examples</a>
+          <a
+            href="https://github.com/lucivuc/openapi-mcp-server"
+            class="nav-link"
+            target="_blank"
+          >
+            <svg class="github-icon" viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+            </svg>
+            GitHub
+          </a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div class="container">
+        <div class="doc-header">
+          <h1 class="doc-title">Installation Guide</h1>
+          <p class="doc-subtitle">
+            Complete installation guide for OpenAPI MCP Server including prerequisites, global installation, local setup, and development environment.
+          </p>
+        </div>
+
+        <div class="doc-content">
+          <!-- Prerequisites -->
+          <section id="prerequisites" class="doc-section">
+            <h2>Prerequisites</h2>
+            <p>Before installing OpenAPI MCP Server, ensure you have the following prerequisites:</p>
+            
+            <div class="requirement-list">
+              <div class="requirement-item">
+                <h3>Node.js</h3>
+                <p><strong>Version:</strong> 18.0.0 or higher</p>
+                <p><strong>Recommended:</strong> Use the latest LTS version</p>
+                <div class="code-block">
+                  <pre><code class="language-bash"># Check your Node.js version
+node --version
+
+# Should output v18.0.0 or higher</code></pre>
+                </div>
+                <p>
+                  <strong>Installation:</strong> Download from 
+                  <a href="https://nodejs.org/" target="_blank">nodejs.org</a> or use a version manager like 
+                  <a href="https://github.com/nvm-sh/nvm" target="_blank">nvm</a>.
+                </p>
+              </div>
+
+              <div class="requirement-item">
+                <h3>npm</h3>
+                <p><strong>Version:</strong> 8.0.0 or higher</p>
+                <p><strong>Note:</strong> npm is included with Node.js</p>
+                <div class="code-block">
+                  <pre><code class="language-bash"># Check your npm version
+npm --version
+
+# Update npm if needed
+npm install -g npm@latest</code></pre>
+                </div>
+              </div>
+
+              <div class="requirement-item">
+                <h3>TypeScript (Development Only)</h3>
+                <p><strong>Version:</strong> 5.3.0 or higher</p>
+                <p><strong>Note:</strong> Only required for development and building from source</p>
+                <div class="code-block">
+                  <pre><code class="language-bash"># Install TypeScript globally (optional)
+npm install -g typescript
+
+# Check version
+tsc --version</code></pre>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Installation Methods -->
+          <section id="installation-methods" class="doc-section">
+            <h2>Installation Methods</h2>
+            <p>Choose the installation method that best fits your use case:</p>
+
+            <!-- Quick Start -->
+            <div class="install-method">
+              <h3>🚀 Quick Start (No Installation)</h3>
+              <p>
+                The fastest way to get started is using <code>npx</code> to run the server directly without installation:
+              </p>
+              <div class="code-block">
+                <pre><code class="language-bash"># Run directly with npx (recommended for testing)
+npx @lucid-spark/openapi-mcp-server \
+  --api-base-url https://api.example.com \
+  --openapi-spec https://api.example.com/openapi.json \
+  --transport stdio</code></pre>
+              </div>
+              <div class="info-box">
+                <p><strong>Advantages:</strong></p>
+                <ul>
+                  <li>No global installation required</li>
+                  <li>Always uses the latest version</li>
+                  <li>Perfect for testing and one-off usage</li>
+                  <li>Ideal for Claude Desktop configuration</li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- Global Installation -->
+            <div class="install-method">
+              <h3>🌐 Global Installation (CLI Usage)</h3>
+              <p>
+                Install the OpenAPI MCP Server globally to use the CLI from anywhere:
+              </p>
+              <div class="code-block">
+                <pre><code class="language-bash"># Install globally
+npm install -g @lucid-spark/openapi-mcp-server
+
+# Verify installation
+openapi-mcp-server --version
+
+# Use the CLI
+openapi-mcp-server \
+  --api-base-url https://api.example.com \
+  --openapi-spec https://api.example.com/openapi.json</code></pre>
+              </div>
+              <div class="info-box">
+                <p><strong>Advantages:</strong></p>
+                <ul>
+                  <li>Available system-wide as <code>openapi-mcp-server</code> command</li>
+                  <li>Faster startup (no download time)</li>
+                  <li>Consistent version across projects</li>
+                  <li>Good for frequent CLI usage</li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- Local Installation -->
+            <div class="install-method">
+              <h3>📦 Local Installation (Library Usage)</h3>
+              <p>
+                Install as a dependency in your Node.js project to use as a library:
+              </p>
+              <div class="code-block">
+                <pre><code class="language-bash"># Navigate to your project directory
+cd your-project
+
+# Install as a dependency
+npm install @lucid-spark/openapi-mcp-server
+
+# Install as a dev dependency (if only needed for development)
+npm install --save-dev @lucid-spark/openapi-mcp-server</code></pre>
+              </div>
+              <div class="code-block">
+                <pre><code class="language-typescript">// Use in your TypeScript/JavaScript code
+import { OpenAPIServer } from "@lucid-spark/openapi-mcp-server";
+
+const server = new OpenAPIServer({
+  apiBaseUrl: "https://api.example.com",
+  openApiSpec: "https://api.example.com/openapi.json",
+  transportType: "stdio"
+});
+
+await server.start();</code></pre>
+              </div>
+              <div class="info-box">
+                <p><strong>Advantages:</strong></p>
+                <ul>
+                  <li>Use as a library in your applications</li>
+                  <li>Custom authentication with AuthProvider</li>
+                  <li>Version pinning and dependency management</li>
+                  <li>TypeScript support and type definitions</li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- Development Installation -->
+            <div class="install-method">
+              <h3>🛠️ Development Installation</h3>
+              <p>
+                Clone and set up the repository for development and contribution:
+              </p>
+              <div class="code-block">
+                <pre><code class="language-bash"># Clone the repository
+git clone https://github.com/lucivuc/openapi-mcp-server.git
+cd openapi-mcp-server
+
+# Install dependencies
+npm install
+
+# Build the project
+npm run build
+
+# Run tests
+npm test
+
+# Start development server
+npm run dev:petstore:v3:json</code></pre>
+              </div>
+              <div class="info-box">
+                <p><strong>Advantages:</strong></p>
+                <ul>
+                  <li>Full source code access</li>
+                  <li>Contribute to the project</li>
+                  <li>Custom modifications and features</li>
+                  <li>Run examples and tests</li>
+                </ul>
+              </div>
+            </div>
+          </section>
+
+          <!-- Verification -->
+          <section id="verification" class="doc-section">
+            <h2>Installation Verification</h2>
+            <p>Verify your installation works correctly:</p>
+
+            <div class="verification-steps">
+              <div class="step">
+                <h3>1. Test CLI Access</h3>
+                <div class="code-block">
+                  <pre><code class="language-bash"># For global installation
+openapi-mcp-server --version
+
+# For npx usage
+npx @lucid-spark/openapi-mcp-server --version
+
+# Should output: 1.0.0 (or current version)</code></pre>
+                </div>
+              </div>
+
+              <div class="step">
+                <h3>2. Test with Public API</h3>
+                <div class="code-block">
+                  <pre><code class="language-bash"># Test with JSONPlaceholder API (no auth required)
+npx @lucid-spark/openapi-mcp-server \
+  --api-base-url https://jsonplaceholder.typicode.com \
+  --openapi-spec https://jsonplaceholder.typicode.com/openapi.json \
+  --transport stdio \
+  --debug</code></pre>
+                </div>
+                <p>
+                  Look for output indicating successful tool generation:
+                </p>
+                <div class="code-block">
+                  <pre><code class="language-text">✅ Loaded OpenAPI specification
+✅ Generated X tools from specification
+✅ Server ready for MCP connections</code></pre>
+                </div>
+              </div>
+
+              <div class="step">
+                <h3>3. Test Library Import</h3>
+                <p>Create a test file to verify library usage:</p>
+                <div class="code-block">
+                  <pre><code class="language-typescript">// test-import.ts
+import { OpenAPIServer } from "@lucid-spark/openapi-mcp-server";
+
+console.log("OpenAPIServer imported successfully");
+console.log(typeof OpenAPIServer); // Should output: function</code></pre>
+                </div>
+                <div class="code-block">
+                  <pre><code class="language-bash"># Run the test
+npx ts-node test-import.ts</code></pre>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Troubleshooting -->
+          <section id="installation-troubleshooting" class="doc-section">
+            <h2>Installation Troubleshooting</h2>
+            
+            <div class="troubleshooting-list">
+              <div class="trouble-item">
+                <h3>Node.js Version Issues</h3>
+                <p><strong>Problem:</strong> "Node.js version not supported" error</p>
+                <p><strong>Solution:</strong></p>
+                <div class="code-block">
+                  <pre><code class="language-bash"># Check your Node.js version
+node --version
+
+# If version is less than 18.0.0, update Node.js
+# Using nvm (recommended):
+nvm install --lts
+nvm use --lts
+
+# Or download from nodejs.org</code></pre>
+                </div>
+              </div>
+
+              <div class="trouble-item">
+                <h3>Permission Errors (Global Installation)</h3>
+                <p><strong>Problem:</strong> EACCES permission errors during global installation</p>
+                <p><strong>Solution:</strong></p>
+                <div class="code-block">
+                  <pre><code class="language-bash"># Option 1: Use npx instead (recommended)
+npx @lucid-spark/openapi-mcp-server --version
+
+# Option 2: Configure npm to use a different directory
+mkdir ~/.npm-global
+npm config set prefix '~/.npm-global'
+echo 'export PATH=~/.npm-global/bin:$PATH' >> ~/.bashrc
+source ~/.bashrc
+
+# Option 3: Use sudo (not recommended)
+sudo npm install -g @lucid-spark/openapi-mcp-server</code></pre>
+                </div>
+              </div>
+
+              <div class="trouble-item">
+                <h3>Network/Proxy Issues</h3>
+                <p><strong>Problem:</strong> Cannot download package from npm registry</p>
+                <p><strong>Solution:</strong></p>
+                <div class="code-block">
+                  <pre><code class="language-bash"># Check npm configuration
+npm config list
+
+# Configure proxy if needed
+npm config set proxy http://proxy.company.com:8080
+npm config set https-proxy http://proxy.company.com:8080
+
+# Use different registry if needed
+npm config set registry https://registry.npmjs.org/
+
+# Clear npm cache
+npm cache clean --force</code></pre>
+                </div>
+              </div>
+
+              <div class="trouble-item">
+                <h3>TypeScript Compilation Errors</h3>
+                <p><strong>Problem:</strong> Build fails with TypeScript errors</p>
+                <p><strong>Solution:</strong></p>
+                <div class="code-block">
+                  <pre><code class="language-bash"># Ensure TypeScript is installed
+npm install -g typescript
+
+# Check TypeScript version
+tsc --version
+
+# Clean and rebuild
+npm run clean
+npm run build
+
+# Install exact dependencies
+rm -rf node_modules package-lock.json
+npm install</code></pre>
+                </div>
+              </div>
+
+              <div class="trouble-item">
+                <h3>Module Import Errors</h3>
+                <p><strong>Problem:</strong> "Cannot find module" errors when importing</p>
+                <p><strong>Solution:</strong></p>
+                <div class="code-block">
+                  <pre><code class="language-bash"># Ensure package is installed
+npm list @lucid-spark/openapi-mcp-server
+
+# Reinstall if necessary
+npm uninstall @lucid-spark/openapi-mcp-server
+npm install @lucid-spark/openapi-mcp-server
+
+# Check your tsconfig.json for module resolution settings</code></pre>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Next Steps -->
+          <section id="next-steps" class="doc-section">
+            <h2>Next Steps</h2>
+            <p>After successful installation, you can:</p>
+            
+            <div class="next-steps-grid">
+              <a href="./configuration.html" class="next-step-card">
+                <h3>📋 Configure Your Server</h3>
+                <p>Learn about all configuration options, environment variables, and CLI arguments.</p>
+              </a>
+              
+              <a href="../index.html#quickstart" class="next-step-card">
+                <h3>🚀 Quick Start Guide</h3>
+                <p>Follow our quick start guide to get your first MCP server running.</p>
+              </a>
+              
+              <a href="./authentication.html" class="next-step-card">
+                <h3>🔐 Set Up Authentication</h3>
+                <p>Configure authentication for your APIs with static headers or dynamic providers.</p>
+              </a>
+              
+              <a href="./examples.html" class="next-step-card">
+                <h3>💡 Explore Examples</h3>
+                <p>See real-world examples and integration patterns.</p>
+              </a>
+            </div>
+          </section>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-section">
+            <h4>OpenAPI MCP Server</h4>
+            <p>Connect any OpenAPI to Claude Desktop with dynamic tool generation.</p>
+          </div>
+          <div class="footer-section">
+            <h4>Documentation</h4>
+            <ul>
+              <li><a href="./installation.html">Installation</a></li>
+              <li><a href="./configuration.html">Configuration</a></li>
+              <li><a href="./authentication.html">Authentication</a></li>
+              <li><a href="./examples.html">Examples</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>&copy; 2024 OpenAPI MCP Server. Released under the MIT License.</p>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+  </body>
+</html>
