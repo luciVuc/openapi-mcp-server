@@ -41,13 +41,13 @@ docker run --rm -p 3000:3000 \
   -e API_BASE_URL=https://petstore.swagger.io/v2 \
   -e OPENAPI_SPEC_PATH=https://raw.githubusercontent.com/readmeio/oas-examples/main/3.0/json/petstore.json \
   -e TRANSPORT_TYPE=http \
-  lucidspark/openapi-mcp-server:latest
+  reallv/openapi-mcp-server:latest
 
 # Run with stdio transport (for Claude Desktop)
 docker run --rm -i \
   -e API_BASE_URL=https://api.example.com \
   -e OPENAPI_SPEC_PATH=https://api.example.com/openapi.json \
-  lucidspark/openapi-mcp-server:latest
+  reallv/openapi-mcp-server:latest
 
 # Use docker-compose for multiple APIs
 docker-compose up -d
@@ -273,14 +273,14 @@ The easiest way to run the OpenAPI MCP Server is with Docker. No local Node.js i
 
 ```bash
 # Pull the latest image
-docker pull lucidspark/openapi-mcp-server:latest
+docker pull reallv/openapi-mcp-server:latest
 
 # Run with Petstore API example
 docker run --rm -p 3000:3000 \
   -e API_BASE_URL=https://petstore.swagger.io/v2 \
   -e OPENAPI_SPEC_PATH=https://raw.githubusercontent.com/readmeio/oas-examples/main/3.0/json/petstore.json \
   -e TRANSPORT_TYPE=http \
-  lucidspark/openapi-mcp-server:latest
+  reallv/openapi-mcp-server:latest
 ```
 
 ### Docker Compose (Recommended)

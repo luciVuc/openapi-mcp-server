@@ -479,8 +479,8 @@ ls -la dist/
 ```bash
 # Build multi-arch image
 docker buildx build --platform linux/amd64,linux/arm64 \
-  -t lucidspark/openapi-mcp-server:latest \
-  -t lucidspark/openapi-mcp-server:$(node -p "require('./package.json').version") \
+  -t reallv/openapi-mcp-server:latest \
+  -t reallv/openapi-mcp-server:$(node -p "require('./package.json').version") \
   --push .
 ```
 

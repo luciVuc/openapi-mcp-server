@@ -56,13 +56,13 @@ docker run --rm -p 3000:3000 \
   -e API_BASE_URL=https://petstore.swagger.io/v2 \
   -e OPENAPI_SPEC_PATH=https://raw.githubusercontent.com/readmeio/oas-examples/main/3.0/json/petstore.json \
   -e TRANSPORT_TYPE=http \
-  lucidspark/openapi-mcp-server:latest
+  reallv/openapi-mcp-server:latest
 
 # Stdio transport (for Claude Desktop)
 docker run --rm -i \
   -e API_BASE_URL=https://api.example.com \
   -e OPENAPI_SPEC_PATH=https://api.example.com/openapi.json \
-  lucidspark/openapi-mcp-server:latest
+  reallv/openapi-mcp-server:latest
 ```
 
 ### 2. Docker Compose (Recommended)
@@ -200,7 +200,7 @@ DISABLE_ABBREVIATION=false
         "API_BASE_URL=https://api.example.com",
         "-e",
         "OPENAPI_SPEC_PATH=https://api.example.com/openapi.json",
-        "lucidspark/openapi-mcp-server:latest"
+        "reallv/openapi-mcp-server:latest"
       ]
     }
   }
@@ -257,7 +257,7 @@ npm run docker:test:full
 4. **Submit to MCP Toolkit Catalog**:
    - The `mcp-server.json` file is ready for catalog submission
    - All deployment scenarios are tested and documented
-   - Docker images will be available at `lucidspark/openapi-mcp-server`
+   - Docker images will be available at `reallv/openapi-mcp-server`
 
 ## 🏆 Benefits Achieved
 

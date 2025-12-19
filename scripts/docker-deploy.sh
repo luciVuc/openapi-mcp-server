@@ -14,7 +14,7 @@ NC='\033[0m' # No Color
 
 # Configuration
 IMAGE_NAME="openapi-mcp-server"
-REGISTRY="lucidspark"
+REGISTRY="reallv"
 VERSION=$(node -p "require('./package.json').version")
 DOCKER_REPO="${REGISTRY}/${IMAGE_NAME}"
 

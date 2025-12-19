@@ -26,7 +26,7 @@ The `mcp-server.json` file defines how this server appears in the MCP Toolkit Ca
   "installation": {
     "npm": "@lucid-spark/openapi-mcp-server",
     "docker": {
-      "image": "lucidspark/openapi-mcp-server",
+      "image": "reallv/openapi-mcp-server",
       "tags": ["latest", "1.0.0"]
     }
   }
@@ -66,7 +66,7 @@ All configuration options are documented with JSON Schema:
 version: "3.8"
 services:
   openapi-mcp-server:
-    image: lucidspark/openapi-mcp-server:latest
+    image: reallv/openapi-mcp-server:latest
     ports:
       - "3000:3000"
     environment:
@@ -84,7 +84,7 @@ version: "3.8"
 services:
   # GitHub API
   github-mcp:
-    image: lucidspark/openapi-mcp-server:latest
+    image: reallv/openapi-mcp-server:latest
     ports: ["3001:3000"]
     environment:
       - API_BASE_URL=https://api.github.com
@@ -95,7 +95,7 @@ services:
 
   # Petstore API
   petstore-mcp:
-    image: lucidspark/openapi-mcp-server:latest
+    image: reallv/openapi-mcp-server:latest
     ports: ["3002:3000"]
     environment:
       - API_BASE_URL=https://petstore.swagger.io/v2
@@ -120,7 +120,7 @@ spec:
     spec:
       containers:
         - name: openapi-mcp-server
-          image: lucidspark/openapi-mcp-server:latest
+          image: reallv/openapi-mcp-server:latest
           ports:
             - containerPort: 3000
           env:
@@ -146,7 +146,7 @@ spec:
 version: "3.8"
 services:
   openapi-mcp-server:
-    image: lucidspark/openapi-mcp-server:latest
+    image: reallv/openapi-mcp-server:latest
     deploy:
       replicas: 3
       update_config:
@@ -216,7 +216,7 @@ Add to `claude_desktop_config.json`:
         "OPENAPI_SPEC_PATH=https://api.example.com/openapi.json",
         "-e",
         "API_HEADERS=Authorization:Bearer ${API_TOKEN}",
-        "lucidspark/openapi-mcp-server:latest"
+        "reallv/openapi-mcp-server:latest"
       ],
       "env": {
         "API_TOKEN": "your-api-token"
@@ -359,13 +359,13 @@ spec:
 
    ```bash
    # Enable debug mode
-   docker run -e DEBUG=true lucidspark/openapi-mcp-server:latest
+   docker run -e DEBUG=true reallv/openapi-mcp-server:latest
    ```
 
 4. **No tools generated**
    ```bash
    # Check spec validity and tool filtering
-   docker run -e TOOLS_MODE=dynamic lucidspark/openapi-mcp-server:latest
+   docker run -e TOOLS_MODE=dynamic reallv/openapi-mcp-server:latest
    ```
 
 ### Performance Optimization

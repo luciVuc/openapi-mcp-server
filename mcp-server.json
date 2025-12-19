@@ -36,7 +36,7 @@
   "installation": {
     "npm": "@lucid-spark/openapi-mcp-server",
     "docker": {
-      "image": "lucidspark/openapi-mcp-server",
+      "image": "reallv/openapi-mcp-server",
       "tags": ["latest", "1.0.0"]
     }
   },
@@ -98,7 +98,7 @@
     },
     "docker": {
       "stdio": {
-        "image": "lucidspark/openapi-mcp-server:latest",
+        "image": "reallv/openapi-mcp-server:latest",
         "environment": {
           "API_BASE_URL": "https://api.example.com",
           "OPENAPI_SPEC_PATH": "https://api.example.com/openapi.json",
@@ -106,7 +106,7 @@
         }
       },
       "http": {
-        "image": "lucidspark/openapi-mcp-server:latest",
+        "image": "reallv/openapi-mcp-server:latest",
         "ports": ["3000:3000"],
         "environment": {
           "API_BASE_URL": "https://api.example.com",
