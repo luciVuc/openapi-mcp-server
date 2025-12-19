@@ -1,6 +1,6 @@
 {
   "name": "@lucid-spark/openapi-mcp-server",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A Model Context Protocol (MCP) server that exposes OpenAPI endpoints as MCP tools",
   "main": "dist/index.js",
   "bin": {

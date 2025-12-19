@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.1] - 2025-12-19
+
 ### Added
 
 - Comprehensive documentation updates
@@ -71,5 +73,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Local development APIs
 - Enterprise APIs with complex authentication
 
-[unreleased]: https://github.com/lucivuc/openapi-mcp-server/compare/v1.0.0...HEAD
+[unreleased]: https://github.com/lucivuc/openapi-mcp-server/compare/v1.0.1...HEAD
+[1.0.1]: https://github.com/lucivuc/openapi-mcp-server/compare/v1.0.0...v1.0.1
 [1.0.0]: https://github.com/lucivuc/openapi-mcp-server/releases/tag/v1.0.0
