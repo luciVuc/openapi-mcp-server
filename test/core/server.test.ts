@@ -642,7 +642,11 @@ describe("OpenAPI Server", () => {
 
       new OpenAPIServer(config);
 
-      expect(MockedToolsManager).toHaveBeenCalledWith(expect.anything(), true, undefined);
+      expect(MockedToolsManager).toHaveBeenCalledWith(
+        expect.anything(),
+        true,
+        undefined,
+      );
     });
   });
 

@@ -96,7 +96,11 @@ describe("Tools Creation", () => {
         false,
       ) as Tool;
 
-      expect(mockedGenerateToolName).toHaveBeenCalledWith("getUserList", false, undefined);
+      expect(mockedGenerateToolName).toHaveBeenCalledWith(
+        "getUserList",
+        false,
+        undefined,
+      );
       expect(result.name).toBe("get-user-list");
     });
 
@@ -137,7 +141,11 @@ describe("Tools Creation", () => {
         false,
       ) as Tool;
 
-      expect(mockedGenerateToolName).toHaveBeenCalledWith("get-users", false, undefined);
+      expect(mockedGenerateToolName).toHaveBeenCalledWith(
+        "get-users",
+        false,
+        undefined,
+      );
       expect(result.name).toBe("get-users");
     });
 
@@ -152,7 +160,11 @@ describe("Tools Creation", () => {
 
       createToolFromOperation(complexPath, method, operation);
 
-      expect(mockedGenerateToolName).toHaveBeenCalledWith("get-users", false, undefined);
+      expect(mockedGenerateToolName).toHaveBeenCalledWith(
+        "get-users",
+        false,
+        undefined,
+      );
     });
 
     it("should handle path with only parameters for fallback", () => {

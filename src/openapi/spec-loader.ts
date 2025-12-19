@@ -265,7 +265,9 @@ export class OpenAPISpecLoader {
       // Only handle internal references for now
       if (!ref.startsWith("#/")) {
         logger.warn(`External reference not supported: ${ref}`);
-        return this.createGenericSchema(`External reference not supported: ${ref}`);
+        return this.createGenericSchema(
+          `External reference not supported: ${ref}`,
+        );
       }
 
       // Parse internal reference path
@@ -289,7 +291,9 @@ export class OpenAPISpecLoader {
       logger.warn(
         `Failed to resolve reference ${ref}: ${error instanceof Error ? error.message : "Unknown error"}. Using generic schema as fallback.`,
       );
-      const fallbackSchema = this.createGenericSchema(`Failed to resolve reference: ${ref}`);
+      const fallbackSchema = this.createGenericSchema(
+        `Failed to resolve reference: ${ref}`,
+      );
       this.resolvedRefs.set(ref, fallbackSchema);
       return fallbackSchema;
     }
@@ -304,7 +308,7 @@ export class OpenAPISpecLoader {
       description: description,
       properties: {},
       additionalProperties: true,
-      "x-fallback-schema": true
+      "x-fallback-schema": true,
     };
   }
 

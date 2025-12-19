@@ -46,7 +46,9 @@
           <a href="../index.html" class="nav-link">Home</a>
           <a href="../index.html#features" class="nav-link">Features</a>
           <a href="../index.html#quickstart" class="nav-link">Quick Start</a>
-          <a href="../index.html#documentation" class="nav-link">Documentation</a>
+          <a href="../index.html#documentation" class="nav-link"
+            >Documentation</a
+          >
           <a href="../index.html#examples" class="nav-link">Examples</a>
           <a
             href="https://github.com/lucivuc/openapi-mcp-server"
@@ -55,7 +57,8 @@
           >
             <svg class="github-icon" viewBox="0 0 24 24" fill="currentColor">
               <path
-                d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+                d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"
+              />
             </svg>
             GitHub
           </a>
@@ -69,7 +72,8 @@
         <div class="doc-header">
           <h1 class="doc-title">Troubleshooting Guide</h1>
           <p class="doc-subtitle">
-            Common issues, debug techniques, and step-by-step solutions for OpenAPI MCP Server problems.
+            Common issues, debug techniques, and step-by-step solutions for
+            OpenAPI MCP Server problems.
           </p>
         </div>
 
@@ -179,10 +183,13 @@
                   <div class="error-message">
                     <code>Error: apiBaseUrl is required in configuration</code>
                   </div>
-                  
+
                   <div class="solution">
                     <h4>🔧 Solution:</h4>
-                    <p>The base URL for your API is mandatory. Provide it in configuration:</p>
+                    <p>
+                      The base URL for your API is mandatory. Provide it in
+                      configuration:
+                    </p>
                     <div class="code-block">
                       <pre><code class="language-bash"># CLI
 npx @lucid-spark/openapi-mcp-server --api-base-url "https://api.example.com"</code></pre>
@@ -202,12 +209,15 @@ const server = new OpenAPIServer({
                 <h3>❌ OpenAPI Specification Loading Errors</h3>
                 <div class="error-details">
                   <div class="error-message">
-                    <code>Error: Failed to load OpenAPI spec from: ./api-spec.yaml</code>
+                    <code
+                      >Error: Failed to load OpenAPI spec from:
+                      ./api-spec.yaml</code
+                    >
                   </div>
-                  
+
                   <div class="solution">
                     <h4>🔧 Solutions:</h4>
-                    
+
                     <div class="solution-steps">
                       <h5>1. File Path Issues</h5>
                       <div class="code-block">
@@ -251,10 +261,10 @@ npx swagger-cli validate api-spec.yaml</code></pre>
                   <div class="error-message">
                     <code>Error: Request failed with status code 401</code>
                   </div>
-                  
+
                   <div class="solution">
                     <h4>🔧 Solutions:</h4>
-                    
+
                     <div class="solution-steps">
                       <h5>1. Verify Token Format</h5>
                       <div class="code-block">
@@ -309,10 +319,10 @@ const configs = {
                   <div class="error-message">
                     <code>Error: getaddrinfo ENOTFOUND api.example.com</code>
                   </div>
-                  
+
                   <div class="solution">
                     <h4>🔧 Solutions:</h4>
-                    
+
                     <div class="solution-steps">
                       <h5>1. DNS Resolution</h5>
                       <div class="code-block">
@@ -354,12 +364,14 @@ curl -I --verbose "https://api.example.com"</code></pre>
                 <h3>❌ Tool Filtering Not Working</h3>
                 <div class="error-details">
                   <div class="error-message">
-                    <code>Warning: No tools generated after applying filters</code>
+                    <code
+                      >Warning: No tools generated after applying filters</code
+                    >
                   </div>
-                  
+
                   <div class="solution">
                     <h4>🔧 Solutions:</h4>
-                    
+
                     <div class="solution-steps">
                       <h5>1. Check Filter Configuration</h5>
                       <div class="code-block">
@@ -414,7 +426,7 @@ console.log("Available operations:", [...new Set(operations)]);</code></pre>
             <div class="debug-section">
               <h3>🔍 Enable Debug Mode</h3>
               <p>Debug mode provides detailed logging for troubleshooting:</p>
-              
+
               <div class="debug-examples">
                 <div class="debug-example">
                   <h4>CLI Debug Mode</h4>
@@ -458,7 +470,7 @@ await server.start();</code></pre>
             <div class="debug-section">
               <h3>📊 Connection Testing</h3>
               <p>Test your API connection before starting the full server:</p>
-              
+
               <div class="code-block">
                 <pre><code class="language-typescript">// connection-test.ts
 import { OpenAPIServer } from "@lucid-spark/openapi-mcp-server";
@@ -526,8 +538,11 @@ testSetup();</code></pre>
 
             <div class="debug-section">
               <h3>🕵️ Manual API Testing</h3>
-              <p>Test your API manually to verify it works outside of the MCP server:</p>
-              
+              <p>
+                Test your API manually to verify it works outside of the MCP
+                server:
+              </p>
+
               <div class="manual-testing">
                 <div class="test-method">
                   <h4>Using curl</h4>
@@ -607,7 +622,7 @@ testApi();</code></pre>
                     <li>Complex authentication setup</li>
                     <li>Excessive tool generation</li>
                   </ul>
-                  
+
                   <h4>Solutions:</h4>
                   <div class="code-block">
                     <pre><code class="language-typescript">// Optimize configuration
@@ -732,7 +747,7 @@ if (global.gc) {
 # Linux
 ~/.config/Claude/claude_desktop_config.json</code></pre>
                   </div>
-                  
+
                   <h4>Validate Configuration Format:</h4>
                   <div class="code-block">
                     <pre><code class="language-json">{
@@ -749,7 +764,7 @@ if (global.gc) {
   }
 }</code></pre>
                   </div>
-                  
+
                   <h4>Debugging Steps:</h4>
                   <ol>
                     <li>Validate JSON syntax with a JSON validator</li>
@@ -777,7 +792,7 @@ npx @lucid-spark/openapi-mcp-server \
 # - Tool count > 0
 # - No error messages</code></pre>
                   </div>
-                  
+
                   <h4>Common Fixes:</h4>
                   <ul>
                     <li>Ensure server name is unique in Claude config</li>
@@ -809,7 +824,9 @@ npx @lucid-spark/openapi-mcp-server \
   }
 }</code></pre>
                   </div>
-                  <p>This reduces tool count and improves Claude's response time.</p>
+                  <p>
+                    This reduces tool count and improves Claude's response time.
+                  </p>
                 </div>
               </div>
             </div>
@@ -821,7 +838,7 @@ npx @lucid-spark/openapi-mcp-server \
 
             <div class="logs-section">
               <h3>📝 Understanding Log Messages</h3>
-              
+
               <div class="log-examples">
                 <div class="log-example">
                   <h4>✅ Successful Startup Logs</h4>
@@ -834,7 +851,10 @@ npx @lucid-spark/openapi-mcp-server \
 [DEBUG] Starting stdio transport
 [INFO] Server ready and listening</code></pre>
                   </div>
-                  <p><strong>Analysis:</strong> Normal startup with 15 tools generated from filtered operations.</p>
+                  <p>
+                    <strong>Analysis:</strong> Normal startup with 15 tools
+                    generated from filtered operations.
+                  </p>
                 </div>
 
                 <div class="log-example">
@@ -844,7 +864,10 @@ npx @lucid-spark/openapi-mcp-server \
 [WARN] Tool name abbreviated: "getUserDetailsByIdentifier" → "get-usr-dtls-by-idntfr"
 [WARN] Duplicate operationId found: "getUser" - using path for uniqueness</code></pre>
                   </div>
-                  <p><strong>Analysis:</strong> Non-critical warnings about filtering and naming.</p>
+                  <p>
+                    <strong>Analysis:</strong> Non-critical warnings about
+                    filtering and naming.
+                  </p>
                 </div>
 
                 <div class="log-example">
@@ -854,14 +877,17 @@ npx @lucid-spark/openapi-mcp-server \
 [ERROR] Authentication failed: 401 Unauthorized
 [ERROR] Invalid OpenAPI specification: Missing required field 'paths'</code></pre>
                   </div>
-                  <p><strong>Analysis:</strong> Critical errors preventing server startup.</p>
+                  <p>
+                    <strong>Analysis:</strong> Critical errors preventing server
+                    startup.
+                  </p>
                 </div>
               </div>
             </div>
 
             <div class="logs-section">
               <h3>🔍 Debug Log Interpretation</h3>
-              
+
               <div class="log-interpretation">
                 <div class="log-pattern">
                   <h4>Configuration Phase</h4>
@@ -883,7 +909,9 @@ npx @lucid-spark/openapi-mcp-server \
 [DEBUG] OpenAPI version: 3.0.3
 [DEBUG] Found 15 paths with 23 operations</code></pre>
                   </div>
-                  <p>OpenAPI specification was loaded and parsed successfully.</p>
+                  <p>
+                    OpenAPI specification was loaded and parsed successfully.
+                  </p>
                 </div>
 
                 <div class="log-pattern">
@@ -910,7 +938,9 @@ npx @lucid-spark/openapi-mcp-server \
                 <li>You've tried all troubleshooting steps</li>
                 <li>Error messages are unclear or undocumented</li>
                 <li>Issue appears to be a bug in the software</li>
-                <li>Configuration works elsewhere but not in your environment</li>
+                <li>
+                  Configuration works elsewhere but not in your environment
+                </li>
               </ul>
 
               <h3>📋 Information to Provide</h3>
@@ -922,7 +952,11 @@ npx @lucid-spark/openapi-mcp-server \
                     <ul>
                       <li>Operating system and version</li>
                       <li>Node.js version (<code>node --version</code>)</li>
-                      <li>Package version (<code>npm list @lucid-spark/openapi-mcp-server</code>)</li>
+                      <li>
+                        Package version (<code
+                          >npm list @lucid-spark/openapi-mcp-server</code
+                        >)
+                      </li>
                       <li>Claude Desktop version (if applicable)</li>
                     </ul>
                   </div>
@@ -1012,7 +1046,10 @@ Any other relevant information</code></pre>
         <div class="footer-content">
           <div class="footer-section">
             <h4>OpenAPI MCP Server</h4>
-            <p>Connect any OpenAPI to Claude Desktop with dynamic tool generation.</p>
+            <p>
+              Connect any OpenAPI to Claude Desktop with dynamic tool
+              generation.
+            </p>
           </div>
           <div class="footer-section">
             <h4>Documentation</h4>

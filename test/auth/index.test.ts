@@ -7,10 +7,7 @@
  * - Export consistency and integrity
  */
 
-import authModule, {
-  StaticAuthProvider,
-  isAuthError,
-} from "../../src/auth";
+import authModule, { StaticAuthProvider, isAuthError } from "../../src/auth";
 import { IAuthProvider } from "../../src/types/auth";
 
 describe("Authentication Index Module", () => {

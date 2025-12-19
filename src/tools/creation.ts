@@ -23,9 +23,17 @@ export function createToolFromOperation(
   // Generate tool name from operationId, summary, or fallback
   let toolName: string;
   if (operation.operationId) {
-    toolName = generateToolName(operation.operationId, disableAbbreviation, namespace);
+    toolName = generateToolName(
+      operation.operationId,
+      disableAbbreviation,
+      namespace,
+    );
   } else if (operation.summary) {
-    toolName = generateToolName(operation.summary, disableAbbreviation, namespace);
+    toolName = generateToolName(
+      operation.summary,
+      disableAbbreviation,
+      namespace,
+    );
   } else {
     // Fallback: generate from method and path
     const pathParts = path.split("/").filter((p) => p && !p.startsWith("{"));

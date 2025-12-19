@@ -24,55 +24,79 @@ describe("Tool Name Generator", () => {
 
     it("should handle camelCase with vowel removal", () => {
       expect(generateToolName("getUserById")).toBe("get_user_by_id"); // vowel removal for longer combined words
-      expect(generateToolName("createNewUserProfile")).toBe("create_new_user_profile"); // vowel removal for long words
-      expect(generateToolName("updateExistingUserData")).toBe("update_existing_user"); // vowel removal for long words
+      expect(generateToolName("createNewUserProfile")).toBe(
+        "create_new_user_profile",
+      ); // vowel removal for long words
+      expect(generateToolName("updateExistingUserData")).toBe(
+        "update_existing_user",
+      ); // vowel removal for long words
     });
 
     it("should handle snake_case with structure preservation", () => {
       expect(generateToolName("get_user_by_id")).toBe("get_user_by_id"); // preserves hyphen structure, removes 'user'
-      expect(generateToolName("create_new_user_profile")).toBe("create_new_user_profile"); // removes 'user', vowel removal
-      expect(generateToolName("update_user_settings")).toBe("update_user_settings"); // removes 'user', vowel removal
+      expect(generateToolName("create_new_user_profile")).toBe(
+        "create_new_user_profile",
+      ); // removes 'user', vowel removal
+      expect(generateToolName("update_user_settings")).toBe(
+        "update_user_settings",
+      ); // removes 'user', vowel removal
     });
 
     it("should handle kebab-case with structure preservation", () => {
       expect(generateToolName("get-user-by-id")).toBe("get_user_by_id"); // removes 'user', preserves structure
-      expect(generateToolName("create-user-profile")).toBe("create_user_profile"); // removes 'user', vowel removal
-      expect(generateToolName("delete-user-account")).toBe("delete_user_account"); // removes 'user', vowel removal for 'account'
+      expect(generateToolName("create-user-profile")).toBe(
+        "create_user_profile",
+      ); // removes 'user', vowel removal
+      expect(generateToolName("delete-user-account")).toBe(
+        "delete_user_account",
+      ); // removes 'user', vowel removal for 'account'
     });
 
     it("should remove some common words", () => {
       // Note: 'user' is NOT in the common words list, so it's not removed from single words
-      expect(generateToolName("getUserServiceController")).toBe(
-        "get_user",
-      ); // removes 'service' and 'controller'
+      expect(generateToolName("getUserServiceController")).toBe("get_user"); // removes 'service' and 'controller'
       expect(generateToolName("createUserApiEndpoint")).toBe("create_user"); // removes 'api' and 'endpoint'
-      expect(generateToolName("deleteUserResourceManager")).toBe(
-        "delete_user",
-      ); // removes 'resource' and 'manager'
+      expect(generateToolName("deleteUserResourceManager")).toBe("delete_user"); // removes 'resource' and 'manager'
     });
 
     it("should apply standard abbreviations where available", () => {
       expect(generateToolName("getUserConfiguration")).toBe("get_user_config"); // no direct abbreviation applied, vowel removal
-      expect(generateToolName("createUserAuthentication")).toBe("create_user_auth"); // no direct abbreviation, vowel removal
+      expect(generateToolName("createUserAuthentication")).toBe(
+        "create_user_auth",
+      ); // no direct abbreviation, vowel removal
       expect(generateToolName("getUserInformation")).toBe("get_user_info"); // no direct abbreviation, vowel removal
       expect(generateToolName("updateUserRepository")).toBe("update_user_repo"); // no direct abbreviation, vowel removal
     });
 
     it("should remove vowels from long words", () => {
-      expect(generateToolName("createUserSubscription")).toBe("create_user_sub"); // vowel removal for long words
+      expect(generateToolName("createUserSubscription")).toBe(
+        "create_user_sub",
+      ); // vowel removal for long words
       expect(generateToolName("getUserConfiguration")).toBe("get_user_config"); // vowel removal
-      expect(generateToolName("updateUserVerification")).toBe("update_user_verify"); // vowel removal
+      expect(generateToolName("updateUserVerification")).toBe(
+        "update_user_verify",
+      ); // vowel removal
     });
 
     it("should handle mixed case and special characters", () => {
-      expect(generateToolName("Get-User_Profile@Service")).toBe("get_user_profile@"); // removes 'user' and 'service'
-      expect(generateToolName("CREATE#USER$DATA%HANDLER")).toBe("c_r_e_a_t_e#_u_s_e_r$_d_a_t_a%_h_a_n_d_l_e_r"); // removes 'user', 'data', and 'handler' - all common words
-      expect(generateToolName("Update.User.Settings.API")).toBe("update._user._settings._a_p_i"); // removes 'user' and 'api'
+      expect(generateToolName("Get-User_Profile@Service")).toBe(
+        "get_user_profile@",
+      ); // removes 'user' and 'service'
+      expect(generateToolName("CREATE#USER$DATA%HANDLER")).toBe(
+        "c_r_e_a_t_e#_u_s_e_r$_d_a_t_a%_h_a_n_d_l_e_r",
+      ); // removes 'user', 'data', and 'handler' - all common words
+      expect(generateToolName("Update.User.Settings.API")).toBe(
+        "update._user._settings._a_p_i",
+      ); // removes 'user' and 'api'
     });
 
     it("should handle numbers correctly", () => {
-      expect(generateToolName("getUser2faSettings")).toBe("get_user_2_fa_settings"); // splits on numbers, vowel removal
-      expect(generateToolName("createOAuth2Token")).toBe("create_o_auth_2_token"); // splits on numbers, vowel removal
+      expect(generateToolName("getUser2faSettings")).toBe(
+        "get_user_2_fa_settings",
+      ); // splits on numbers, vowel removal
+      expect(generateToolName("createOAuth2Token")).toBe(
+        "create_o_auth_2_token",
+      ); // splits on numbers, vowel removal
       expect(generateToolName("updateV3ApiEndpoint")).toBe("update_v_3"); // splits on numbers, 'api' not always removed
     });
 

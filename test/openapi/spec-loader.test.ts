@@ -848,14 +848,19 @@ invalid: yaml: content:
         },
       };
 
-      const result = await loader.loadSpec(JSON.stringify(specWithMissingRef), "inline");
+      const result = await loader.loadSpec(
+        JSON.stringify(specWithMissingRef),
+        "inline",
+      );
 
       // Should not throw error and should load successfully
       expect(result).toBeDefined();
-      
+
       // Should log warning about missing reference
       expect(mockedLogger.warn).toHaveBeenCalledWith(
-        expect.stringContaining("Failed to resolve reference #/components/schemas/NonExistentComponent")
+        expect.stringContaining(
+          "Failed to resolve reference #/components/schemas/NonExistentComponent",
+        ),
       );
 
       // Should create a generic schema fallback
@@ -863,7 +868,7 @@ invalid: yaml: content:
       const schema = operations[0].operation.responses["200"].content![
         "application/json"
       ].schema as any;
-      
+
       // Verify the fallback schema structure
       expect(schema.type).toBe("object");
       expect(schema.additionalProperties).toBe(true);

@@ -194,7 +194,7 @@ export function generateToolName(
   if (!input) {
     throw new Error("Input string is required for tool name generation");
   }
-  
+
   // Handle whitespace-only input gracefully
   if (input.trim() === "" || /^\s*$/.test(input)) {
     return "";
@@ -269,7 +269,7 @@ export function generateToolName(
     result += `-${hash}`;
   }
 
-  return result.replace(/-/g, '_');
+  return result.replace(/-/g, "_");
 }
 
 /**
@@ -327,11 +327,13 @@ function isCommonAbbreviation(word: string): boolean {
  * Sanitize a tool name to ensure it matches [a-z0-9-]+ pattern
  */
 function sanitizeToolName(input: string): string {
-  return input
-    // .toLowerCase()
-    .replace(/(^a-z0-9-)/g, "-")
-    .replace(/-+/g, "-")
-    .replace(/^-+|-+$/g, "");
+  return (
+    input
+      // .toLowerCase()
+      .replace(/(^a-z0-9-)/g, "-")
+      .replace(/-+/g, "-")
+      .replace(/^-+|-+$/g, "")
+  );
 }
 
 /**

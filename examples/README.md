@@ -490,7 +490,7 @@ class GitHubAuthProvider implements IAuthProvider {
       // GitHub tokens don't refresh automatically
       // In a real implementation, you might redirect to OAuth flow
       throw new Error(
-        "GitHub authentication failed. Please update your token."
+        "GitHub authentication failed. Please update your token.",
       );
     }
     return false;

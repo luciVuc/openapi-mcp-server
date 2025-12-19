@@ -46,7 +46,9 @@
           <a href="../index.html" class="nav-link">Home</a>
           <a href="../index.html#features" class="nav-link">Features</a>
           <a href="../index.html#quickstart" class="nav-link">Quick Start</a>
-          <a href="../index.html#documentation" class="nav-link">Documentation</a>
+          <a href="../index.html#documentation" class="nav-link"
+            >Documentation</a
+          >
           <a href="../index.html#examples" class="nav-link">Examples</a>
           <a
             href="https://github.com/lucivuc/openapi-mcp-server"
@@ -55,7 +57,8 @@
           >
             <svg class="github-icon" viewBox="0 0 24 24" fill="currentColor">
               <path
-                d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+                d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"
+              />
             </svg>
             GitHub
           </a>
@@ -69,7 +72,8 @@
         <div class="doc-header">
           <h1 class="doc-title">Tool Management</h1>
           <p class="doc-subtitle">
-            Complete guide to tool generation, filtering, naming conventions, meta-tools, and the tool ID system.
+            Complete guide to tool generation, filtering, naming conventions,
+            meta-tools, and the tool ID system.
           </p>
         </div>
 
@@ -78,25 +82,40 @@
           <section id="overview" class="doc-section">
             <h2>Tool System Overview</h2>
             <p>
-              OpenAPI MCP Server automatically converts OpenAPI operations into MCP tools, enabling AI systems to interact with REST APIs through standardized interfaces. The tool system provides intelligent generation, filtering, and management capabilities.
+              OpenAPI MCP Server automatically converts OpenAPI operations into
+              MCP tools, enabling AI systems to interact with REST APIs through
+              standardized interfaces. The tool system provides intelligent
+              generation, filtering, and management capabilities.
             </p>
-            
+
             <div class="system-features">
               <div class="feature-item">
                 <h3>🔄 Dynamic Generation</h3>
-                <p>Automatically creates tools from OpenAPI specifications with intelligent naming and parameter mapping</p>
+                <p>
+                  Automatically creates tools from OpenAPI specifications with
+                  intelligent naming and parameter mapping
+                </p>
               </div>
               <div class="feature-item">
                 <h3>🎯 Advanced Filtering</h3>
-                <p>Filter tools by tags, resources, operations, or explicit lists to expose only what you need</p>
+                <p>
+                  Filter tools by tags, resources, operations, or explicit lists
+                  to expose only what you need
+                </p>
               </div>
               <div class="feature-item">
                 <h3>📝 Smart Naming</h3>
-                <p>Intelligent abbreviation system with ≤64 character limit and readable formats</p>
+                <p>
+                  Intelligent abbreviation system with ≤64 character limit and
+                  readable formats
+                </p>
               </div>
               <div class="feature-item">
                 <h3>⚡ Meta-Tools</h3>
-                <p>Built-in API exploration and dynamic endpoint invocation capabilities</p>
+                <p>
+                  Built-in API exploration and dynamic endpoint invocation
+                  capabilities
+                </p>
               </div>
             </div>
           </section>
@@ -105,13 +124,17 @@
           <section id="tool-generation" class="doc-section">
             <h2>Tool Generation Process</h2>
             <p>
-              Tools are automatically generated from OpenAPI operations using a sophisticated mapping process:
+              Tools are automatically generated from OpenAPI operations using a
+              sophisticated mapping process:
             </p>
 
             <div class="generation-steps">
               <div class="step-item">
                 <h3>1. OpenAPI Parsing</h3>
-                <p>The server parses the OpenAPI specification and identifies all available operations</p>
+                <p>
+                  The server parses the OpenAPI specification and identifies all
+                  available operations
+                </p>
                 <div class="code-block">
                   <pre><code class="language-yaml"># OpenAPI specification example
 paths:
@@ -144,7 +167,10 @@ paths:
 
               <div class="step-item">
                 <h3>2. Tool ID Generation</h3>
-                <p>Each operation gets a unique tool ID using the format <code>METHOD::pathPart</code></p>
+                <p>
+                  Each operation gets a unique tool ID using the format
+                  <code>METHOD::pathPart</code>
+                </p>
                 <div class="code-block">
                   <pre><code class="language-text"># Examples of tool ID generation
 GET /users                     → GET::users
@@ -161,7 +187,10 @@ PUT /api/v1/users/{id}/profile → PUT::api__v1__users__---id__profile
 
               <div class="step-item">
                 <h3>3. Tool Name Generation</h3>
-                <p>Human-readable names are generated with intelligent abbreviation for the 64-character limit</p>
+                <p>
+                  Human-readable names are generated with intelligent
+                  abbreviation for the 64-character limit
+                </p>
                 <div class="code-block">
                   <pre><code class="language-typescript">// Name generation priority:
 // 1. operationId (if present)
@@ -176,7 +205,10 @@ PUT /api/v1/users/{id}/profile → PUT::api__v1__users__---id__profile
 
               <div class="step-item">
                 <h3>4. Schema Mapping</h3>
-                <p>Parameters and request bodies are mapped to MCP tool input schemas</p>
+                <p>
+                  Parameters and request bodies are mapped to MCP tool input
+                  schemas
+                </p>
                 <div class="code-block">
                   <pre><code class="language-json">{
   "type": "object",
@@ -206,7 +238,8 @@ PUT /api/v1/users/{id}/profile → PUT::api__v1__users__---id__profile
           <section id="tool-id-system" class="doc-section">
             <h2>Tool ID System</h2>
             <p>
-              The tool ID system provides a robust way to identify and reference tools, even with complex OpenAPI paths.
+              The tool ID system provides a robust way to identify and reference
+              tools, even with complex OpenAPI paths.
             </p>
 
             <div class="id-section">
@@ -288,15 +321,22 @@ const isInvalid = isValidToolId("invalid-id");
           <section id="tool-naming" class="doc-section">
             <h2>Tool Name Generation</h2>
             <p>
-              Tool names must be ≤64 characters and follow the pattern <code>[a-z0-9-]+</code>. The system uses intelligent abbreviation to ensure compliance.
+              Tool names must be ≤64 characters and follow the pattern
+              <code>[a-z0-9-]+</code>. The system uses intelligent abbreviation
+              to ensure compliance.
             </p>
 
             <div class="naming-section">
               <h3>Name Generation Priority</h3>
               <ol>
-                <li><strong>operationId</strong> - If present in OpenAPI spec</li>
+                <li>
+                  <strong>operationId</strong> - If present in OpenAPI spec
+                </li>
                 <li><strong>summary</strong> - If operationId is missing</li>
-                <li><strong>Generated name</strong> - From HTTP method and path as fallback</li>
+                <li>
+                  <strong>Generated name</strong> - From HTTP method and path as
+                  fallback
+                </li>
               </ol>
             </div>
 
@@ -305,7 +345,10 @@ const isInvalid = isValidToolId("invalid-id");
               <div class="abbreviation-steps">
                 <div class="abbrev-step">
                   <h4>1. Initial Sanitization</h4>
-                  <p>Convert to lowercase and replace non-alphanumeric characters with hyphens</p>
+                  <p>
+                    Convert to lowercase and replace non-alphanumeric characters
+                    with hyphens
+                  </p>
                   <div class="code-block small">
                     <pre><code>"getUserDetails" → "getuserdetails"
 "Service_Users_Management" → "service-users-management"</code></pre>
@@ -314,7 +357,10 @@ const isInvalid = isValidToolId("invalid-id");
 
                 <div class="abbrev-step">
                   <h4>2. Word Splitting</h4>
-                  <p>Split on camelCase, underscores, hyphens, and number boundaries</p>
+                  <p>
+                    Split on camelCase, underscores, hyphens, and number
+                    boundaries
+                  </p>
                   <div class="code-block small">
                     <pre><code>"getUserDetails" → ["get", "user", "details"]
 "apiV1Users" → ["api", "v1", "users"]</code></pre>
@@ -323,7 +369,10 @@ const isInvalid = isValidToolId("invalid-id");
 
                 <div class="abbrev-step">
                   <h4>3. Common Word Removal</h4>
-                  <p>Remove common API terms like "controller", "service", "api", etc.</p>
+                  <p>
+                    Remove common API terms like "controller", "service", "api",
+                    etc.
+                  </p>
                   <div class="code-block small">
                     <pre><code>["user", "service", "controller"] → ["user"]
 ["api", "v1", "users"] → ["v1", "users"]</code></pre>
@@ -353,7 +402,10 @@ const isInvalid = isValidToolId("invalid-id");
 
                 <div class="abbrev-step">
                   <h4>6. Hash Addition</h4>
-                  <p>Add 4-character hash if still too long or input was very long</p>
+                  <p>
+                    Add 4-character hash if still too long or input was very
+                    long
+                  </p>
                   <div class="code-block small">
                     <pre><code>"very-long-operation-name" → "very-lng-oprtn-nm-a1b2"</code></pre>
                   </div>
@@ -363,7 +415,10 @@ const isInvalid = isValidToolId("invalid-id");
 
             <div class="naming-section">
               <h3>Disabling Abbreviation</h3>
-              <p>You can disable abbreviation if you prefer full names (may cause errors with long names):</p>
+              <p>
+                You can disable abbreviation if you prefer full names (may cause
+                errors with long names):
+              </p>
               <div class="code-block">
                 <pre><code class="language-bash"># CLI usage
 npx @lucid-spark/openapi-mcp-server \
@@ -385,30 +440,37 @@ const server = new OpenAPIServer({
           <section id="tool-filtering" class="doc-section">
             <h2>Tool Filtering</h2>
             <p>
-              Control which tools are generated from your OpenAPI specification using various filtering options.
+              Control which tools are generated from your OpenAPI specification
+              using various filtering options.
             </p>
 
             <div class="filtering-section">
               <h3>Tools Mode</h3>
               <p>Choose how tools are loaded from your API specification:</p>
-              
+
               <div class="mode-grid">
                 <div class="mode-card">
                   <h4>🌟 All Mode (Default)</h4>
-                  <p>Load all tools from the OpenAPI spec, applying any specified filters</p>
+                  <p>
+                    Load all tools from the OpenAPI spec, applying any specified
+                    filters
+                  </p>
                   <div class="code-block small">
                     <pre><code class="language-bash">--tools all</code></pre>
                   </div>
                 </div>
-                
+
                 <div class="mode-card">
                   <h4>⚡ Dynamic Mode</h4>
-                  <p>Load only meta-tools for API exploration and dynamic invocation</p>
+                  <p>
+                    Load only meta-tools for API exploration and dynamic
+                    invocation
+                  </p>
                   <div class="code-block small">
                     <pre><code class="language-bash">--tools dynamic</code></pre>
                   </div>
                 </div>
-                
+
                 <div class="mode-card">
                   <h4>🎯 Explicit Mode</h4>
                   <p>Load only tools explicitly listed with --tool options</p>
@@ -421,7 +483,7 @@ const server = new OpenAPIServer({
 
             <div class="filtering-section">
               <h3>Filter Types</h3>
-              
+
               <div class="filter-grid">
                 <div class="filter-card">
                   <h4>By Tool ID/Name</h4>
@@ -432,7 +494,7 @@ const server = new OpenAPIServer({
 --tool "user-management"</code></pre>
                   </div>
                 </div>
-                
+
                 <div class="filter-card">
                   <h4>By OpenAPI Tags</h4>
                   <p>Include tools tagged with specific labels</p>
@@ -442,7 +504,7 @@ const server = new OpenAPIServer({
 --tag admin</code></pre>
                   </div>
                 </div>
-                
+
                 <div class="filter-card">
                   <h4>By Resource Path</h4>
                   <p>Include tools under specific resource paths</p>
@@ -452,7 +514,7 @@ const server = new OpenAPIServer({
 --resource api/v1</code></pre>
                   </div>
                 </div>
-                
+
                 <div class="filter-card">
                   <h4>By HTTP Method</h4>
                   <p>Include tools for specific HTTP operations</p>
@@ -467,7 +529,7 @@ const server = new OpenAPIServer({
 
             <div class="filtering-section">
               <h3>Filtering Examples</h3>
-              
+
               <div class="example-grid">
                 <div class="example-card">
                   <h4>Read-only API Access</h4>
@@ -479,7 +541,7 @@ const server = new OpenAPIServer({
   --operation HEAD</code></pre>
                   </div>
                 </div>
-                
+
                 <div class="example-card">
                   <h4>User Management Only</h4>
                   <div class="code-block small">
@@ -490,7 +552,7 @@ const server = new OpenAPIServer({
   --resource users</code></pre>
                   </div>
                 </div>
-                
+
                 <div class="example-card">
                   <h4>Specific Operations</h4>
                   <div class="code-block small">
@@ -503,7 +565,7 @@ const server = new OpenAPIServer({
   --tool GET::users__---id</code></pre>
                   </div>
                 </div>
-                
+
                 <div class="example-card">
                   <h4>Public API Only</h4>
                   <div class="code-block small">
@@ -522,7 +584,9 @@ const server = new OpenAPIServer({
           <section id="meta-tools" class="doc-section">
             <h2>Meta-Tools</h2>
             <p>
-              Meta-tools provide dynamic API exploration and invocation capabilities, allowing you to interact with endpoints that weren't pre-generated as tools.
+              Meta-tools provide dynamic API exploration and invocation
+              capabilities, allowing you to interact with endpoints that weren't
+              pre-generated as tools.
             </p>
 
             <div class="meta-tools-grid">
@@ -604,11 +668,15 @@ const server = new OpenAPIServer({
               <div class="usage-scenarios">
                 <div class="scenario-item">
                   <h4>🔍 API Discovery</h4>
-                  <p>Explore unfamiliar APIs without generating all tools upfront</p>
+                  <p>
+                    Explore unfamiliar APIs without generating all tools upfront
+                  </p>
                 </div>
                 <div class="scenario-item">
                   <h4>📊 Large APIs</h4>
-                  <p>Work with APIs that have hundreds of endpoints efficiently</p>
+                  <p>
+                    Work with APIs that have hundreds of endpoints efficiently
+                  </p>
                 </div>
                 <div class="scenario-item">
                   <h4>🧪 Testing</h4>
@@ -616,7 +684,10 @@ const server = new OpenAPIServer({
                 </div>
                 <div class="scenario-item">
                   <h4>🎯 Selective Usage</h4>
-                  <p>Use only specific operations without cluttering the tool list</p>
+                  <p>
+                    Use only specific operations without cluttering the tool
+                    list
+                  </p>
                 </div>
               </div>
             </div>
@@ -672,9 +743,7 @@ const server = new OpenAPIServer({
           <!-- Tool Statistics -->
           <section id="statistics" class="doc-section">
             <h2>Tool Statistics and Monitoring</h2>
-            <p>
-              Monitor tool generation and usage with built-in statistics:
-            </p>
+            <p>Monitor tool generation and usage with built-in statistics:</p>
 
             <div class="stats-section">
               <h3>Server Statistics</h3>
@@ -736,7 +805,10 @@ npx @lucid-spark/openapi-mcp-server \
         <div class="footer-content">
           <div class="footer-section">
             <h4>OpenAPI MCP Server</h4>
-            <p>Connect any OpenAPI to Claude Desktop with dynamic tool generation.</p>
+            <p>
+              Connect any OpenAPI to Claude Desktop with dynamic tool
+              generation.
+            </p>
           </div>
           <div class="footer-section">
             <h4>Documentation</h4>
