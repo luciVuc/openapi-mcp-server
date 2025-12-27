@@ -48,6 +48,8 @@
   "keywords": [
     "mcp",
     "model-context-protocol",
+    "modelcontextprotocol",
+    "server",
     "mcp-server",
     "swagger",
     "openapi",
