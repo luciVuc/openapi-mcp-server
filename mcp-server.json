@@ -2,7 +2,7 @@
   "name": "openapi-mcp-server",
   "displayName": "OpenAPI MCP Server",
   "description": "A generic Model Context Protocol (MCP) server that dynamically exposes OpenAPI-defined REST APIs as MCP tools. Enables Large Language Models like Claude to discover and interact with any OpenAPI-compliant API.",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "license": "MIT",
   "author": {
     "name": "OpenAPI MCP Server Contributors",
@@ -37,7 +37,7 @@
     "npm": "@lucid-spark/openapi-mcp-server",
     "docker": {
       "image": "reallv/openapi-mcp-server",
-      "tags": ["latest", "1.0.1"]
+      "tags": ["latest", "1.0.2"]
     }
   },
   "configuration": {

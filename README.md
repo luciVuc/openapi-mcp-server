@@ -354,7 +354,7 @@ interface IOpenAPIServerConfig {
 
   // Server Identity
   name?: string; // Server name (default: 'openapi-mcp-server')
-  version?: string; // Server version (default: '1.0.1')
+  version?: string; // Server version (default: '1.0.2')
   namespace?: string; // Namespace for the MCP server tools
 
   // Authentication (choose one)
@@ -1300,7 +1300,7 @@ The server can be configured through environment variables or command line argum
 - `OPENAPI_SPEC_INLINE` - Provide OpenAPI spec content directly as a string
 - `API_HEADERS` - Comma-separated key:value pairs for API headers
 - `SERVER_NAME` - Name for the MCP server (default: "openapi-mcp-server")
-- `SERVER_VERSION` - Version of the server (default: "1.0.1")
+- `SERVER_VERSION` - Version of the server (default: "1.0.2")
 - `TRANSPORT_TYPE` - Transport type to use: "stdio" or "http" (default: "stdio")
 - `HTTP_PORT` - Port for HTTP transport (default: 3000)
 - `HTTP_HOST` - Host for HTTP transport (default: "127.0.0.1")
