@@ -421,7 +421,7 @@ const isInvalid = isValidToolId("invalid-id");
               </p>
               <div class="code-block">
                 <pre><code class="language-bash"># CLI usage
-npx @lucid-spark/openapi-mcp-server \
+npx @lucid-spark/openapi-mcp-server openapi-mcp-server \
   --api-base-url https://api.example.com \
   --openapi-spec ./api-spec.yaml \
   --disable-abbreviation</code></pre>
@@ -534,7 +534,7 @@ const server = new OpenAPIServer({
                 <div class="example-card">
                   <h4>Read-only API Access</h4>
                   <div class="code-block small">
-                    <pre><code class="language-bash">npx @lucid-spark/openapi-mcp-server \
+                    <pre><code class="language-bash">npx @lucid-spark/openapi-mcp-server openapi-mcp-server \
   --api-base-url https://api.example.com \
   --openapi-spec ./api-spec.yaml \
   --operation GET \
@@ -545,7 +545,7 @@ const server = new OpenAPIServer({
                 <div class="example-card">
                   <h4>User Management Only</h4>
                   <div class="code-block small">
-                    <pre><code class="language-bash">npx @lucid-spark/openapi-mcp-server \
+                    <pre><code class="language-bash">npx @lucid-spark/openapi-mcp-server openapi-mcp-server \
   --api-base-url https://api.example.com \
   --openapi-spec ./api-spec.yaml \
   --tag users \
@@ -556,7 +556,7 @@ const server = new OpenAPIServer({
                 <div class="example-card">
                   <h4>Specific Operations</h4>
                   <div class="code-block small">
-                    <pre><code class="language-bash">npx @lucid-spark/openapi-mcp-server \
+                    <pre><code class="language-bash">npx @lucid-spark/openapi-mcp-server openapi-mcp-server \
   --api-base-url https://api.example.com \
   --openapi-spec ./api-spec.yaml \
   --tools explicit \
@@ -569,7 +569,7 @@ const server = new OpenAPIServer({
                 <div class="example-card">
                   <h4>Public API Only</h4>
                   <div class="code-block small">
-                    <pre><code class="language-bash">npx @lucid-spark/openapi-mcp-server \
+                    <pre><code class="language-bash">npx @lucid-spark/openapi-mcp-server openapi-mcp-server \
   --api-base-url https://api.example.com \
   --openapi-spec ./api-spec.yaml \
   --tag public \
@@ -780,7 +780,7 @@ console.log(stats);
               <h3>Debug Logging</h3>
               <div class="code-block">
                 <pre><code class="language-bash"># Enable debug mode to see tool generation details
-npx @lucid-spark/openapi-mcp-server \
+npx @lucid-spark/openapi-mcp-server openapi-mcp-server \
   --api-base-url https://api.example.com \
   --openapi-spec ./api-spec.yaml \
   --debug
@@ -821,7 +821,7 @@ npx @lucid-spark/openapi-mcp-server \
           </div>
         </div>
         <div class="footer-bottom">
-          <p>&copy; 2024 OpenAPI MCP Server. Released under the MIT License.</p>
+          <p>&copy; 2026 OpenAPI MCP Server. Released under the MIT License.</p>
         </div>
       </div>
     </footer>

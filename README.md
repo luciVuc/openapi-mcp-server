@@ -150,7 +150,7 @@ This section covers how to use the MCP server as an end user with Claude Desktop
 
 This MCP server can be used in two ways:
 
-1. **CLI Tool**: Use `npx @lucid-spark/openapi-mcp-server` directly with command-line arguments for quick setup
+1. **CLI Tool**: Use `npx @lucid-spark/openapi-mcp-server openapi-mcp-server` directly with command-line arguments for quick setup
 2. **Library**: Import and use the `OpenAPIServer` class in your own Node.js applications for custom implementations
 
 The server supports two transport methods:
@@ -174,7 +174,7 @@ No need to clone this repository. Simply configure Claude Desktop to use this MC
   "mcpServers": {
     "openapi": {
       "command": "npx",
-      "args": ["-y", "@lucid-spark/openapi-mcp-server"],
+      "args": ["-y", "@lucid-spark/openapi-mcp-server", "openapi-mcp-server"],
       "env": {
         "API_BASE_URL": "https://api.example.com",
         "OPENAPI_SPEC_PATH": "https://api.example.com/openapi.json",
@@ -197,7 +197,7 @@ To use the server with HTTP clients:
 1. No installation required! Use npx to run the package directly:
 
 ```bash
-npx @lucid-spark/openapi-mcp-server \
+npx @lucid-spark/openapi-mcp-server openapi-mcp-server \
   --api-base-url https://api.example.com \
   --openapi-spec https://api.example.com/openapi.json \
   --headers "Authorization:Bearer token123" \
@@ -405,7 +405,7 @@ export NAMESPACE="my-namespace"
 export TRANSPORT_TYPE="http"
 export HTTP_PORT="8080"
 export HTTP_HOST="0.0.0.0"
-export ENDPOINT_PATH="/api/mcp"
+export ENDPOINT_PATH="/mcp"
 
 # Tool Management
 export TOOLS_MODE="all"
@@ -415,7 +415,7 @@ export DISABLE_ABBREVIATION="true"
 ### Command Line Arguments
 
 ```bash
-npx @lucid-spark/openapi-mcp-server \
+npx @lucid-spark/openapi-mcp-server openapi-mcp-server \
   --api-base-url https://api.example.com \
   --openapi-spec https://api.example.com/openapi.json \
   --headers "Authorization:Bearer token123,X-API-Key:your-api-key" \
@@ -508,6 +508,7 @@ Add to your Claude Desktop configuration file:
       "command": "npx",
       "args": [
         "@lucid-spark/openapi-mcp-server",
+        "openapi-mcp-server",
         "--api-base-url",
         "https://api.example.com",
         "--openapi-spec",
@@ -527,6 +528,7 @@ Add to your Claude Desktop configuration file:
       "command": "npx",
       "args": [
         "@lucid-spark/openapi-mcp-server",
+        "openapi-mcp-server",
         "--api-base-url",
         "https://api.github.com",
         "--openapi-spec",
@@ -776,7 +778,7 @@ const config: IOpenAPIServerConfig = {
   transportType: "http",
   httpPort: 8080,
   httpHost: "0.0.0.0",
-  endpointPath: "/api/mcp",
+  endpointPath: "/mcp",
   toolsMode: "all",
   includeTags: ["users", "posts"],
   includeOperations: ["GET", "POST"],
@@ -1248,7 +1250,7 @@ To use the server with HTTP clients:
 1. No installation required! Use npx to run the package directly:
 
 ```bash
-npx @lucid-spark/openapi-mcp-server \
+npx @lucid-spark/openapi-mcp-server openapi-mcp-server \
   --api-base-url https://api.example.com \
   --openapi-spec https://api.example.com/openapi.json \
   --headers "Authorization:Bearer token123" \
@@ -1311,7 +1313,7 @@ The server can be configured through environment variables or command line argum
 ### Command Line Arguments
 
 ```bash
-npx @lucid-spark/openapi-mcp-server \
+npx @lucid-spark/openapi-mcp-server openapi-mcp-server \
   --api-base-url https://api.example.com \
   --openapi-spec https://api.example.com/openapi.json \
   --headers "Authorization:Bearer token123,X-API-Key:your-api-key" \
@@ -1333,7 +1335,7 @@ The MCP server supports multiple methods for loading OpenAPI specifications, pro
 Load the OpenAPI spec from a remote URL:
 
 ```bash
-npx @lucid-spark/openapi-mcp-server \
+npx @lucid-spark/openapi-mcp-server openapi-mcp-server \
   --api-base-url https://api.example.com \
   --openapi-spec https://api.example.com/openapi.json
 ```
@@ -1343,7 +1345,7 @@ npx @lucid-spark/openapi-mcp-server \
 Load the OpenAPI spec from a local file:
 
 ```bash
-npx @lucid-spark/openapi-mcp-server \
+npx @lucid-spark/openapi-mcp-server openapi-mcp-server \
   --api-base-url https://api.example.com \
   --openapi-spec ./path/to/openapi.yaml
 ```
@@ -1354,18 +1356,18 @@ Read the OpenAPI spec from standard input (useful for piping or containerized en
 
 ```bash
 # Pipe from file
-cat openapi.json | npx @lucid-spark/openapi-mcp-server \
+cat openapi.json | npx @lucid-spark/openapi-mcp-server openapi-mcp-server \
   --api-base-url https://api.example.com \
   --spec-from-stdin
 
 # Pipe from curl
-curl -s https://api.example.com/openapi.json | npx @lucid-spark/openapi-mcp-server \
+curl -s https://api.example.com/openapi.json | npx @lucid-spark/openapi-mcp-server openapi-mcp-server \
   --api-base-url https://api.example.com \
   --spec-from-stdin
 
 # Using environment variable
 export OPENAPI_SPEC_FROM_STDIN=true
-echo '{"openapi": "3.0.0", ...}' | npx @lucid-spark/openapi-mcp-server \
+echo '{"openapi": "3.0.0", ...}' | npx @lucid-spark/openapi-mcp-server openapi-mcp-server \
   --api-base-url https://api.example.com
 ```
 
@@ -1374,13 +1376,13 @@ echo '{"openapi": "3.0.0", ...}' | npx @lucid-spark/openapi-mcp-server \
 Provide the OpenAPI spec content directly as a command line argument:
 
 ```bash
-npx @lucid-spark/openapi-mcp-server \
+npx @lucid-spark/openapi-mcp-server openapi-mcp-server \
   --api-base-url https://api.example.com \
   --spec-inline '{"openapi": "3.0.0", "info": {"title": "My API", "version": "1.0.0"}, "paths": {}}'
 
 # Using environment variable
 export OPENAPI_SPEC_INLINE='{"openapi": "3.0.0", ...}'
-npx @lucid-spark/openapi-mcp-server --api-base-url https://api.example.com
+npx @lucid-spark/openapi-mcp-server openapi-mcp-server --api-base-url https://api.example.com
 ```
 
 ### Supported Formats
@@ -1440,13 +1442,13 @@ Based on the Stainless article "What We Learned Converting Complex OpenAPI Specs
 
 ```bash
 # Load only dynamic meta-tools
-npx @lucid-spark/openapi-mcp-server
+npx @lucid-spark/openapi-mcp-server openapi-mcp-server
   --api-base-url https://api.example.com
   --openapi-spec https://api.example.com/openapi.json
   --tools dynamic
 
 # Load only explicitly specified tools (ignores other filters)
-npx @lucid-spark/openapi-mcp-server
+npx @lucid-spark/openapi-mcp-server openapi-mcp-server
   --api-base-url https://api.example.com
   --openapi-spec https://api.example.com/openapi.json
   --tools explicit
@@ -1454,20 +1456,20 @@ npx @lucid-spark/openapi-mcp-server
   --tool POST::users
 
 # Load only the GET /users endpoint tool (using all mode with filtering)
-npx @lucid-spark/openapi-mcp-server
+npx @lucid-spark/openapi-mcp-server openapi-mcp-server
   --api-base-url https://api.example.com
   --openapi-spec https://api.example.com/openapi.json
   --tool GET-users
 
 # Load tools tagged with "user" under the "/users" resource
-npx @lucid-spark/openapi-mcp-server
+npx @lucid-spark/openapi-mcp-server openapi-mcp-server
   --api-base-url https://api.example.com
   --openapi-spec https://api.example.com/openapi.json
   --tag user
   --resource users
 
 # Load only POST operations
-npx @lucid-spark/openapi-mcp-server
+npx @lucid-spark/openapi-mcp-server openapi-mcp-server
   --api-base-url https://api.example.com
   --openapi-spec https://api.example.com/openapi.json
   --operation post
@@ -1509,7 +1511,7 @@ To see debug logs:
 
 2. When using HTTP transport:
    ```bash
-   npx @lucid-spark/openapi-mcp-server --transport http &2>debug.log
+   npx @lucid-spark/openapi-mcp-server openapi-mcp-server --transport http &2>debug.log
    ```
 
 ---

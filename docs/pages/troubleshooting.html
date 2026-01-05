@@ -192,7 +192,7 @@
                     </p>
                     <div class="code-block">
                       <pre><code class="language-bash"># CLI
-npx @lucid-spark/openapi-mcp-server --api-base-url "https://api.example.com"</code></pre>
+npx @lucid-spark/openapi-mcp-server openapi-mcp-server --api-base-url "https://api.example.com"</code></pre>
                     </div>
                     <div class="code-block">
                       <pre><code class="language-typescript">// Library
@@ -225,7 +225,7 @@ const server = new OpenAPIServer({
 ls -la ./api-spec.yaml
 
 # Use absolute path
-npx @lucid-spark/openapi-mcp-server \
+npx @lucid-spark/openapi-mcp-server openapi-mcp-server \
   --api-base-url "https://api.example.com" \
   --openapi-spec "/full/path/to/api-spec.yaml"</code></pre>
                       </div>
@@ -391,7 +391,7 @@ console.log("Filter status:", stats.filtering);</code></pre>
 cat api-spec.yaml | grep -A 5 "tags:"
 
 # Use exact tag names (case-sensitive)
-npx @lucid-spark/openapi-mcp-server \
+npx @lucid-spark/openapi-mcp-server openapi-mcp-server \
   --include-tags "Users,Orders" \  # NOT "users,orders"
   # ... other config</code></pre>
                       </div>
@@ -432,7 +432,7 @@ console.log("Available operations:", [...new Set(operations)]);</code></pre>
                   <h4>CLI Debug Mode</h4>
                   <div class="code-block">
                     <pre><code class="language-bash"># Enable debug output
-npx @lucid-spark/openapi-mcp-server \
+npx @lucid-spark/openapi-mcp-server openapi-mcp-server \
   --api-base-url "https://api.example.com" \
   --openapi-spec "./api-spec.yaml" \
   --debug
@@ -756,6 +756,7 @@ if (global.gc) {
       "command": "npx",
       "args": [
         "@lucid-spark/openapi-mcp-server",
+        "openapi-mcp-server",
         "--api-base-url", "https://api.example.com",
         "--openapi-spec", "https://api.example.com/openapi.json",
         "--header", "Authorization=Bearer YOUR_TOKEN"
@@ -781,7 +782,7 @@ if (global.gc) {
                   <h4>Verification Steps:</h4>
                   <div class="code-block">
                     <pre><code class="language-bash"># Test the exact command from Claude config
-npx @lucid-spark/openapi-mcp-server \
+npx @lucid-spark/openapi-mcp-server openapi-mcp-server \
   --api-base-url "https://api.example.com" \
   --openapi-spec "https://api.example.com/openapi.json" \
   --header "Authorization=Bearer YOUR_TOKEN" \
@@ -814,6 +815,7 @@ npx @lucid-spark/openapi-mcp-server \
       "command": "npx",
       "args": [
         "@lucid-spark/openapi-mcp-server",
+        "openapi-mcp-server",
         "--api-base-url", "https://api.example.com",
         "--openapi-spec", "./local-spec.yaml",
         "--include-operations", "GET,POST",
@@ -1062,7 +1064,7 @@ Any other relevant information</code></pre>
           </div>
         </div>
         <div class="footer-bottom">
-          <p>&copy; 2024 OpenAPI MCP Server. Released under the MIT License.</p>
+          <p>&copy; 2026 OpenAPI MCP Server. Released under the MIT License.</p>
         </div>
       </div>
     </footer>

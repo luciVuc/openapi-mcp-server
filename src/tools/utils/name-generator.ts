@@ -279,7 +279,7 @@ function splitIntoWords(input: string): string[] {
   return (
     input
       // Split on underscores and hyphens
-      .split(/[_-]+/)
+      .split(/[ _-]+/)
       // Split on camelCase boundaries
       .flatMap((word) => word.split(/(?=[A-Z])/))
       // Split on number boundaries

@@ -175,7 +175,7 @@
               <h3>Configuration</h3>
               <div class="code-block">
                 <pre><code class="language-bash"># CLI usage (default transport)
-npx @lucid-spark/openapi-mcp-server \
+npx @lucid-spark/openapi-mcp-server openapi-mcp-server \
   --api-base-url https://api.example.com \
   --openapi-spec https://api.example.com/openapi.json \
   --transport stdio</code></pre>
@@ -203,7 +203,7 @@ await server.start();</code></pre>
   "mcpServers": {
     "openapi": {
       "command": "npx",
-      "args": ["-y", "@lucid-spark/openapi-mcp-server"],
+      "args": ["-y", "@lucid-spark/openapi-mcp-server", "openapi-mcp-server"],
       "env": {
         "API_BASE_URL": "https://api.example.com",
         "OPENAPI_SPEC_PATH": "https://api.example.com/openapi.json",
@@ -305,13 +305,13 @@ await server.start();</code></pre>
               <h3>Configuration</h3>
               <div class="code-block">
                 <pre><code class="language-bash"># CLI usage
-npx @lucid-spark/openapi-mcp-server \
+npx @lucid-spark/openapi-mcp-server openapi-mcp-server \
   --api-base-url https://api.example.com \
   --openapi-spec https://api.example.com/openapi.json \
   --transport http \
   --port 3000 \
   --host 127.0.0.1 \
-  --endpoint-path /mcp</code></pre>
+  --path /mcp</code></pre>
               </div>
 
               <div class="code-block">
@@ -581,11 +581,11 @@ data: {"type":"heartbeat","timestamp":"2024-01-01T00:00:00.000Z"}
                 <h4>Production HTTP Security</h4>
                 <div class="code-block">
                   <pre><code class="language-bash"># Secure HTTP configuration
-npx @lucid-spark/openapi-mcp-server \
+npx @lucid-spark/openapi-mcp-server openapi-mcp-server \
   --transport http \
   --host 127.0.0.1 \  # Localhost only
   --port 3000 \
-  --endpoint-path /mcp/api \  # Non-obvious path
+  --path /mcp/api \  # Non-obvious path
   # Consider adding reverse proxy with:
   # - HTTPS termination
   # - Rate limiting
@@ -682,7 +682,7 @@ npx @lucid-spark/openapi-mcp-server \
                     <li>Check Node.js installation and version (≥18.0.0)</li>
                     <li>
                       Verify package installation:
-                      <code>npx @lucid-spark/openapi-mcp-server --version</code>
+                      <code>npx @lucid-spark/openapi-mcp-server openapi-mcp-server --version</code>
                     </li>
                     <li>Test configuration with debug mode</li>
                     <li>Check environment variables in Claude config</li>
@@ -759,14 +759,14 @@ npx @lucid-spark/openapi-mcp-server \
               <h3>Debug Commands</h3>
               <div class="code-block">
                 <pre><code class="language-bash"># Test stdio transport
-npx @lucid-spark/openapi-mcp-server \
+npx @lucid-spark/openapi-mcp-server openapi-mcp-server \
   --api-base-url https://httpbin.org \
   --openapi-spec examples/httpbin-openapi.json \
   --transport stdio \
   --debug
 
 # Test HTTP transport
-npx @lucid-spark/openapi-mcp-server \
+npx @lucid-spark/openapi-mcp-server openapi-mcp-server \
   --api-base-url https://httpbin.org \
   --openapi-spec examples/httpbin-openapi.json \
   --transport http \
@@ -806,7 +806,7 @@ curl -X POST http://localhost:3000/mcp \
           </div>
         </div>
         <div class="footer-bottom">
-          <p>&copy; 2024 OpenAPI MCP Server. Released under the MIT License.</p>
+          <p>&copy; 2026 OpenAPI MCP Server. Released under the MIT License.</p>
         </div>
       </div>
     </footer>

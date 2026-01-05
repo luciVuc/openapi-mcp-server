@@ -166,7 +166,7 @@
             <pre
               class="code-content"
             ><code class="language-bash"># Connect any OpenAPI to Claude Desktop
-npx @lucid-spark/openapi-mcp-server \
+npx @lucid-spark/openapi-mcp-server openapi-mcp-server \
   --api-base-url https://api.example.com \
   --openapi-spec https://api.example.com/openapi.json \
   --headers "Authorization:Bearer token123"
@@ -284,7 +284,7 @@ npx @lucid-spark/openapi-mcp-server \
   "mcpServers": {
     "openapi": {
       "command": "npx",
-      "args": ["-y", "@lucid-spark/openapi-mcp-server"],
+      "args": ["-y", "@lucid-spark/openapi-mcp-server", "openapi-mcp-server"],
       "env": {
         "API_BASE_URL": "https://api.example.com",
         "OPENAPI_SPEC_PATH": "https://api.example.com/openapi.json",
@@ -307,7 +307,7 @@ npx @lucid-spark/openapi-mcp-server \
               </div>
               <h3>2. Run with any OpenAPI-compliant API</h3>
               <div class="code-block">
-                <pre><code class="language-bash">npx @lucid-spark/openapi-mcp-server \
+                <pre><code class="language-bash">npx @lucid-spark/openapi-mcp-server openapi-mcp-server \
   --api-base-url https://api.example.com \
   --openapi-spec https://api.example.com/openapi.json \
   --headers "Authorization:Bearer token123" \
@@ -664,7 +664,7 @@ await server.start();</code></pre>
           </div>
         </div>
         <div class="footer-bottom">
-          <p>&copy; 2024 OpenAPI MCP Server. Released under the MIT License.</p>
+          <p>&copy; 2026 OpenAPI MCP Server. Released under the MIT License.</p>
           <p>Made with ❤️ for the MCP ecosystem</p>
         </div>
       </div>

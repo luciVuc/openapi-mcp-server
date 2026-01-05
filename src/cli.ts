@@ -80,7 +80,7 @@ async function main(): Promise<void> {
     .option("--host <host>", "Host for HTTP transport")
     .option("--path <path>", "Endpoint path for HTTP transport")
     .option(
-      "--endpoint-path <path>",
+      "--path <path>",
       "Endpoint path for HTTP transport (alias for --path)",
       "/mcp",
     );

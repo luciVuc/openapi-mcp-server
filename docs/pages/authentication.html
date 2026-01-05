@@ -117,13 +117,13 @@
               <h3>CLI Usage</h3>
               <div class="code-block">
                 <pre><code class="language-bash"># Single header
-npx @lucid-spark/openapi-mcp-server \
+npx @lucid-spark/openapi-mcp-server openapi-mcp-server \
   --api-base-url https://api.example.com \
   --openapi-spec https://api.example.com/openapi.json \
   --headers "Authorization:Bearer your-long-lived-token"
 
 # Multiple headers
-npx @lucid-spark/openapi-mcp-server \
+npx @lucid-spark/openapi-mcp-server openapi-mcp-server \
   --api-base-url https://api.github.com \
   --openapi-spec https://api.github.com/openapi.json \
   --headers "Authorization:Bearer ghp_xxxxxxxxxxxx,Accept:application/vnd.github.v3+json,User-Agent:MyApp/1.0"</code></pre>
@@ -139,7 +139,7 @@ export OPENAPI_SPEC_PATH="https://api.example.com/openapi.json"
 export API_HEADERS="Authorization:Bearer your-token,X-API-Key:your-api-key"
 
 # Run server
-npx @lucid-spark/openapi-mcp-server</code></pre>
+npx @lucid-spark/openapi-mcp-server openapi-mcp-server</code></pre>
               </div>
             </div>
 
@@ -402,7 +402,7 @@ class SimpleAuthProvider implements IAuthProvider {
               <h3>GitHub API</h3>
               <div class="code-block">
                 <pre><code class="language-bash"># Using Personal Access Token
-npx @lucid-spark/openapi-mcp-server \
+npx @lucid-spark/openapi-mcp-server openapi-mcp-server \
   --api-base-url https://api.github.com \
   --openapi-spec https://api.github.com/openapi.json \
   --headers "Authorization:Bearer ghp_xxxxxxxxxxxx,Accept:application/vnd.github.v3+json,User-Agent:MyApp/1.0"</code></pre>
@@ -413,7 +413,7 @@ npx @lucid-spark/openapi-mcp-server \
               <h3>Stripe API</h3>
               <div class="code-block">
                 <pre><code class="language-bash"># Using Secret Key
-npx @lucid-spark/openapi-mcp-server \
+npx @lucid-spark/openapi-mcp-server openapi-mcp-server \
   --api-base-url https://api.stripe.com \
   --openapi-spec https://raw.githubusercontent.com/stripe/openapi/master/openapi/spec3.json \
   --headers "Authorization:Bearer sk_test_xxxxxxxxxxxx,Stripe-Version:2023-10-16"</code></pre>
@@ -424,7 +424,7 @@ npx @lucid-spark/openapi-mcp-server \
               <h3>OpenAI API</h3>
               <div class="code-block">
                 <pre><code class="language-bash"># Using API Key
-npx @lucid-spark/openapi-mcp-server \
+npx @lucid-spark/openapi-mcp-server openapi-mcp-server \
   --api-base-url https://api.openai.com \
   --openapi-spec https://api.openai.com/openapi.json \
   --headers "Authorization:Bearer sk-xxxxxxxxxxxx,OpenAI-Organization:org-xxxxxxxxxxxx"</code></pre>
@@ -484,7 +484,7 @@ class AWSAuthProvider implements IAuthProvider {
   "mcpServers": {
     "github-api": {
       "command": "npx",
-      "args": ["-y", "@lucid-spark/openapi-mcp-server"],
+      "args": ["-y", "@lucid-spark/openapi-mcp-server", "openapi-mcp-server"],
       "env": {
         "API_BASE_URL": "https://api.github.com",
         "OPENAPI_SPEC_PATH": "https://api.github.com/openapi.json",
@@ -504,7 +504,7 @@ class AWSAuthProvider implements IAuthProvider {
   "mcpServers": {
     "stripe-api": {
       "command": "npx",
-      "args": ["-y", "@lucid-spark/openapi-mcp-server"],
+      "args": ["-y", "@lucid-spark/openapi-mcp-server", "openapi-mcp-server"],
       "env": {
         "API_BASE_URL": "https://api.stripe.com",
         "OPENAPI_SPEC_PATH": "https://raw.githubusercontent.com/stripe/openapi/master/openapi/spec3.json",
@@ -646,7 +646,7 @@ curl -H "Authorization: Bearer your-token" https://api.example.com/test</code></
           </div>
         </div>
         <div class="footer-bottom">
-          <p>&copy; 2024 OpenAPI MCP Server. Released under the MIT License.</p>
+          <p>&copy; 2026 OpenAPI MCP Server. Released under the MIT License.</p>
         </div>
       </div>
     </footer>

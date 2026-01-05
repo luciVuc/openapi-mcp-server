@@ -85,6 +85,7 @@
       "command": "npx",
       "args": [
         "@lucid-spark/openapi-mcp-server",
+        "openapi-mcp-server",
         "--api-base-url",
         "${API_BASE_URL}",
         "--openapi-spec",

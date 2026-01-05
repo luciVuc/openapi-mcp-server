@@ -84,7 +84,7 @@
                 <p>Perfect for testing and learning - connects to the public JSONPlaceholder API</p>
                 <div class="code-block">
                   <pre><code class="language-bash"># CLI usage
-npx @lucid-spark/openapi-mcp-server \
+npx @lucid-spark/openapi-mcp-server openapi-mcp-server \
   --api-base-url "https://jsonplaceholder.typicode.com" \
   --openapi-spec "https://jsonplaceholder.typicode.com/openapi.json"</code></pre>
                 </div>
@@ -109,7 +109,7 @@ await server.start();</code></pre>
 export API_KEY="your-api-key"
 export OPENAPI_SPEC_URL="https://api.example.com/openapi.json"
 
-npx @lucid-spark/openapi-mcp-server \
+npx @lucid-spark/openapi-mcp-server openapi-mcp-server \
   --api-base-url "https://api.example.com" \
   --header "Authorization=Bearer $API_KEY"</code></pre>
                 </div>
@@ -131,7 +131,7 @@ const server = new OpenAPIServer({
                 <p>Include only specific endpoints or tags to reduce tool clutter</p>
                 <div class="code-block">
                   <pre><code class="language-bash"># Include only user-related endpoints
-npx @lucid-spark/openapi-mcp-server \
+npx @lucid-spark/openapi-mcp-server openapi-mcp-server \
   --api-base-url "https://api.example.com" \
   --include-tags "users,profiles" \
   --include-operations "GET,POST"</code></pre>
@@ -165,7 +165,7 @@ const server = new OpenAPIServer({
                       <pre><code class="language-bash"># Create a GitHub personal access token first
 export GITHUB_TOKEN="ghp_your_token_here"
 
-npx @lucid-spark/openapi-mcp-server \
+npx @lucid-spark/openapi-mcp-server openapi-mcp-server \
   --api-base-url "https://api.github.com" \
   --openapi-spec "https://raw.githubusercontent.com/github/rest-api-description/main/descriptions/api.github.com/api.github.com.json" \
   --header "Authorization=Bearer $GITHUB_TOKEN" \
@@ -184,6 +184,7 @@ npx @lucid-spark/openapi-mcp-server \
       "command": "npx",
       "args": [
         "@lucid-spark/openapi-mcp-server",
+        "openapi-mcp-server",
         "--api-base-url", "https://api.github.com",
         "--openapi-spec", "https://raw.githubusercontent.com/github/rest-api-description/main/descriptions/api.github.com/api.github.com.json",
         "--header", "Authorization=Bearer YOUR_GITHUB_TOKEN",
@@ -822,6 +823,7 @@ await server.start();</code></pre>
       "command": "npx",
       "args": [
         "@lucid-spark/openapi-mcp-server",
+        "openapi-mcp-server",
         "--api-base-url", "https://cms.example.com/api/v1",
         "--openapi-spec", "https://cms.example.com/api/openapi.json",
         "--header", "Authorization=Bearer CMS_TOKEN",
@@ -844,6 +846,7 @@ await server.start();</code></pre>
       "command": "npx", 
       "args": [
         "@lucid-spark/openapi-mcp-server",
+        "openapi-mcp-server",
         "--api-base-url", "https://api.fintech.com/v2",
         "--openapi-spec", "./fintech-openapi.yaml",
         "--header", "X-API-Key=FINTECH_API_KEY",
@@ -888,6 +891,7 @@ await server.start();</code></pre>
       "command": "npx",
       "args": [
         "@lucid-spark/openapi-mcp-server",
+        "openapi-mcp-server",
         "--api-base-url", "https://bi.example.com/api/v1",
         "--openapi-spec", "./bi-api-spec.yaml",
         "--header", "Authorization=Bearer BI_TOKEN",
@@ -910,6 +914,7 @@ await server.start();</code></pre>
       "command": "npx",
       "args": [
         "@lucid-spark/openapi-mcp-server",
+        "openapi-mcp-server",
         "--api-base-url", "https://shop.example.com/api",
         "--openapi-spec", "https://shop.example.com/openapi.json",
         "--header", "X-Shop-Token=SHOP_TOKEN",
@@ -931,6 +936,7 @@ await server.start();</code></pre>
       "command": "npx",
       "args": [
         "@lucid-spark/openapi-mcp-server",
+        "openapi-mcp-server",
         "--api-base-url", "https://api.cloudprovider.com/v1",
         "--openapi-spec", "https://api.cloudprovider.com/openapi.json", 
         "--header", "Authorization=Bearer CLOUD_TOKEN",
@@ -1011,7 +1017,7 @@ testApiConnection();</code></pre>
                 <h4>Debug Mode Usage</h4>
                 <div class="code-block">
                   <pre><code class="language-bash"># Enable debug mode in CLI
-npx @lucid-spark/openapi-mcp-server \
+npx @lucid-spark/openapi-mcp-server openapi-mcp-server \
   --api-base-url "https://api.example.com" \
   --openapi-spec "./api-spec.yaml" \
   --debug \
@@ -1225,7 +1231,7 @@ if (process.env.NODE_ENV === "development") {
           </div>
         </div>
         <div class="footer-bottom">
-          <p>&copy; 2024 OpenAPI MCP Server. Released under the MIT License.</p>
+          <p>&copy; 2026 OpenAPI MCP Server. Released under the MIT License.</p>
         </div>
       </div>
     </footer>

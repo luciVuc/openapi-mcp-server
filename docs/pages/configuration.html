@@ -359,7 +359,7 @@ export TOOLS_MODE="all"
 export DISABLE_ABBREVIATION="false"
 
 # Run the server
-npx @lucid-spark/openapi-mcp-server</code></pre>
+npx @lucid-spark/openapi-mcp-server openapi-mcp-server</code></pre>
               </div>
             </div>
           </section>
@@ -509,7 +509,7 @@ npx @lucid-spark/openapi-mcp-server</code></pre>
                       <td><code>127.0.0.1</code></td>
                     </tr>
                     <tr>
-                      <td><code>--endpoint-path &lt;path&gt;</code></td>
+                      <td><code>--path &lt;path&gt;</code></td>
                       <td>Endpoint path for HTTP transport</td>
                       <td><code>/mcp</code></td>
                     </tr>
@@ -600,7 +600,7 @@ npx @lucid-spark/openapi-mcp-server</code></pre>
             <div class="cli-example">
               <h3>Complete CLI Example</h3>
               <div class="code-block">
-                <pre><code class="language-bash">npx @lucid-spark/openapi-mcp-server \
+                <pre><code class="language-bash">npx @lucid-spark/openapi-mcp-server openapi-mcp-server \
   --api-base-url https://api.github.com \
   --openapi-spec https://api.github.com/openapi.json \
   --headers "Authorization:Bearer ghp_xxxxxxxxxxxx,Accept:application/vnd.github.v3+json" \
@@ -609,7 +609,7 @@ npx @lucid-spark/openapi-mcp-server</code></pre>
   --transport http \
   --port 8080 \
   --host 0.0.0.0 \
-  --endpoint-path /api/mcp \
+  --path /mcp \
   --tools all \
   --tag public \
   --operation GET \
@@ -724,7 +724,7 @@ try {
   "mcpServers": {
     "openapi": {
       "command": "npx",
-      "args": ["-y", "@lucid-spark/openapi-mcp-server"],
+      "args": ["-y", "@lucid-spark/openapi-mcp-server", "openapi-mcp-server"],
       "env": {
         "API_BASE_URL": "https://api.example.com",
         "OPENAPI_SPEC_PATH": "https://api.example.com/openapi.json",
@@ -746,6 +746,7 @@ try {
       "args": [
         "-y",
         "@lucid-spark/openapi-mcp-server",
+        "openapi-mcp-server",
         "--api-base-url",
         "https://api.github.com",
         "--openapi-spec",
@@ -779,7 +780,7 @@ try {
                   <pre><code class="language-bash">export API_BASE_URL="https://jsonplaceholder.typicode.com"
 export OPENAPI_SPEC_PATH="https://jsonplaceholder.typicode.com/openapi.json"
 
-npx @lucid-spark/openapi-mcp-server</code></pre>
+npx @lucid-spark/openapi-mcp-server openapi-mcp-server</code></pre>
                 </div>
               </div>
 
@@ -790,14 +791,14 @@ npx @lucid-spark/openapi-mcp-server</code></pre>
 export OPENAPI_SPEC_PATH="https://api.github.com/openapi.json"
 export API_HEADERS="Authorization:Bearer ghp_token,Accept:application/vnd.github.v3+json"
 
-npx @lucid-spark/openapi-mcp-server</code></pre>
+npx @lucid-spark/openapi-mcp-server openapi-mcp-server</code></pre>
                 </div>
               </div>
 
               <div class="example-card">
                 <h3>HTTP Transport</h3>
                 <div class="code-block">
-                  <pre><code class="language-bash">npx @lucid-spark/openapi-mcp-server \
+                  <pre><code class="language-bash">npx @lucid-spark/openapi-mcp-server openapi-mcp-server \
   --api-base-url https://api.example.com \
   --openapi-spec ./api-spec.yaml \
   --transport http \
@@ -809,7 +810,7 @@ npx @lucid-spark/openapi-mcp-server</code></pre>
               <div class="example-card">
                 <h3>Filtered Tools</h3>
                 <div class="code-block">
-                  <pre><code class="language-bash">npx @lucid-spark/openapi-mcp-server \
+                  <pre><code class="language-bash">npx @lucid-spark/openapi-mcp-server openapi-mcp-server \
   --api-base-url https://api.example.com \
   --openapi-spec ./api-spec.yaml \
   --tools explicit \
@@ -889,7 +890,7 @@ npx @lucid-spark/openapi-mcp-server</code></pre>
           </div>
         </div>
         <div class="footer-bottom">
-          <p>&copy; 2024 OpenAPI MCP Server. Released under the MIT License.</p>
+          <p>&copy; 2026 OpenAPI MCP Server. Released under the MIT License.</p>
         </div>
       </div>
     </footer>

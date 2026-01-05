@@ -152,7 +152,7 @@ tsc --version</code></pre>
               </p>
               <div class="code-block">
                 <pre><code class="language-bash"># Run directly with npx (recommended for testing)
-npx @lucid-spark/openapi-mcp-server \
+npx @lucid-spark/openapi-mcp-server openapi-mcp-server \
   --api-base-url https://api.example.com \
   --openapi-spec https://api.example.com/openapi.json \
   --transport stdio</code></pre>
@@ -290,7 +290,7 @@ npm run dev:petstore:v3:json</code></pre>
 openapi-mcp-server --version
 
 # For npx usage
-npx @lucid-spark/openapi-mcp-server --version
+npx @lucid-spark/openapi-mcp-server openapi-mcp-server --version
 
 # Should output: 1.0.0 (or current version)</code></pre>
                 </div>
@@ -300,7 +300,7 @@ npx @lucid-spark/openapi-mcp-server --version
                 <h3>2. Test with Public API</h3>
                 <div class="code-block">
                   <pre><code class="language-bash"># Test with JSONPlaceholder API (no auth required)
-npx @lucid-spark/openapi-mcp-server \
+npx @lucid-spark/openapi-mcp-server openapi-mcp-server \
   --api-base-url https://jsonplaceholder.typicode.com \
   --openapi-spec https://jsonplaceholder.typicode.com/openapi.json \
   --transport stdio \
@@ -366,7 +366,7 @@ nvm use --lts
                 <p><strong>Solution:</strong></p>
                 <div class="code-block">
                   <pre><code class="language-bash"># Option 1: Use npx instead (recommended)
-npx @lucid-spark/openapi-mcp-server --version
+npx @lucid-spark/openapi-mcp-server openapi-mcp-server --version
 
 # Option 2: Configure npm to use a different directory
 mkdir ~/.npm-global
@@ -508,7 +508,7 @@ npm install @lucid-spark/openapi-mcp-server
           </div>
         </div>
         <div class="footer-bottom">
-          <p>&copy; 2024 OpenAPI MCP Server. Released under the MIT License.</p>
+          <p>&copy; 2026 OpenAPI MCP Server. Released under the MIT License.</p>
         </div>
       </div>
     </footer>
