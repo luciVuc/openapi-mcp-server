@@ -842,33 +842,71 @@ npm run cli -- --help
 
 ```
 openapi-mcp-server/
-├── src/                      # Source code
-│   ├── types/               # TypeScript interface definitions
-│   │   ├── core.ts           # Core type definitions
-│   │   ├── config.ts         # Configuration interfaces
-│   │   ├── auth-provider.ts  # Authentication interfaces
-│   │   └── ...               # Other interface files
-│   ├── server.ts             # Main server implementation
-│   ├── config.ts             # Configuration system
-│   ├── auth-provider.ts      # Authentication providers
-│   ├── api-client.ts         # HTTP client
-│   ├── tools-manager.ts      # Tool management
-│   ├── transport.ts          # Transport implementations
-│   ├── cli.ts                # Command-line interface
-│   └── index.ts              # Library entry point
-├── examples/                 # Usage examples
-├── docs/                     # Documentation
-├── dist/                     # Compiled JavaScript
-└── package.json              # Project configuration
+├── src/                           # Source code
+│   ├── types/                    # TypeScript interface definitions
+│   │   ├── core.ts               # Core type definitions
+│   │   ├── config.ts             # Configuration interfaces
+│   │   ├── auth.ts               # Authentication interfaces
+│   │   ├── api.ts                # API client interfaces
+│   │   ├── openapi.ts            # OpenAPI spec interfaces
+│   │   ├── tools.ts              # Tool management interfaces
+│   │   ├── transport.ts          # Transport interfaces
+│   │   └── index.ts              # Type exports
+│   ├── core/                     # Core server implementation
+│   │   ├── config.ts             # Configuration validation
+│   │   ├── server.ts             # Main OpenAPIServer class
+│   │   └── index.ts              # Core exports
+│   ├── auth/                     # Authentication system
+│   │   ├── providers.ts          # StaticAuthProvider implementation
+│   │   └── index.ts              # Auth exports
+│   ├── api/                      # HTTP client
+│   │   ├── client.ts             # ApiClient class
+│   │   └── index.ts              # API exports
+│   ├── tools/                    # Tool management system
+│   │   ├── creation.ts           # Tool creation from OpenAPI
+│   │   ├── manager.ts            # ToolsManager class
+│   │   ├── utils/               # Tool utilities
+│   │   │   ├── id-generator.ts  # Tool ID generation
+│   │   │   ├── name-generator.ts # Tool name abbreviation
+│   │   │   └── index.ts          # Utility exports
+│   │   └── index.ts              # Tools exports
+│   ├── transport/                # Transport layer
+│   │   ├── base.ts               # Base transport handler
+│   │   ├── stdio.ts              # Stdio transport
+│   │   ├── http.ts               # HTTP transport
+│   │   └── index.ts              # Transport exports
+│   ├── openapi/                  # OpenAPI handling
+│   │   ├── spec-loader.ts        # OpenAPI spec loader
+│   │   └── index.ts              # OpenAPI exports
+│   ├── utils/                    # Utility functions
+│   │   ├── logger.ts             # Logging utilities
+│   │   └── index.ts              # Utils exports
+│   ├── cli.ts                    # Command-line interface
+│   └── index.ts                  # Library entry point
+├── test/                         # Test suite
+│   ├── setup.ts                  # Jest configuration
+│   ├── types.d.ts                # Test type definitions
+│   ├── api/                      # API client tests
+│   ├── auth/                     # Authentication tests
+│   ├── core/                     # Core server tests
+│   ├── openapi/                  # OpenAPI loader tests
+│   ├── tools/                    # Tool management tests
+│   ├── transport/                # Transport tests
+│   └── utils/                    # Utility tests
+├── examples/                     # Usage examples
+├── docs/                         # Documentation site
+├── dist/                         # Compiled JavaScript
+├── coverage/                     # Test coverage reports
+└── package.json                  # Project configuration
 ```
 
 ### Adding New Features
 
 1. **Define Interfaces**: Add type definitions to `src/types/`
-2. **Implement Logic**: Create implementation in `src/`
-3. **Export Public API**: Update `src/index.ts`
-4. **Add Tests**: Create test files (when test framework is added)
-5. **Update Documentation**: Update README and inline docs
+2. **Implement Logic**: Create implementation in appropriate `src/` subdirectory
+3. **Export Public API**: Update `src/index.ts` and module index files
+4. **Add Tests**: Create test files in matching `test/` structure with `.test.ts` extension
+5. **Update Documentation**: Update README and docs/ files
 
 ### TypeScript Configuration
 
